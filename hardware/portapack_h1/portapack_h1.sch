@@ -1,26 +1,6 @@
-EESchema Schematic File Version 2
-LIBS:portapack_h1-rescue
-LIBS:hackrf_expansion
-LIBS:passive
-LIBS:supply
-LIBS:trs_jack
-LIBS:battery
-LIBS:sd
-LIBS:ck
-LIBS:altera
-LIBS:regulator
-LIBS:tp
-LIBS:header
-LIBS:hole
-LIBS:sharebrained
-LIBS:fiducial
-LIBS:eastrising
-LIBS:on_semi
-LIBS:asahi_kasei
-LIBS:ti
-LIBS:diode
+EESchema Schematic File Version 4
 LIBS:portapack_h1-cache
-EELAYER 25 0
+EELAYER 26 0
 EELAYER END
 $Descr A4 11693 8268
 encoding utf-8
@@ -35,7 +15,7 @@ Comment3 ""
 Comment4 ""
 $EndDescr
 $Comp
-L HOLE1 H2
+L hole:HOLE1 H2
 U 1 1 5369BBD8
 P 9500 1900
 F 0 "H2" H 9500 2050 60  0000 C CNN
@@ -46,7 +26,7 @@ F 3 "" H 9500 1900 60  0000 C CNN
 	1    0    0    -1  
 $EndComp
 $Comp
-L HOLE1 H3
+L hole:HOLE1 H3
 U 1 1 5369BBEC
 P 9500 2400
 F 0 "H3" H 9500 2550 60  0000 C CNN
@@ -57,7 +37,7 @@ F 3 "" H 9500 2400 60  0000 C CNN
 	1    0    0    -1  
 $EndComp
 $Comp
-L HOLE1 H4
+L hole:HOLE1 H4
 U 1 1 5369BC00
 P 9500 2900
 F 0 "H4" H 9500 3050 60  0000 C CNN
@@ -68,7 +48,7 @@ F 3 "" H 9500 2900 60  0000 C CNN
 	1    0    0    -1  
 $EndComp
 $Comp
-L HOLE1 H5
+L hole:HOLE1 H5
 U 1 1 5369BC14
 P 9500 3400
 F 0 "H5" H 9500 3550 60  0000 C CNN
@@ -244,11 +224,11 @@ Wire Wire Line
 Wire Wire Line
 	3700 2600 4700 2600
 Wire Wire Line
-	9800 1900 9800 3500
+	9800 1900 9800 2400
 Connection ~ 9800 2400
 Connection ~ 9800 2900
 $Comp
-L FIDUCIAL FID1
+L fiducial:FIDUCIAL FID1
 U 1 1 53B309AC
 P 4100 7100
 F 0 "FID1" H 4100 7225 60  0000 C CNN
@@ -259,7 +239,7 @@ F 3 "" H 4100 7100 60  0000 C CNN
 	1    0    0    -1  
 $EndComp
 $Comp
-L FIDUCIAL FID2
+L fiducial:FIDUCIAL FID2
 U 1 1 53B30B4C
 P 4100 7500
 F 0 "FID2" H 4100 7625 60  0000 C CNN
@@ -270,7 +250,7 @@ F 3 "" H 4100 7500 60  0000 C CNN
 	1    0    0    -1  
 $EndComp
 $Comp
-L FIDUCIAL FID3
+L fiducial:FIDUCIAL FID3
 U 1 1 53B30CEC
 P 4700 7100
 F 0 "FID3" H 4700 7225 60  0000 C CNN
@@ -281,7 +261,7 @@ F 3 "" H 4700 7100 60  0000 C CNN
 	1    0    0    -1  
 $EndComp
 $Comp
-L FIDUCIAL FID4
+L fiducial:FIDUCIAL FID4
 U 1 1 53B30E8C
 P 4700 7500
 F 0 "FID4" H 4700 7625 60  0000 C CNN
@@ -292,7 +272,7 @@ F 3 "" H 4700 7500 60  0000 C CNN
 	1    0    0    -1  
 $EndComp
 $Comp
-L GND #PWR01
+L power:GND #PWR01
 U 1 1 53B3303D
 P 9800 3500
 F 0 "#PWR01" H 9800 3500 30  0001 C CNN
@@ -358,4 +338,10 @@ Wire Wire Line
 	7000 5200 7000 5900
 Wire Wire Line
 	7000 5900 6600 5900
+Wire Wire Line
+	9800 2400 9800 2900
+Wire Wire Line
+	9800 2900 9800 3400
+Wire Wire Line
+	9800 3400 9800 3500
 $EndSCHEMATC
