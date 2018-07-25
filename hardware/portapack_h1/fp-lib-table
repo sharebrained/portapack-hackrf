@@ -22,4 +22,5 @@
   (lib (name tp)(type KiCad)(uri ${KISBLIB}/tp.pretty)(options "")(descr ""))
   (lib (name ipc_ledc)(type KiCad)(uri ${KISBLIB}/ipc_ledc.pretty)(options "")(descr ""))
   (lib (name sharebrained)(type KiCad)(uri ${KISBLIB}/sharebrained.pretty)(options "")(descr ""))
+  (lib (name ipc_rescax)(type KiCad)(uri ${KISBLIB}/ipc_rescax.pretty)(options "")(descr ""))
 )
