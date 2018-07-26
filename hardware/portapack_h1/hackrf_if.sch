@@ -195,9 +195,9 @@ P 2800 1300
 F 0 "P20" H 2800 1950 60  0000 C CNN
 F 1 "HACKRF_ONE_P20" H 2800 650 60  0000 C CNN
 F 2 "header:HEADER_11X2_REV_SM_254_AP" H 2800 1300 60  0001 C CNN
-F 3 "https://s3.amazonaws.com/mle-assets/parts/TSHSM-1/TSHSM-1.pdf" H 2800 1300 60  0001 C CNN
-F 4 "MLE" H 2800 1300 60  0001 C CNN "Mfr"
-F 5 "TSHSM-111-D-06-T-V-S-P-TR-AP-LF" H 2800 1300 60  0001 C CNN "Part"
+F 3 "https://www.samtec.com/products/tsm-111-01-l-dv-a-p-tr" H 2800 1300 60  0001 C CNN
+F 4 "Samtec" H 2800 1300 60  0001 C CNN "Mfr"
+F 5 "TSM⁃111⁃01⁃L⁃DV⁃A⁃P⁃TR" H 2800 1300 60  0001 C CNN "Part"
 	1    2800 1300
 	1    0    0    -1  
 $EndComp
@@ -208,9 +208,9 @@ P 2800 3000
 F 0 "P22" H 2800 3750 60  0000 C CNN
 F 1 "HACKRF_ONE_P22" H 2800 2250 60  0000 C CNN
 F 2 "header:HEADER_13X2_REV_SM_254_AP" H 2800 3000 60  0001 C CNN
-F 3 "https://s3.amazonaws.com/mle-assets/parts/TSHSM-1/TSHSM-1.pdf" H 2800 3000 60  0001 C CNN
-F 4 "MLE" H 2800 3000 60  0001 C CNN "Mfr"
-F 5 "TSHSM-113-D-06-T-V-S-P-TR-AP-LF" H 2800 3000 60  0001 C CNN "Part"
+F 3 "https://www.samtec.com/products/tsm-113-01-l-dv-a-p-tr" H 2800 3000 60  0001 C CNN
+F 4 "Samtec" H 2800 3000 60  0001 C CNN "Mfr"
+F 5 "TSM⁃113⁃01⁃L⁃DV⁃A⁃P⁃TR" H 2800 3000 60  0001 C CNN "Part"
 	1    2800 3000
 	1    0    0    -1  
 $EndComp
@@ -221,9 +221,9 @@ P 2800 4700
 F 0 "P28" H 2800 5350 60  0000 C CNN
 F 1 "HACKRF_ONE_P28" H 2800 4050 60  0000 C CNN
 F 2 "header:HEADER_11X2_REV_SM_254_AP" H 2800 4700 60  0001 C CNN
-F 3 "https://s3.amazonaws.com/mle-assets/parts/TSHSM-1/TSHSM-1.pdf" H 2800 4700 60  0001 C CNN
-F 4 "MLE" H 2800 4700 60  0001 C CNN "Mfr"
-F 5 "TSHSM-111-D-06-T-V-S-P-TR-AP-LF" H 2800 4700 60  0001 C CNN "Part"
+F 3 "https://www.samtec.com/products/tsm-111-01-l-dv-a-p-tr" H 2800 4700 60  0001 C CNN
+F 4 "Samtec" H 2800 4700 60  0001 C CNN "Mfr"
+F 5 "TSM⁃111⁃01⁃L⁃DV⁃A⁃P⁃TR" H 2800 4700 60  0001 C CNN "Part"
 	1    2800 4700
 	1    0    0    -1  
 $EndComp
