@@ -139,7 +139,6 @@ F 3 "" H 1900 1700 60  0000 C CNN
 $EndComp
 NoConn ~ 3600 4800
 NoConn ~ 2000 4800
-NoConn ~ 2000 2400
 NoConn ~ 3600 2700
 NoConn ~ 2000 2700
 NoConn ~ 2000 2800
@@ -1084,8 +1083,6 @@ Wire Wire Line
 	11050 2900 10050 2900
 Wire Wire Line
 	11050 3100 10050 3100
-NoConn ~ 6850 2700
-NoConn ~ 6850 2900
 $Comp
 L power:GND #PWR076
 U 1 1 58FC4CC1
@@ -1097,7 +1094,6 @@ F 3 "" H 7800 1050 60  0000 C CNN
 	1    7800 1050
 	0    -1   -1   0   
 $EndComp
-NoConn ~ 3600 2400
 Wire Wire Line
 	6100 6800 6500 6800
 Wire Wire Line
@@ -1164,6 +1160,22 @@ Wire Wire Line
 	6500 7250 6500 7400
 Wire Wire Line
 	6500 6800 6500 6950
+Wire Wire Line
+	3800 2400 3600 2400
+Text HLabel 3800 2400 2    60   BiDi ~ 0
+CLKIN
+Text HLabel 6100 2700 0    60   Output ~ 0
+REF_EN
+Wire Wire Line
+	6100 2900 6850 2900
+Wire Wire Line
+	6100 2700 6850 2700
+Wire Wire Line
+	1200 2400 2000 2400
+Text Label 1300 2400 0    60   ~ 0
+CLKOUT
+Text Label 6200 2900 0    60   ~ 0
+CLKOUT
 Wire Bus Line
 	10750 650  10750 2700
 Wire Bus Line

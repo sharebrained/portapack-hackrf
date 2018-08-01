@@ -18,4 +18,6 @@
   (lib (name ti)(type Legacy)(uri ${KISBLIB}/ti.lib)(options "")(descr ""))
   (lib (name diode)(type Legacy)(uri ${KISBLIB}/diode.lib)(options "")(descr ""))
   (lib (name esd)(type Legacy)(uri ${KISBLIB}/esd.lib)(options "")(descr ""))
+  (lib (name osc)(type Legacy)(uri ${KISBLIB}/osc.lib)(options "")(descr ""))
+  (lib (name logic)(type Legacy)(uri ${KISBLIB}/logic.lib)(options "")(descr ""))
 )
