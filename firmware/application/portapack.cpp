@@ -200,6 +200,20 @@ static void configure_unused_mcu_peripherals(const bool enabled) {
 	LPC_CCU2->CLK_APB0_UART1_CFG.RUN = clock_run_state;
 	LPC_CCU2->CLK_APB0_USART0_CFG.RUN = clock_run_state;
 	LPC_CCU2->CLK_APB0_SSP0_CFG.RUN = clock_run_state;
+
+	LPC_CGU->BASE_USB1_CLK.PD = !clock_run_state;
+	LPC_CGU->BASE_SPI_CLK.PD = !clock_run_state;
+	LPC_CGU->BASE_PHY_RX_CLK.PD = !clock_run_state;
+	LPC_CGU->BASE_PHY_TX_CLK.PD = !clock_run_state;
+	LPC_CGU->BASE_LCD_CLK.PD = !clock_run_state;
+	LPC_CGU->BASE_SSP0_CLK.PD = !clock_run_state;
+	LPC_CGU->BASE_UART0_CLK.PD = !clock_run_state;
+	LPC_CGU->BASE_UART1_CLK.PD = !clock_run_state;
+	LPC_CGU->BASE_UART2_CLK.PD = !clock_run_state;
+	LPC_CGU->BASE_UART3_CLK.PD = !clock_run_state;
+	LPC_CGU->BASE_OUT_CLK.PD = !clock_run_state;
+	LPC_CGU->BASE_CGU_OUT0_CLK.PD = !clock_run_state;
+	LPC_CGU->BASE_CGU_OUT1_CLK.PD = !clock_run_state;
 }
 
 static void disable_unused_mcu_peripheral_clocks() {
