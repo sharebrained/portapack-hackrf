@@ -1167,15 +1167,9 @@ CLKIN
 Text HLabel 6100 2700 0    60   Output ~ 0
 REF_EN
 Wire Wire Line
-	6100 2900 6850 2900
-Wire Wire Line
 	6100 2700 6850 2700
-Wire Wire Line
-	1200 2400 2000 2400
-Text Label 1300 2400 0    60   ~ 0
-CLKOUT
-Text Label 6200 2900 0    60   ~ 0
-CLKOUT
+NoConn ~ 6850 2900
+NoConn ~ 2000 2400
 Wire Bus Line
 	10750 650  10750 2700
 Wire Bus Line
