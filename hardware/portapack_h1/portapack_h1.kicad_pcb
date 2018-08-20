@@ -16,7 +16,7 @@
     (rev 20170522)
     (company "ShareBrained Technology, Inc.")
     (comment 1 "License: GNU General Public License, version 2")
-    (comment 2 "Copyright (c) 2014-2017 Jared Boone")
+    (comment 2 "Copyright (c) 2014-2018 Jared Boone")
   )
 
   (layers
