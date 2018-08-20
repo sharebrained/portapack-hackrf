@@ -4,10 +4,10 @@ EELAYER 26 0
 EELAYER END
 $Descr A4 11693 8268
 encoding utf-8
-Sheet 4 5
+Sheet 4 6
 Title "PortaPack H1"
-Date "2017-05-22"
-Rev "20170522"
+Date "2018-08-19"
+Rev "20180819"
 Comp "ShareBrained Technology, Inc."
 Comment1 "Copyright © 2014-2018 Jared Boone"
 Comment2 "License: GNU General Public License, version 2"
@@ -1059,7 +1059,6 @@ Entry Wire Line
 	10650 2300 10750 2200
 Wire Wire Line
 	7600 1050 7800 1050
-NoConn ~ 10050 3600
 Text HLabel 6100 2600 0    60   Output ~ 0
 AUDIO_RESET#
 Text HLabel 3700 1800 2    60   Input ~ 0
@@ -1074,7 +1073,6 @@ Text Notes 4500 1900 0    60   ~ 0
 Init: I/O is hi-Z with pull-ups.\nSRAM download when VCCINT reaches 1V55.\nUser mode once downloaded and VCCIO OK.\nVCCINT stable to user mode: 200 usec max.\nVCCIOs stable to user mode: 2 usec.\n\nPull-ups: 5-25k @ 3V3, 25-60k @ 1V8.\nExternal R-pull: 1K PD, 10K PU recommended.\nVCCIO=3V3: 2V5, 3V3 inputs OK.\nVCCIO=1V8: 1V5, 1V8, 2V5, 3V3 inputs OK.\n\nJTAG active w/VCCINT, but refers to VCCIO.\nTDI, TMS: weak internal PU\nTCK: weak internal PD (keep low at power-up)
 Wire Wire Line
 	10700 3700 10050 3700
-NoConn ~ 10050 3500
 Entry Wire Line
 	8100 650  8200 750 
 Wire Wire Line
@@ -1168,8 +1166,19 @@ Text HLabel 6100 2700 0    60   Output ~ 0
 REF_EN
 Wire Wire Line
 	6100 2700 6850 2700
-NoConn ~ 6850 2900
 NoConn ~ 2000 2400
+Text HLabel 10300 3500 2    60   Input ~ 0
+GPS_TX_READY
+Wire Wire Line
+	10300 3500 10050 3500
+Text HLabel 10300 3600 2    60   Input ~ 0
+GPS_TIMEPULSE
+Wire Wire Line
+	10050 3600 10300 3600
+Text HLabel 6100 2900 0    60   Output ~ 0
+GPS_RESET#
+Wire Wire Line
+	6100 2900 6850 2900
 Wire Bus Line
 	10750 650  10750 2700
 Wire Bus Line

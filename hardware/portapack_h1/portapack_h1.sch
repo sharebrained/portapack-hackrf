@@ -4,10 +4,10 @@ EELAYER 26 0
 EELAYER END
 $Descr A4 11693 8268
 encoding utf-8
-Sheet 1 5
+Sheet 1 6
 Title "PortaPack H1"
-Date "2017-05-22"
-Rev "20170522"
+Date "2018-08-19"
+Rev "20180819"
 Comp "ShareBrained Technology, Inc."
 Comment1 "Copyright © 2014-2018 Jared Boone"
 Comment2 "License: GNU General Public License, version 2"
@@ -162,6 +162,9 @@ F38 "VBUSCTRL" I R 6600 5100 60
 F39 "VBAT" I L 4700 5200 60 
 F40 "CLKIN" B L 4700 4900 60 
 F41 "REF_EN" O L 4700 5000 60 
+F42 "GPS_TX_READY" I L 4700 2800 60 
+F43 "GPS_TIMEPULSE" I L 4700 2900 60 
+F44 "GPS_RESET#" O L 4700 3000 60 
 $EndSheet
 Wire Wire Line
 	6600 1900 7600 1900
@@ -222,9 +225,9 @@ Wire Wire Line
 Wire Wire Line
 	3700 2300 4700 2300
 Wire Wire Line
-	4700 2500 3700 2500
+	4700 2500 4000 2500
 Wire Wire Line
-	3700 2600 4700 2600
+	3700 2600 4100 2600
 Wire Wire Line
 	9800 1900 9800 2400
 Connection ~ 9800 2400
@@ -296,6 +299,7 @@ F9 "VIN" O R 6600 5900 60
 F10 "VBAT" O L 4700 5700 60 
 F11 "REF_CLK" O L 4700 6500 60 
 F12 "REF_EN" I L 4700 6400 60 
+F13 "GPS_VCC" O R 6600 6400 60 
 $EndSheet
 Wire Wire Line
 	6600 6200 7600 6200
@@ -349,4 +353,60 @@ Wire Wire Line
 	4200 6500 4200 4900
 Wire Wire Line
 	4200 4900 4700 4900
+$Sheet
+S 4700 600  1900 800 
+U 5B7E0B2A
+F0 "gps" 50
+F1 "gps.sch" 50
+F2 "SDA" B L 4700 800 60 
+F3 "SCL" B L 4700 700 60 
+F4 "V_BACKUP" I L 4700 1300 60 
+F5 "VCC" I R 6600 1300 60 
+F6 "TIMEPULSE" O L 4700 1000 60 
+F7 "RESET#" I L 4700 1100 60 
+F8 "TX_READY" O L 4700 900 60 
+$EndSheet
+Wire Wire Line
+	4700 700  4000 700 
+Wire Wire Line
+	4000 700  4000 2500
+Connection ~ 4000 2500
+Wire Wire Line
+	4000 2500 3700 2500
+Wire Wire Line
+	4700 800  4100 800 
+Wire Wire Line
+	4100 800  4100 2600
+Connection ~ 4100 2600
+Wire Wire Line
+	4100 2600 4700 2600
+Wire Wire Line
+	4700 1300 4500 1300
+Wire Wire Line
+	4500 1300 4500 5200
+Connection ~ 4500 5200
+Wire Wire Line
+	4200 2800 4700 2800
+Wire Wire Line
+	4700 2900 4300 2900
+Wire Wire Line
+	4700 900  4200 900 
+Wire Wire Line
+	4200 900  4200 2800
+Wire Wire Line
+	4700 1000 4300 1000
+Wire Wire Line
+	4300 1000 4300 2900
+Wire Wire Line
+	4700 1100 4400 1100
+Wire Wire Line
+	4400 1100 4400 3000
+Wire Wire Line
+	4400 3000 4700 3000
+Wire Wire Line
+	6600 6400 7100 6400
+Wire Wire Line
+	7100 6400 7100 1300
+Wire Wire Line
+	6600 1300 7100 1300
 $EndSCHEMATC

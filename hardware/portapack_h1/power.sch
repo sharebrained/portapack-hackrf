@@ -4,10 +4,10 @@ EELAYER 26 0
 EELAYER END
 $Descr A4 11693 8268
 encoding utf-8
-Sheet 5 5
+Sheet 5 6
 Title "PortaPack H1"
-Date "2017-05-22"
-Rev "20170522"
+Date "2018-08-19"
+Rev "20180819"
 Comp "ShareBrained Technology, Inc."
 Comment1 "Copyright © 2014-2018 Jared Boone"
 Comment2 "License: GNU General Public License, version 2"
@@ -704,7 +704,7 @@ TODO:\n\nV(ISET) indicates charge current. Monitor w/ADC.\nR3,R5=100K, remove LE
 Text Notes 5100 5200 0    60   ~ 0
 ISET (fast charge current) R6=1K8 (~~500mA).\n\nR4 is required, otherwise no charging.\nILIM (input limit) R4=1K8 (~~850mA).\n\nTMR=open for default timer values.
 Wire Wire Line
-	10550 4550 10550 4750
+	10550 4550 10550 4650
 Wire Wire Line
 	10550 4750 10550 4850
 Wire Wire Line
@@ -1141,4 +1141,13 @@ F 3 "" H 1300 6000 60  0000 C CNN
 	1    1300 6000
 	1    0    0    -1  
 $EndComp
+Text Notes 5650 1700 0    60   ~ 0
+TODO: Connect SYSOFF to a CPLD pin and to PGOOD#.\nIf VBUS is present, or CPLD is holding line low,\ndevice will stay on during battery operation.\nBut how to turn it on with a button press?!\n...and not leave the button "jammed" once on\n(and SYSOFF is being held low). Need a bit of\nlogic to fuse two OC active low signals into one?
+Text HLabel 10450 4650 0    60   Output ~ 0
+GPS_VCC
+Wire Wire Line
+	10450 4650 10550 4650
+Connection ~ 10550 4650
+Wire Wire Line
+	10550 4650 10550 4750
 $EndSCHEMATC

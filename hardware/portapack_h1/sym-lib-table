@@ -20,4 +20,6 @@
   (lib (name esd)(type Legacy)(uri ${KISBLIB}/esd.lib)(options "")(descr ""))
   (lib (name osc)(type Legacy)(uri ${KISBLIB}/osc.lib)(options "")(descr ""))
   (lib (name logic)(type Legacy)(uri ${KISBLIB}/logic.lib)(options "")(descr ""))
+  (lib (name ublox)(type Legacy)(uri ${KISBLIB}/ublox.lib)(options "")(descr ""))
+  (lib (name conn_rf)(type Legacy)(uri ${KISBLIB}/conn_rf.lib)(options "")(descr ""))
 )
