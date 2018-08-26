@@ -158,6 +158,10 @@ Backlight* backlight() {
 }
 
 static void configure_unused_mcu_peripherals_power_down(const bool power_down) {
+	LPC_CGU->IDIVA_CTRL.PD = power_down;
+	LPC_CGU->IDIVD_CTRL.PD = power_down;
+	LPC_CGU->IDIVE_CTRL.PD = power_down;
+	
 	LPC_CGU->BASE_USB1_CLK.PD = power_down;
 	LPC_CGU->BASE_SPI_CLK.PD = power_down;
 	LPC_CGU->BASE_PHY_RX_CLK.PD = power_down;
@@ -182,6 +186,8 @@ static void configure_unused_mcu_peripherals(const bool enabled) {
 	 *
 	 * RITIMER: M0 SysTick substitute (because M0 has no SysTick)
 	 * TIMER3: M0 cycle/PCLK counter
+	 * IDIVB: Clock for SPI (set up in bootstrap code)
+	 * IDIVC: I2S audio clock
 	 */
 
 	const uint32_t clock_run_state = enabled ? 1 : 0;
