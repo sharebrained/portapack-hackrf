@@ -74,7 +74,7 @@ void configure_spifi(void) {
 		;
 
 	/* Throttle up the SPIFI interface to 96MHz (PLL1 / 3) */
-	LPC_CGU->IDIVB_CTRL =
+	LPC_CGU->IDIVB_CTRL.word =
 		  (0 <<  0)	/* PD */
 		| (1 <<  2)	/* IDIV (/2) */
 		| (1 << 11)	/* AUTOBLOCK */

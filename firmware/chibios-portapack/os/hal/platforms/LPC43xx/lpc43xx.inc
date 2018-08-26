@@ -146,18 +146,21 @@ typedef struct {
   __IO uint32_t CLK_SEL     : 5;
        uint32_t RESERVED3   : 3;
 } LPC_CGU_PLL1_CTRL_Type;
-/*
-typedef struct {
-  __IO uint32_t PD          : 1;
-       uint32_t RESERVED0   : 1;
-  __IO uint32_t IDIV        : 2;
-       uint32_t RESERVED1   : 7;
-  __IO uint32_t AUTOBLOCK   : 1;
-       uint32_t RESERVED2   : 12;
-  __IO uint32_t CLK_SEL     : 5;
-       uint32_t RESERVED3   : 3;
+
+typedef union {
+  struct {
+    __IO uint32_t PD          : 1;
+         uint32_t RESERVED0   : 1;
+    __IO uint32_t IDIV        : 2;
+         uint32_t RESERVED1   : 7;
+    __IO uint32_t AUTOBLOCK   : 1;
+         uint32_t RESERVED2   : 12;
+    __IO uint32_t CLK_SEL     : 5;
+         uint32_t RESERVED3   : 3;
+  };
+  __IO uint32_t word;  
 } LPC_CGU_IDIVx_CTRL_Type;
-*/
+
 typedef struct {
   __I  uint32_t PD          : 1;
        uint32_t RESERVED0   : 10;
@@ -191,11 +194,11 @@ typedef struct {
   __IO uint32_t               PLL0AUDIO_FRAC;
   __I  uint32_t               PLL1_STAT;          /* +0x040 */
   __IO uint32_t               PLL1_CTRL;
-  __IO uint32_t               IDIVA_CTRL;
-  __IO uint32_t               IDIVB_CTRL;
-  __IO uint32_t               IDIVC_CTRL;         /* +0x050 */
-  __IO uint32_t               IDIVD_CTRL;
-  __IO uint32_t               IDIVE_CTRL;
+  LPC_CGU_IDIVx_CTRL_Type     IDIVA_CTRL;
+  LPC_CGU_IDIVx_CTRL_Type     IDIVB_CTRL;
+  LPC_CGU_IDIVx_CTRL_Type     IDIVC_CTRL;         /* +0x050 */
+  LPC_CGU_IDIVx_CTRL_Type     IDIVD_CTRL;
+  LPC_CGU_IDIVx_CTRL_Type     IDIVE_CTRL;
   LPC_CGU_BASE_SAFE_CLK_Type  BASE_SAFE_CLK;
   LPC_CGU_BASE_CLK_Type       BASE_USB0_CLK;      /* +0x060 */
   LPC_CGU_BASE_CLK_Type       BASE_PERIPH_CLK;
