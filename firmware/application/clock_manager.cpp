@@ -566,7 +566,7 @@ void ClockManager::start_audio_pll() {
 
 void ClockManager::set_base_audio_clock_divider(const size_t divisor) {
 	LPC_CGU->IDIVC_CTRL =
-		  (0 <<  1)
+		  (0 <<  0)
 		| ((divisor - 1) <<  2)
 		| (1 << 11)
 		| (toUType(cgu::CLK_SEL::PLL0AUDIO) << 24)
@@ -589,7 +589,7 @@ void ClockManager::update_peripheral_clocks(const cgu::CLK_SEL clk_sel) {
 	 */
 	set_clock(LPC_CGU->BASE_PERIPH_CLK, clk_sel);
 	LPC_CGU->IDIVB_CTRL =
-		  (0 <<  1)
+		  (0 <<  0)
 		| (1 <<  2)
 		| (1 << 11)
 		| (toUType(clk_sel) << 24)
