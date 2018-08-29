@@ -214,41 +214,27 @@ static_assert(si5351_ms_int_mcu_clkin.f_out() == mcu_clkin_f, "MS int MCU CLKIN 
 
 using namespace si5351;
 
-constexpr ClockControl::Type si5351_clock_control_ms_src_xtal = ClockControl::MS_SRC_PLLA;
-constexpr ClockControl::Type si5351_clock_control_ms_src_clkin = ClockControl::MS_SRC_PLLB;
+static constexpr ClockControl::MultiSynthSource get_reference_clock_generator_pll(const ClockManager::ReferenceSource reference_source) {
+	return (reference_source == ClockManager::ReferenceSource::External)
+		? ClockControl::MultiSynthSource::PLLB
+		: ClockControl::MultiSynthSource::PLLA
+		;
+}
 
-constexpr ClockControls si5351_clock_control_common {
-	ClockControl::CLK_IDRV_6mA | ClockControl::CLK_SRC_MS_Self  | ClockControl::CLK_INV_Normal | ClockControl::MS_INT_Fractional | ClockControl::CLK_PDN_Power_Off,
-	ClockControl::CLK_IDRV_6mA | ClockControl::CLK_SRC_MS_Group | ClockControl::CLK_INV_Invert | ClockControl::MS_INT_Integer    | ClockControl::CLK_PDN_Power_Off,
-	ClockControl::CLK_IDRV_6mA | ClockControl::CLK_SRC_MS_Group | ClockControl::CLK_INV_Normal | ClockControl::MS_INT_Integer    | ClockControl::CLK_PDN_Power_Off,
-	ClockControl::CLK_IDRV_8mA | ClockControl::CLK_SRC_MS_Self  | ClockControl::CLK_INV_Normal | ClockControl::MS_INT_Integer    | ClockControl::CLK_PDN_Power_Off,
-	ClockControl::CLK_IDRV_8mA | ClockControl::CLK_SRC_MS_Self  | ClockControl::CLK_INV_Normal | ClockControl::MS_INT_Integer    | ClockControl::CLK_PDN_Power_Off,
-	ClockControl::CLK_IDRV_6mA | ClockControl::CLK_SRC_MS_Self  | ClockControl::CLK_INV_Normal | ClockControl::MS_INT_Integer    | ClockControl::CLK_PDN_Power_Off,
-	ClockControl::CLK_IDRV_2mA | ClockControl::CLK_SRC_MS_Self  | ClockControl::CLK_INV_Normal | ClockControl::MS_INT_Fractional | ClockControl::CLK_PDN_Power_Off,
-	ClockControl::CLK_IDRV_6mA | ClockControl::CLK_SRC_MS_Self  | ClockControl::CLK_INV_Normal | ClockControl::MS_INT_Integer    | ClockControl::CLK_PDN_Power_Off,
-};
+constexpr ClockControls si5351_clock_control_common { {
+	{ ClockControl::ClockCurrentDrive::_6mA, ClockControl::ClockSource::MS_Self,  ClockControl::ClockInvert::Normal, get_reference_clock_generator_pll(ClockManager::ReferenceSource::Xtal), ClockControl::MultiSynthMode::Fractional, ClockControl::ClockPowerDown::Power_Off },
+	{ ClockControl::ClockCurrentDrive::_6mA, ClockControl::ClockSource::MS_Group, ClockControl::ClockInvert::Invert, get_reference_clock_generator_pll(ClockManager::ReferenceSource::Xtal), ClockControl::MultiSynthMode::Integer,    ClockControl::ClockPowerDown::Power_Off },
+	{ ClockControl::ClockCurrentDrive::_6mA, ClockControl::ClockSource::MS_Group, ClockControl::ClockInvert::Normal, get_reference_clock_generator_pll(ClockManager::ReferenceSource::Xtal), ClockControl::MultiSynthMode::Integer,    ClockControl::ClockPowerDown::Power_Off },
+	{ ClockControl::ClockCurrentDrive::_8mA, ClockControl::ClockSource::MS_Self,  ClockControl::ClockInvert::Normal, get_reference_clock_generator_pll(ClockManager::ReferenceSource::Xtal), ClockControl::MultiSynthMode::Integer,    ClockControl::ClockPowerDown::Power_Off },
+	{ ClockControl::ClockCurrentDrive::_8mA, ClockControl::ClockSource::MS_Self,  ClockControl::ClockInvert::Normal, get_reference_clock_generator_pll(ClockManager::ReferenceSource::Xtal), ClockControl::MultiSynthMode::Integer,    ClockControl::ClockPowerDown::Power_Off },
+	{ ClockControl::ClockCurrentDrive::_6mA, ClockControl::ClockSource::MS_Self,  ClockControl::ClockInvert::Normal, get_reference_clock_generator_pll(ClockManager::ReferenceSource::Xtal), ClockControl::MultiSynthMode::Integer,    ClockControl::ClockPowerDown::Power_Off },
+	{ ClockControl::ClockCurrentDrive::_2mA, ClockControl::ClockSource::MS_Self,  ClockControl::ClockInvert::Normal, get_reference_clock_generator_pll(ClockManager::ReferenceSource::Xtal), ClockControl::MultiSynthMode::Fractional, ClockControl::ClockPowerDown::Power_Off },
+	{ ClockControl::ClockCurrentDrive::_6mA, ClockControl::ClockSource::MS_Self,  ClockControl::ClockInvert::Normal, get_reference_clock_generator_pll(ClockManager::ReferenceSource::Xtal), ClockControl::MultiSynthMode::Integer,    ClockControl::ClockPowerDown::Power_Off },
+} };
 
-constexpr ClockControls si5351_clock_control_xtal {
-	si5351_clock_control_common[0] | si5351_clock_control_ms_src_xtal,
-	si5351_clock_control_common[1] | si5351_clock_control_ms_src_xtal,
-	si5351_clock_control_common[2] | si5351_clock_control_ms_src_xtal,
-	si5351_clock_control_common[3] | si5351_clock_control_ms_src_xtal,
-	si5351_clock_control_common[4] | si5351_clock_control_ms_src_xtal,
-	si5351_clock_control_common[5] | si5351_clock_control_ms_src_xtal,
-	si5351_clock_control_common[6] | si5351_clock_control_ms_src_xtal,
-	si5351_clock_control_common[7] | si5351_clock_control_ms_src_xtal,
-};
-
-constexpr ClockControls si5351_clock_control_clkin {
-	si5351_clock_control_common[0] | si5351_clock_control_ms_src_clkin,
-	si5351_clock_control_common[1] | si5351_clock_control_ms_src_clkin,
-	si5351_clock_control_common[2] | si5351_clock_control_ms_src_clkin,
-	si5351_clock_control_common[3] | si5351_clock_control_ms_src_clkin,
-	si5351_clock_control_common[4] | si5351_clock_control_ms_src_clkin,
-	si5351_clock_control_common[5] | si5351_clock_control_ms_src_clkin,
-	si5351_clock_control_common[6] | si5351_clock_control_ms_src_clkin,
-	si5351_clock_control_common[7] | si5351_clock_control_ms_src_clkin,
-};
+ClockManager::ReferenceSource ClockManager::get_reference_source() const {
+	return reference_source;
+}
 
 void ClockManager::init() {
 	/* Must be sure to run the M4 core from IRC when messing with the signal
@@ -270,8 +256,6 @@ void ClockManager::init() {
 	clock_generator.set_pll_input_sources(si5351_pll_input_sources);
 
 	const auto clkin_present = !clock_generator.clkin_loss_of_signal();
-	auto clkin_valid = false;
-
 	if( clkin_present ) {
 		// Measure Si5351B CLKIN frequency against LPC43xx IRC oscillator
 		set_gp_clkin_to_clkin_direct();
@@ -281,12 +265,23 @@ void ClockManager::init() {
 
 		// CLKIN is required to be 10MHz. FREQ_MON measurement is accurate to 1.5%
 		// due to LPC43xx IRC oscillator precision.
-		clkin_valid = (clkin_frequency >= 9850000) && (clkin_frequency <= 10150000);
+		const auto clkin_valid = (clkin_frequency >= 9850000) && (clkin_frequency <= 10150000);
+
+		reference_source = clkin_valid ? ReferenceSource::External : ReferenceSource::Xtal;
 	}
 
-	clock_generator.set_clock_control(
-		clkin_valid ? si5351_clock_control_clkin : si5351_clock_control_xtal
-	);
+	const auto ref_pll = get_reference_clock_generator_pll(get_reference_source());
+	const ClockControls si5351_clock_control = ClockControls { {
+		si5351_clock_control_common[0].ms_src(ref_pll),
+		si5351_clock_control_common[1].ms_src(ref_pll),
+		si5351_clock_control_common[2].ms_src(ref_pll),
+		si5351_clock_control_common[3].ms_src(ref_pll),
+		si5351_clock_control_common[4].ms_src(ref_pll),
+		si5351_clock_control_common[5].ms_src(ref_pll),
+		si5351_clock_control_common[6].ms_src(ref_pll),
+		si5351_clock_control_common[7].ms_src(ref_pll),
+	} };
+	clock_generator.set_clock_control(si5351_clock_control);
 
 	clock_generator.write(si5351_pll_a_xtal_reg);
 	clock_generator.write(si5351_pll_b_clkin_reg);
@@ -437,7 +432,7 @@ void ClockManager::disable_gp_clkin_source() {
 void ClockManager::set_gp_clkin_to_clkin_direct() {
 	clock_generator.set_clock_control(
 		clock_generator_output_mcu_clkin,
-		{ ClockControl::CLK_IDRV_2mA | ClockControl::CLK_SRC_CLKIN | ClockControl::CLK_INV_Normal | ClockControl::MS_INT_Integer | ClockControl::CLK_PDN_Power_On }
+		{ ClockControl::ClockCurrentDrive::_2mA, ClockControl::ClockSource::CLKIN, ClockControl::ClockInvert::Normal, ClockControl::MultiSynthSource::PLLA, ClockControl::MultiSynthMode::Integer, ClockControl::ClockPowerDown::Power_On }
 	);
 	enable_gp_clkin_source();
 }
