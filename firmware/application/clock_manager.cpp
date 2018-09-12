@@ -368,6 +368,10 @@ void ClockManager::set_sampling_frequency(const uint32_t frequency) {
 }
 
 void ClockManager::set_reference_ppb(const int32_t ppb) {
+	/* NOTE: This adjustment only affects PLLA, which is derived from the 25MHz crystal.
+	 * It is assumed an external clock coming in to PLLB is sufficiently accurate as to not need adjustment.
+	 * TODO: Revisit the above policy. It may be good to allow adjustment of the external reference too.
+	 */
 	constexpr uint32_t pll_multiplier = si5351_pll_xtal_25m.a;
 	constexpr uint32_t denominator = 1000000 / pll_multiplier;
 	const uint32_t new_a = (ppb >= 0) ? pll_multiplier : (pll_multiplier - 1);
