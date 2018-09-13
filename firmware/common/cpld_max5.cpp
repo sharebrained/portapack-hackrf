@@ -29,21 +29,27 @@
 namespace cpld {
 namespace max5 {
 
-/* Enter ISP:
- * Ensures that the I/O pins transition smoothly from user mode to ISP
- * mode.
- */
-void CPLD::enter_isp() {
+void CPLD::bypass() {
+	shift_ir(instruction_t::BYPASS);
+	jtag.runtest_tck(18003);
+}
+
+void CPLD::sample() {
+	shift_ir(instruction_t::SAMPLE);
+	jtag.runtest_tck(93);
+	for(size_t i=0; i<80; i++) {
+		jtag.shift_dr(3, 0b111);
+	}
+}
+
+void CPLD::enable() {
 	shift_ir(instruction_t::ISC_ENABLE);
 	jtag.runtest_tck(18003);		// 1ms
 }
 
-void CPLD::exit_isp() {
-	/* Exit ISP? Reset? */
+void CPLD::disable() {
 	shift_ir(instruction_t::ISC_DISABLE);
 	jtag.runtest_tck(18003);		// 1ms
-	shift_ir(instruction_t::BYPASS);
-	jtag.runtest_tck(18000);		// 1ms
 }
 
 /* Sector erase:

@@ -46,6 +46,9 @@ public:
 	{
 	}
 
+	void bypass();
+	void sample();
+
 	void reset() {
 		jtag.reset();
 	}
@@ -56,7 +59,7 @@ public:
 
 	bool idcode_ok();
 
-	void enter_isp();
+	void enable();
 
 	/* Check ID:
 	 * The silicon ID is checked before any Program or Verify process. The
@@ -65,7 +68,7 @@ public:
 	 */
 	bool silicon_id_ok();
 
-	void exit_isp();	// I think that's what the code does...
+	void disable();
 
 	void bulk_erase();
 
