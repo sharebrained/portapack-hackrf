@@ -202,13 +202,13 @@ bool CPLD::verify_block(
 	bool success = true;
 	for(size_t i=0; i<count; i++) {
 		const auto from_device = jtag.shift_dr(16, 0xffff);
-		if( (id == 0) && (i == 0) ) {
-			// Account for bit that indicates bitstream is valid.
-			if( (from_device & 0xfbff) != (data[i] & 0xfbff) ) {
-				success = false;
-			}
-		} else {
-			if( from_device != data[i] ) {
+		if( from_device != data[i] ) {
+			if( (id == 0) && (i == 0) ) {
+				// Account for bit that indicates bitstream is valid.
+				if( (from_device & 0xfbff) != (data[i] & 0xfbff) ) {
+					success = false;
+				}
+			} else {
 				success = false;
 			}
 		}
