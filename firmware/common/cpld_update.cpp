@@ -79,6 +79,11 @@ bool update_if_necessary(
 	if( ok ) {
 		cpld.disable();
 		cpld.bypass();
+
+		/* Initiate SRAM reload from flash we just programmed. */
+		cpld.sample();
+		cpld.clamp();
+		cpld.disable();
 	}
 
 	return ok;

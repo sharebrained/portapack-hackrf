@@ -48,6 +48,7 @@ public:
 
 	void bypass();
 	void sample();
+	void clamp();
 
 	void reset() {
 		jtag.reset();
@@ -67,6 +68,8 @@ public:
 	 * the overall programming time.
 	 */
 	bool silicon_id_ok();
+
+	uint32_t usercode();
 
 	void disable();
 

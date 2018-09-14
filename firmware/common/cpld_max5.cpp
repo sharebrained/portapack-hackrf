@@ -42,6 +42,11 @@ void CPLD::sample() {
 	}
 }
 
+void CPLD::clamp() {
+	shift_ir(instruction_t::CLAMP);
+	jtag.runtest_tck(93);
+}
+
 void CPLD::enable() {
 	shift_ir(instruction_t::ISC_ENABLE);
 	jtag.runtest_tck(18003);		// 1ms
@@ -167,6 +172,12 @@ bool CPLD::silicon_id_ok() {
 		(silicon_id[3] == 0x8c0c) &&
 		(silicon_id[4] == 0x0000)
 	);
+}
+
+uint32_t CPLD::usercode() {
+	shift_ir(instruction_t::USERCODE);
+	jtag.runtest_tck(93);	// 5us
+	return jtag.shift_dr(32, 0xffffffff);
 }
 
 void CPLD::erase_sector(const uint16_t id) {
