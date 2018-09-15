@@ -229,7 +229,7 @@ constexpr ClockControls si5351_clock_control_common { {
 	{ ClockControl::ClockCurrentDrive::_8mA, ClockControl::ClockSource::MS_Self,  ClockControl::ClockInvert::Normal, get_reference_clock_generator_pll(ClockManager::ReferenceSource::Xtal), ClockControl::MultiSynthMode::Integer,    ClockControl::ClockPowerDown::Power_Off },
 	{ ClockControl::ClockCurrentDrive::_6mA, ClockControl::ClockSource::MS_Self,  ClockControl::ClockInvert::Normal, get_reference_clock_generator_pll(ClockManager::ReferenceSource::Xtal), ClockControl::MultiSynthMode::Integer,    ClockControl::ClockPowerDown::Power_Off },
 	{ ClockControl::ClockCurrentDrive::_2mA, ClockControl::ClockSource::MS_Self,  ClockControl::ClockInvert::Normal, get_reference_clock_generator_pll(ClockManager::ReferenceSource::Xtal), ClockControl::MultiSynthMode::Fractional, ClockControl::ClockPowerDown::Power_Off },
-	{ ClockControl::ClockCurrentDrive::_6mA, ClockControl::ClockSource::MS_Self,  ClockControl::ClockInvert::Normal, get_reference_clock_generator_pll(ClockManager::ReferenceSource::Xtal), ClockControl::MultiSynthMode::Integer,    ClockControl::ClockPowerDown::Power_Off },
+	{ ClockControl::ClockCurrentDrive::_2mA, ClockControl::ClockSource::MS_Self,  ClockControl::ClockInvert::Normal, get_reference_clock_generator_pll(ClockManager::ReferenceSource::Xtal), ClockControl::MultiSynthMode::Integer,    ClockControl::ClockPowerDown::Power_Off },
 } };
 
 ClockManager::ReferenceSource ClockManager::get_reference_source() const {
