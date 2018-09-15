@@ -156,9 +156,21 @@ struct ClockControl {
 	{
 	}
 
+	ClockControl clk_src(const ClockSource value) const {
+		auto result = *this;
+		result.CLK_SRC = value;
+		return result;
+	}
+	
 	ClockControl ms_src(const MultiSynthSource value) const {
 		auto result = *this;
 		result.MS_SRC = value;
+		return result;
+	}
+
+	ClockControl clk_pdn(const ClockPowerDown value) const {
+		auto result = *this;
+		result.CLK_PDN = value;
 		return result;
 	}
 
