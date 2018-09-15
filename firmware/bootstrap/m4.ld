@@ -123,9 +123,6 @@ SECTIONS
 	.data : AT (__etext)
 	{
 		__data_start__ = .;
-		/* Text/code sections that need to be located in RAM */
-        *(fast)
-
 		*(vtable)
 		*(.data*)
 

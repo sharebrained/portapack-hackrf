@@ -33,13 +33,6 @@
  * BASE_SPIFI_CLK.CLK_SEL = IDIVB
  */
 
-/* SPIFI config must run from RAM because SPIFI memory mode may/must be
- * re-initialized during the transition
- */
-/* An ARM veneer will be created to make the long jump between code in the
- * SPIFI address range and the RAM address range.
- */
-__attribute__ ((section("fast")))
 void configure_spifi(void) {
 	/* Configure pins first, to enable SCK input buffer for feedback */
 
