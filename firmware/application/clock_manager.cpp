@@ -438,7 +438,6 @@ void ClockManager::set_gp_clkin_to_clkin_direct() {
 		clock_generator_output_mcu_clkin,
 		si5351_clock_control_common[clock_generator_output_mcu_clkin].clk_src(ClockControl::ClockSource::CLKIN).ms_src(get_reference_clock_generator_pll(ClockManager::ReferenceSource::External)).clk_pdn(ClockControl::ClockPowerDown::Power_On)
 	);
-	enable_gp_clkin_source();
 }
 
 void ClockManager::start_frequency_monitor_measurement(const cgu::CLK_SEL clk_sel) {
