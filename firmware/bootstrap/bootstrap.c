@@ -73,6 +73,14 @@ void configure_spifi(void) {
 		| (1 << 11)	/* AUTOBLOCK */
 		| (9 << 24)	/* PLL1 */
 		;
+
+	LPC_CGU->BASE_SPIFI_CLK.word =
+		  ( 0 <<  0) /* PD */
+		| ( 1 << 11) /* AUTOBLOCK */
+		| (13 << 24) /* IDIVB */
+		;
+}
+
 static void delay(const uint32_t count) {
 	volatile uint32_t i = count;
 	while(i--);
