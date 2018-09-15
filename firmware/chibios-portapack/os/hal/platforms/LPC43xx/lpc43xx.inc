@@ -98,11 +98,14 @@ typedef struct {
        uint32_t RESERVED0   : 3;
 } LPC_CGU_FREQ_MON_Type;
 
-typedef struct {
-  __IO uint32_t ENABLE      : 1;
-  __IO uint32_t BYPASS      : 1;
-  __IO uint32_t HF          : 1;
-       uint32_t RESERVED0   : 29;
+typedef union {
+  struct {
+    __IO uint32_t ENABLE      : 1;
+    __IO uint32_t BYPASS      : 1;
+    __IO uint32_t HF          : 1;
+         uint32_t RESERVED0   : 29;
+  };
+  __IO uint32_t word;
 } LPC_CGU_XTAL_OSC_CTRL_Type;
 
 typedef struct {
@@ -170,13 +173,16 @@ typedef struct {
        uint32_t RESERVED2   : 3;
 } LPC_CGU_BASE_SAFE_CLK_Type;
 
-typedef struct {
-  __IO uint32_t PD          : 1;
-       uint32_t RESERVED0   : 10;
-  __IO uint32_t AUTOBLOCK   : 1;
-       uint32_t RESERVED1   : 12;
-  __IO uint32_t CLK_SEL     : 5;
-       uint32_t RESERVED2   : 3;
+typedef union {
+  struct {
+    __IO uint32_t PD          : 1;
+         uint32_t RESERVED0   : 10;
+    __IO uint32_t AUTOBLOCK   : 1;
+         uint32_t RESERVED1   : 12;
+    __IO uint32_t CLK_SEL     : 5;
+         uint32_t RESERVED2   : 3;
+  };
+  __IO uint32_t word;
 } LPC_CGU_BASE_CLK_Type;
 
 typedef struct {

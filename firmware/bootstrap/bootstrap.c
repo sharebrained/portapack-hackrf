@@ -66,16 +66,63 @@ void configure_spifi(void) {
 		| (0      << 31)	/* 0: DMA request disabled */
 		;
 
-	/* Throttle up the SPIFI interface to 96MHz (PLL1 / 3) */
+	/* Throttle up the SPIFI interface to 102MHz (PLL1 / 2) */
 	LPC_CGU->IDIVB_CTRL.word =
 		  (0 <<  0)	/* PD */
 		| (1 <<  2)	/* IDIV (/2) */
 		| (1 << 11)	/* AUTOBLOCK */
 		| (9 << 24)	/* PLL1 */
 		;
+static void delay(const uint32_t count) {
+	volatile uint32_t i = count;
+	while(i--);
+}
+
+static void cpu_clock_to_max_speed() {
+	LPC_CGU->BASE_M4_CLK.word =
+		  (0 <<  0) /* PD */
+		| (1 << 11) /* AUTOBLOCK */
+		| (1 << 24) /* IRC */
+		;
+
+	LPC_CGU->XTAL_OSC_CTRL.word =
+		  (0 <<  0) /* ENABLE */
+		| (0 <<  1) /* BYPASS */
+		| (0 <<  2) /* HF */
+		;
+
+	/* Delay >250us at 90-110MHz clock speed */
+	delay(7000);
+
+	LPC_CGU->PLL1_CTRL =
+		  ( 0 <<  0) /* PD */
+		| ( 0 <<  1) /* BYPASS */
+		| ( 0 <<  6) /* FBSEL */
+		| ( 0 <<  7) /* DIRECT */
+		| ( 0 <<  8) /* PSEL */
+		| ( 1 << 11) /* AUTOBLOCK */
+		| ( 0 << 12) /* NSEL */
+		| (16 << 16) /* MSEL: x 17 */
+		| ( 6 << 24) /* CLK_SEL: Crystal */
+		;
+
+	while( (LPC_CGU->PLL1_STAT & (1 << 0)) == 0 );
+
+	LPC_CGU->BASE_M4_CLK.word =
+		  (0 <<  0) /* PD */
+		| (1 << 11) /* AUTOBLOCK */
+		| (9 << 24) /* PLL1 */
+		;
+
+	/* Delay >50us at 204MHz clock speed */
+	delay(2600);
+
+	LPC_CGU->PLL1_CTRL |= (1 << 7); /* DIRECT */
 }
 
 int main(void) {
+	cpu_clock_to_max_speed();
+
 #if 0
 	/* Configure LEDs and make sure they're off to start */
 	LPC_SCU->SFSP4_1  = (1 << 4) | 0;	/* GPIO2[1] */
