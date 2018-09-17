@@ -66,14 +66,7 @@ void configure_spifi(void) {
 		| (0      << 31)	/* 0: DMA request disabled */
 		;
 
-	/* Throttle up the SPIFI interface to 102MHz (PLL1 / 2) */
-	LPC_CGU->IDIVB_CTRL.word =
-		  (0 <<  0)	/* PD */
-		| (1 <<  2)	/* IDIV (/2) */
-		| (1 << 11)	/* AUTOBLOCK */
-		| (9 << 24)	/* PLL1 */
-		;
-
+	/* Throttle up the SPIFI interface to 102MHz (IDIVA=PLL1 / 2) */
 	LPC_CGU->BASE_SPIFI_CLK.word =
 		  ( 0 <<  0) /* PD */
 		| ( 1 << 11) /* AUTOBLOCK */
@@ -126,6 +119,20 @@ static void cpu_clock_to_max_speed() {
 	delay(2600);
 
 	LPC_CGU->PLL1_CTRL |= (1 << 7); /* DIRECT */
+
+	LPC_CGU->IDIVA_CTRL.word =
+		  ( 0 <<  0)	/* PD */
+		| ( 0 <<  2)	/* IDIV (/1) */
+		| ( 1 << 11)	/* AUTOBLOCK */
+		| ( 9 << 24)	/* PLL1 */
+		;
+
+	LPC_CGU->IDIVB_CTRL.word =
+		  ( 0 <<  0)	/* PD */
+		| ( 1 <<  2)	/* IDIV (/2) */
+		| ( 1 << 11)	/* AUTOBLOCK */
+		| (12 << 24)	/* IDIVA */
+		;
 }
 
 int main(void) {
