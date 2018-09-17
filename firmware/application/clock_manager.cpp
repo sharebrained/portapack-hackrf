@@ -215,9 +215,9 @@ static_assert(si5351_ms_int_mcu_clkin.f_out() == mcu_clkin_f, "MS int MCU CLKIN 
 using namespace si5351;
 
 static constexpr ClockControl::MultiSynthSource get_reference_clock_generator_pll(const ClockManager::ReferenceSource reference_source) {
-	return (reference_source == ClockManager::ReferenceSource::External)
-		? ClockControl::MultiSynthSource::PLLB
-		: ClockControl::MultiSynthSource::PLLA
+	return (reference_source == ClockManager::ReferenceSource::Xtal)
+		? ClockControl::MultiSynthSource::PLLA
+		: ClockControl::MultiSynthSource::PLLB
 		;
 }
 
