@@ -158,7 +158,6 @@ Backlight* backlight() {
 }
 
 static void configure_unused_mcu_peripherals_power_down(const bool power_down) {
-	LPC_CGU->IDIVA_CTRL.PD = power_down;
 	LPC_CGU->IDIVD_CTRL.PD = power_down;
 	LPC_CGU->IDIVE_CTRL.PD = power_down;
 	

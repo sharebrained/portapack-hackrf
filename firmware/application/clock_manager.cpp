@@ -247,8 +247,8 @@ void ClockManager::init_peripherals() {
 	 * state, which can change depending on where we're running from -- SPIFI
 	 * or RAM or ???
 	 */
-	update_peripheral_clocks(cgu::CLK_SEL::IRC);
-	start_peripherals(cgu::CLK_SEL::IRC);
+	update_peripheral_clocks(cgu::CLK_SEL::IDIVA);
+	start_peripherals(cgu::CLK_SEL::IDIVA);
 }
 
 void ClockManager::init_clock_generator() {
@@ -307,7 +307,7 @@ void ClockManager::run_from_irc() {
 }
 
 void ClockManager::run_at_full_speed() {
-	change_clock_configuration(cgu::CLK_SEL::PLL1);
+	change_clock_configuration(cgu::CLK_SEL::IDIVA);
 }
 
 void ClockManager::enable_codec_clocks() {
@@ -392,7 +392,7 @@ void ClockManager::set_reference_ppb(const int32_t ppb) {
 
 void ClockManager::change_clock_configuration(const cgu::CLK_SEL clk_sel) {
 	/* If starting PLL1, turn on the clock feeding GP_CLKIN */
-	if( clk_sel == cgu::CLK_SEL::PLL1 ) {
+	if( clk_sel == cgu::CLK_SEL::IDIVA ) {
 		enable_gp_clkin_source();
 	}
 
@@ -406,7 +406,7 @@ void ClockManager::change_clock_configuration(const cgu::CLK_SEL clk_sel) {
 
 	update_peripheral_clocks(clk_sel);
 
-	if( clk_sel == cgu::CLK_SEL::PLL1 ) {
+	if( clk_sel == cgu::CLK_SEL::IDIVA ) {
 		set_m4_clock_to_pll1();
 	} else {
 		power_down_pll1();
@@ -419,7 +419,7 @@ void ClockManager::change_clock_configuration(const cgu::CLK_SEL clk_sel) {
 	}
 
 	/* If not using PLL1, disable clock feeding GP_CLKIN */
-	if( clk_sel != cgu::CLK_SEL::PLL1 ) {
+	if( clk_sel != cgu::CLK_SEL::IDIVA ) {
 		stop_audio_pll();
 		disable_gp_clkin_source();
 	}
@@ -503,7 +503,7 @@ void ClockManager::set_m4_clock_to_pll1() {
 	while( !cgu::pll1::is_locked() );
 
 	/* Switch M4 clock to PLL1 running at intermediate rate */
-	set_clock(LPC_CGU->BASE_M4_CLK, cgu::CLK_SEL::PLL1);
+	set_clock(LPC_CGU->BASE_M4_CLK, cgu::CLK_SEL::IDIVA);
 	systick_adjust_period(systick_count_pll1_step);
 	//_clock_f = clock_source_pll1_step_f;
 	halLPCSetSystemClock(clock_source_pll1_step_f);
@@ -602,7 +602,7 @@ void ClockManager::update_peripheral_clocks(const cgu::CLK_SEL clk_sel) {
 
 void ClockManager::start_peripherals(const cgu::CLK_SEL clk_sel) {
 	/* Start APB1 peripherals considering new clock */
-	i2c0.start((clk_sel == cgu::CLK_SEL::PLL1)
+	i2c0.start((clk_sel == cgu::CLK_SEL::IDIVA)
 		? i2c_config_fast_clock
 		: i2c_config_slow_clock
 	);
