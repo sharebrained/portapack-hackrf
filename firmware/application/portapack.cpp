@@ -299,9 +299,8 @@ bool init() {
 	led_rx.setup();
 	led_tx.setup();
 
-	clock_manager.init();
-	clock_manager.set_reference_ppb(persistent_memory::correction_ppb());
-	clock_manager.run_at_full_speed();
+	clock_manager.init_peripherals();
+
 
 	if( !portapack::cpld::update_if_necessary(portapack_cpld_config()) ) {
 		shutdown_base();
@@ -313,6 +312,10 @@ bool init() {
 	}
 
 	portapack::io.init();
+
+	clock_manager.init_clock_generator();
+	clock_manager.set_reference_ppb(persistent_memory::correction_ppb());
+	clock_manager.run_at_full_speed();
 
 	audio::init(portapack_audio_codec());
 	

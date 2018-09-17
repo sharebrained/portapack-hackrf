@@ -236,7 +236,7 @@ ClockManager::ReferenceSource ClockManager::get_reference_source() const {
 	return reference_source;
 }
 
-void ClockManager::init() {
+void ClockManager::init_peripherals() {
 	/* Must be sure to run the M4 core from IRC when messing with the signal
 	 * generator that sources the GP_CLKIN signal that drives the micro-
 	 * controller's PLL1 input.
@@ -249,7 +249,9 @@ void ClockManager::init() {
 	 */
 	update_peripheral_clocks(cgu::CLK_SEL::IRC);
 	start_peripherals(cgu::CLK_SEL::IRC);
+}
 
+void ClockManager::init_clock_generator() {
 	clock_generator.reset();
 	clock_generator.set_crystal_internal_load_capacitance(CrystalInternalLoadCapacitance::XTAL_CL_8pF);
 	clock_generator.enable_fanout();

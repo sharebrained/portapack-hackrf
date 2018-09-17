@@ -48,7 +48,8 @@ public:
 	{
 	}
 
-	void init();
+	void init_peripherals();
+	void init_clock_generator();
 	void shutdown();
 
 	void run_from_irc();
