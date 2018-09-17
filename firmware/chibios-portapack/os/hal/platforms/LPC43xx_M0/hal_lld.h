@@ -94,7 +94,10 @@
 /* Derived constants and error checks.                                       */
 /*===========================================================================*/
 
-#define LPC43XX_M0_CLK_PLL1_AT_BOOT     96000000
+/**
+ * @brief   Clock speed when M0 is released from reset by the M4 bootstrap
+ */
+#define LPC43XX_M0_CLK_PLL1_AT_BOOT     204000000
 
 /*===========================================================================*/
 /* Driver data structures and types.                                         */
