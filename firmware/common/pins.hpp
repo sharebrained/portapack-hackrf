@@ -30,7 +30,7 @@ enum Pins {
 	P0_0, P0_1,
 	P1_0, P1_1, P1_2, P1_3, P1_4, P1_5, P1_6, P1_7, P1_8, P1_9, P1_10, P1_11, P1_12, P1_13, P1_14, P1_15, P1_16, P1_17, P1_18, P1_19, P1_20,
 	P2_0, P2_1, P2_2, P2_3, P2_4, P2_5, P2_6, P2_7, P2_8, P2_9, P2_10, P2_11, P2_12, P2_13,
-	P3_0, P3_1, P3_2, /*P3_3, P3_4, P3_5, P3_6, P3_7, P3_8,*/
+	P3_0, P3_1, P3_2, P3_3, P3_4, P3_5, P3_6, P3_7, P3_8,
 	P4_0, P4_1, P4_2, P4_3, P4_4, P4_5, P4_6, P4_7, P4_8, P4_9, P4_10,
 	P5_0, P5_1, P5_2, P5_3, P5_4, P5_5, P5_6, P5_7,
 	P6_0, P6_1, P6_2, P6_3, P6_4, P6_5, P6_6, P6_7, P6_8, P6_9, P6_10, P6_11, P6_12,
@@ -81,12 +81,12 @@ constexpr Pin pins[] = {
 	[P3_0]  = {  3,  0, { .mode=2, .pd=0, .pu=1, .fast=0, .input=1, .ifilt=1 } }, /* I2S0_TX_SCK: PortaPack I2S0_TX_SCK(I) */
 	[P3_1]  = {  3,  1, { .mode=0, .pd=0, .pu=1, .fast=0, .input=1, .ifilt=1 } }, /* I2S0_RX_WS: PortaPack I2S0_TX_WS(I). Input enabled to fold back into RX. */
 	[P3_2]  = {  3,  2, { .mode=0, .pd=0, .pu=1, .fast=0, .input=0, .ifilt=1 } }, /* I2S0_RX_SDA: PortaPack I2S0_TX_SDA(I) */
-	//[P3_3]  = {  3,  3, { .mode=3, .pd=1, .pu=0, .fast=1, .input=1, .ifilt=0 } }, /* SPIFI_SCK: W25Q80BV.CLK(I), enable input buffer for timing feedback */
-	//[P3_4]  = {  3,  4, { .mode=3, .pd=0, .pu=1, .fast=1, .input=1, .ifilt=0 } }, /* SPIFI_SIO3/P82: W25Q80BV.HOLD(IO) */
-	//[P3_5]  = {  3,  5, { .mode=3, .pd=0, .pu=1, .fast=1, .input=1, .ifilt=0 } }, /* SPIFI_SIO2/P81: W25Q80BV.WP(IO) */
-	//[P3_6]  = {  3,  6, { .mode=3, .pd=0, .pu=1, .fast=1, .input=1, .ifilt=0 } }, /* SPIFI_MISO: W25Q80BV.DO(IO) */
-	//[P3_7]  = {  3,  7, { .mode=3, .pd=0, .pu=1, .fast=1, .input=1, .ifilt=0 } }, /* SPIFI_MOSI: W25Q80BV.DI(IO) */
-	//[P3_8]  = {  3,  8, { .mode=3, .pd=0, .pu=1, .fast=1, .input=0, .ifilt=1 } }, /* SPIFI_CS/P68: W25Q80BV.CS(I) */
+	[P3_3]  = {  3,  3, PinConfig::spifi_sck(3) }, /* SPIFI_SCK: W25Q80BV.CLK(I), enable input buffer for timing feedback */
+	[P3_4]  = {  3,  4, PinConfig::spifi_inout(3) }, /* SPIFI_SIO3/P82: W25Q80BV.HOLD(IO) */
+	[P3_5]  = {  3,  5, PinConfig::spifi_inout(3) }, /* SPIFI_SIO2/P81: W25Q80BV.WP(IO) */
+	[P3_6]  = {  3,  6, PinConfig::spifi_inout(3) }, /* SPIFI_MISO: W25Q80BV.DO(IO) */
+	[P3_7]  = {  3,  7, PinConfig::spifi_inout(3) }, /* SPIFI_MOSI: W25Q80BV.DI(IO) */
+	[P3_8]  = {  3,  8, PinConfig::spifi_cs(3) }, /* SPIFI_CS/P68: W25Q80BV.CS(I) */
 	[P4_0]  = {  4,  0, { .mode=0, .pd=1, .pu=0, .fast=0, .input=0, .ifilt=1 } }, /* HP/P44: U6.VCTL1(I), U5.VCTL2(I) */
 	[P4_1]  = {  4,  1, PinConfig::gpio_led(0) }, /* LED1: LED1.A(I) */
 	[P4_2]  = {  4,  2, PinConfig::gpio_led(0) }, /* LED2: LED2.A(I) */
