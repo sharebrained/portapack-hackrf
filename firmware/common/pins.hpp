@@ -44,8 +44,8 @@ constexpr Pin pins[] = {
 	[P0_0]  = {  0,  0, PinConfig::sgpio_inout_fast(3) }, /* SGPIO0/P75/BANK2F3M3: CPLD.89/HOST_DATA0(IO) */
 	[P0_1]  = {  0,  1, PinConfig::sgpio_inout_fast(3) }, /* SGPIO1/BANK2F3M5: CPLD.79/HOST_DATA1(IO) */
 	[P1_0]  = {  1,  0, PinConfig::sgpio_inout_fast(6) }, /* SGPIO7/P76/BANK2F3M7: CPLD.77/HOST_DATA7(IO) */
-	[P1_1]  = {  1,  1, { .mode=0, .pd=0, .pu=0, .fast=0, .input=1, .ifilt=1 } }, /* P1_1/P74: 10K PU, BOOT0 */
-	[P1_2]  = {  1,  2, { .mode=0, .pd=0, .pu=0, .fast=0, .input=1, .ifilt=1 } }, /* P1_2/P73: 10K PD, BOOT1 */
+	[P1_1]  = {  1,  1, { .mode=0, .pd=0, .pu=0, .fast=0, .input=0, .ifilt=1 } }, /* P1_1/P74: 10K PU, BOOT0 */
+	[P1_2]  = {  1,  2, { .mode=0, .pd=0, .pu=0, .fast=0, .input=0, .ifilt=1 } }, /* P1_2/P73: 10K PD, BOOT1 */
 	[P1_3]  = {  1,  3, { .mode=5, .pd=0, .pu=0, .fast=0, .input=1, .ifilt=1 } }, /* SSP1_MISO/P41: MAX2837.DOUT(O) */
 	[P1_4]  = {  1,  4, { .mode=5, .pd=1, .pu=0, .fast=0, .input=0, .ifilt=1 } }, /* SSP1_MOSI/P40: MAX2837.DIN(I), MAX5864.DIN(I) */
 	[P1_5]  = {  1,  5, { .mode=0, .pd=0, .pu=1, .fast=0, .input=1, .ifilt=1 } }, /* SD_POW: PortaPack CPLD.TDO(O) */
@@ -71,7 +71,7 @@ constexpr Pin pins[] = {
 	[P2_4]  = {  2,  4, { .mode=4, .pd=0, .pu=0, .fast=0, .input=1, .ifilt=1 } }, /* I2C1_SCL: PortaPack P2_4/LCD_RDX */
 	[P2_5]  = {  2,  5, { .mode=4, .pd=0, .pu=1, .fast=0, .input=0, .ifilt=1 } }, /* RX/P43: U7.VCTL1(I), U10.VCTL1(I), U2.VCTL1(I) */
 	[P2_6]  = {  2,  6, { .mode=4, .pd=0, .pu=0, .fast=0, .input=0, .ifilt=1 } }, /* MIXER_SCLK/P31: 33pF, RFFC5072.SCLK(I) */
-	[P2_7]  = {  2,  7, { .mode=0, .pd=0, .pu=0, .fast=0, .input=1, .ifilt=1 } }, /* ISP: 10K PU, Unused */
+	[P2_7]  = {  2,  7, { .mode=0, .pd=0, .pu=0, .fast=0, .input=0, .ifilt=1 } }, /* ISP: 10K PU, Unused */
 	[P2_8]  = {  2,  8, { .mode=4, .pd=0, .pu=0, .fast=0, .input=0, .ifilt=1 } }, /* P2_8: 10K PD, BOOT2, DFU switch, PortaPack P2_8/<unused> */
 	[P2_9]  = {  2,  9, { .mode=0, .pd=0, .pu=0, .fast=0, .input=1, .ifilt=1 } }, /* P2_9: 10K PD, BOOT3, PortaPack P2_9/LCD_WRX */
 	[P2_10] = {  2, 10, { .mode=0, .pd=0, .pu=1, .fast=0, .input=0, .ifilt=1 } }, /* AMP_BYPASS/P50: U14.V2(I), U12.V2(I) */
