@@ -81,7 +81,7 @@
       (usegerberextensions true)
       (usegerberattributes false)
       (usegerberadvancedattributes false)
-      (creategerberjobfile false)
+      (creategerberjobfile true)
       (excludeedgelayer true)
       (linewidth 0.120000)
       (plotframeref false)
