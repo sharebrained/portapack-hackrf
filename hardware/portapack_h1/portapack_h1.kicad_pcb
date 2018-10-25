@@ -3659,10 +3659,10 @@
       (solder_mask_margin 0.8255) (clearance 1.0795))
   )
 
-  (module hole:HOLE_3200UM_VIAS locked (layer 1_top) (tedit 53AA3E1E) (tstamp 53AA27FC)
+  (module hole:HOLE_3200UM_VIAS locked (layer 1_top) (tedit 5BD2303B) (tstamp 53AA27FC)
     (at 64 104)
     (path /5369BC14)
-    (fp_text reference H5 (at 0 0) (layer F.SilkS)
+    (fp_text reference H5 (at 0 0) (layer F.SilkS) hide
       (effects (font (size 0.6096 0.6096) (thickness 0.12)))
     )
     (fp_text value HOLE1 (at 0 0) (layer F.SilkS)
@@ -3688,10 +3688,10 @@
       (net 47 GND))
   )
 
-  (module hole:HOLE_3200UM_VIAS locked (layer 1_top) (tedit 53AA3E1E) (tstamp 53AA27EF)
+  (module hole:HOLE_3200UM_VIAS locked (layer 1_top) (tedit 5BD2304A) (tstamp 53AA27EF)
     (at 64 171)
     (path /5369BC00)
-    (fp_text reference H4 (at 0 0) (layer F.SilkS)
+    (fp_text reference H4 (at 0 0) (layer F.SilkS) hide
       (effects (font (size 0.6096 0.6096) (thickness 0.12)))
     )
     (fp_text value HOLE1 (at 0 0) (layer F.SilkS)
@@ -3717,10 +3717,10 @@
       (net 47 GND))
   )
 
-  (module hole:HOLE_3200UM_VIAS locked (layer 1_top) (tedit 53AA3E1E) (tstamp 53AA27E2)
+  (module hole:HOLE_3200UM_VIAS locked (layer 1_top) (tedit 5BD23045) (tstamp 53AA27E2)
     (at 176 171)
     (path /5369BBEC)
-    (fp_text reference H3 (at 0 0) (layer F.SilkS)
+    (fp_text reference H3 (at 0 0) (layer F.SilkS) hide
       (effects (font (size 0.6096 0.6096) (thickness 0.12)))
     )
     (fp_text value HOLE1 (at 0 0) (layer F.SilkS)
@@ -3746,10 +3746,10 @@
       (net 47 GND))
   )
 
-  (module hole:HOLE_3200UM_VIAS locked (layer 1_top) (tedit 53AA3E1E) (tstamp 53AA27D5)
+  (module hole:HOLE_3200UM_VIAS locked (layer 1_top) (tedit 5BD23040) (tstamp 53AA27D5)
     (at 176 104)
     (path /5369BBD8)
-    (fp_text reference H2 (at 0 0) (layer F.SilkS)
+    (fp_text reference H2 (at 0 0) (layer F.SilkS) hide
       (effects (font (size 0.6096 0.6096) (thickness 0.12)))
     )
     (fp_text value HOLE1 (at 0 0) (layer F.SilkS)
