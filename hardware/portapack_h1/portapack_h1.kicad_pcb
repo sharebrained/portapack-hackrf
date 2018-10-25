@@ -12,8 +12,8 @@
   (page A4)
   (title_block
     (title "PortaPack H1")
-    (date 2018-08-20)
-    (rev 20180820)
+    (date 2018-10-25)
+    (rev 20181025)
     (company "ShareBrained Technology, Inc.")
     (comment 1 "License: GNU General Public License, version 2")
     (comment 2 "Copyright (c) 2014-2018 Jared Boone")
@@ -102,7 +102,7 @@
       (mirror false)
       (drillshape 0)
       (scaleselection 1)
-      (outputdirectory "private/gerber/20180820/"))
+      (outputdirectory "private/gerber/20181025/"))
   )
 
   (net 0 "")
@@ -4894,7 +4894,7 @@
   (gr_text "File\n\n.GTP\n.GTO\n.GTS\n.GTL\n\n.G2\n\n.G3\n\n.GBL\n.GBS\n.GBO\n.GBP\n.GM1\n" (at 20 40) (layer Dwgs.User)
     (effects (font (size 1.5 1.5) (thickness 0.1)) (justify left))
   )
-  (gr_text 20180820 (at 75 164 180) (layer F.SilkS)
+  (gr_text 20181025 (at 75 164 180) (layer F.SilkS)
     (effects (font (size 1.524 0.762) (thickness 0.1524)))
   )
   (gr_text 4 (at 64.025 156.325) (layer 4_bot)
