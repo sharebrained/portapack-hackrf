@@ -381,7 +381,8 @@ public:
 	}
 
 	void reset_plls() {
-		write_register(Register::PLLReset, 0xa0);
+		// Datasheet recommends value 0xac, though the low nibble bits are not defined in AN619.
+		write_register(Register::PLLReset, 0xac);
 	}
 
 	regvalue_t read_register(const uint8_t reg);
