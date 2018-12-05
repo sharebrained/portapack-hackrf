@@ -1075,6 +1075,47 @@ typedef struct {
 } LPC_TIMER_Type;
 
 // ------------------------------------------------------------------------------------------------
+// -----                                        MOTOCONPWM                                    -----
+// ------------------------------------------------------------------------------------------------
+
+/**
+  * @brief Product name title=UM10503 Chapter title=LPC43xx Motor Control PWM (MOTOCONPWM) Modification date=7/26/2017 Major revision=2 Minor revision=3
+  */
+
+typedef struct {
+  __I  uint32_t CON;
+  __O  uint32_t CON_SET;
+  __O  uint32_t CON_CLR;
+  __I  uint32_t CAPCON;
+  __O  uint32_t CAPCON_SET;
+  __O  uint32_t CAPCON_CLR;
+  __IO uint32_t TC0;
+  __IO uint32_t TC1;
+  __IO uint32_t TC2;
+  __IO uint32_t LIM0;
+  __IO uint32_t LIM1;
+  __IO uint32_t LIM2;
+  __IO uint32_t MAT0;
+  __IO uint32_t MAT1;
+  __IO uint32_t MAT2;
+  __IO uint32_t DT;
+  __IO uint32_t MCCP;
+  __I  uint32_t CAP0;
+  __I  uint32_t CAP1;
+  __I  uint32_t CAP2;
+  __I  uint32_t INTEN;
+  __O  uint32_t INTEN_SET;
+  __O  uint32_t INTEN_CLR;
+  __I  uint32_t CNTCON;
+  __O  uint32_t CNTCON_SET;
+  __O  uint32_t CNTCON_CLR;
+  __I  uint32_t INTF;
+  __O  uint32_t INTF_SET;
+  __O  uint32_t INTF_CLR;
+  __O  uint32_t CAP_CLR;
+} LPC_MCPWM_Type;
+
+// ------------------------------------------------------------------------------------------------
 // -----                                        RITIMER                                       -----
 // ------------------------------------------------------------------------------------------------
 
@@ -1418,6 +1459,7 @@ typedef struct {
 #define LPC_USART3                ((LPC_USART_Type          *) LPC_USART3_BASE)
 #define LPC_TIMER2                ((LPC_TIMER_Type          *) LPC_TIMER2_BASE)
 #define LPC_TIMER3                ((LPC_TIMER_Type          *) LPC_TIMER3_BASE)
+#define LPC_MCPWM                 ((LPC_MCPWM_Type          *) LPC_MCPWM_BASE)
 #define LPC_SSP1                  ((LPC_SSPx_Type           *) LPC_SSP1_BASE)
 #define LPC_I2C1                  ((LPC_I2Cx_Type           *) LPC_I2C1_BASE)
 #define LPC_ADC0                  ((LPC_ADCx_Type           *) LPC_ADC0_BASE)
