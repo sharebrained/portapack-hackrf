@@ -219,7 +219,7 @@ struct Pin {
 
 	void mode(const uint_fast16_t mode) const {
 		LPC_SCU->SFSP[_pin_port][_pin_pad] =
-			(LPC_SCU->SFSP[_pin_port][_pin_pad] & ~(7U << 0)) | mode;
+			(LPC_SCU->SFSP[_pin_port][_pin_pad] & 0xfffffff8) | mode;
 	}
 
 	void configure(const PinConfig config) const {
