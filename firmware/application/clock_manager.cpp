@@ -299,7 +299,7 @@ void ClockManager::init_clock_generator() {
 	);
 	clock_generator.enable_output(clock_generator_output_mcu_clkin);
 
-	const auto reference_source = choose_reference_source();
+	reference_source = choose_reference_source();
 
 	clock_generator.disable_output(clock_generator_output_mcu_clkin);
 
