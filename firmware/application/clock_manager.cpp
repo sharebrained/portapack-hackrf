@@ -235,8 +235,8 @@ constexpr ClockControls si5351_clock_control_common { {
 	{ ClockControl::ClockCurrentDrive::_2mA, ClockControl::ClockSource::MS_Self,  ClockControl::ClockInvert::Normal, get_reference_clock_generator_pll(ClockManager::ReferenceSource::Xtal), ClockControl::MultiSynthMode::Integer,    ClockControl::ClockPowerDown::Power_Off },
 } };
 
-ClockManager::ReferenceSource ClockManager::get_reference_source() const {
-	return reference_source;
+ClockManager::Reference ClockManager::get_reference() const {
+	return reference;
 }
 
 static void portapack_tcxo_enable() {
@@ -299,11 +299,11 @@ void ClockManager::init_clock_generator() {
 	);
 	clock_generator.enable_output(clock_generator_output_mcu_clkin);
 
-	reference_source = choose_reference_source();
+	reference = choose_reference();
 
 	clock_generator.disable_output(clock_generator_output_mcu_clkin);
 
-	const auto ref_pll = get_reference_clock_generator_pll(reference_source);
+	const auto ref_pll = get_reference_clock_generator_pll(reference.source);
 	const ClockControls si5351_clock_control = ClockControls { {
 		si5351_clock_control_common[0].ms_src(ref_pll),
 		si5351_clock_control_common[1].ms_src(ref_pll),
@@ -364,19 +364,20 @@ ClockManager::ReferenceSource ClockManager::detect_reference_source() {
 	}
 }
 
-ClockManager::ReferenceSource ClockManager::choose_reference_source() {
+ClockManager::Reference ClockManager::choose_reference() {
 	const auto detected_reference = detect_reference_source();
 
 	if( (detected_reference == ReferenceSource::External) ||
 	    (detected_reference == ReferenceSource::PortaPack) ) {
 		const auto frequency = measure_gp_clkin_frequency();
 		if( (frequency >= 9850000) && (frequency <= 10150000) ) {
-			return detected_reference;
+
+			return { detected_reference, 10000000 };
 		}
 	}
 
 	portapack_tcxo_disable();
-	return ReferenceSource::Xtal;
+	return { ReferenceSource::Xtal, 10000000 };
 }
 
 void ClockManager::shutdown() {
