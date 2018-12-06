@@ -233,7 +233,6 @@ bool init() {
 
 	clock_manager.init_clock_generator();
 	clock_manager.set_reference_ppb(persistent_memory::correction_ppb());
-	clock_manager.run_at_full_speed();
 
 	audio::init(portapack_audio_codec());
 	

@@ -35,6 +35,7 @@ class ClockManager {
 public:
 	enum ReferenceSource {
 		Xtal,     /* 10 MHz crystal onboard the HackRF */
+		PortaPack, /* 10 MHz TCXO on 20180820 and newer PortaPack revisions. */
 		External, /* HackRF external clock input SMA, or from PortaPack with TCXO feature. */
 	};
 
@@ -51,9 +52,6 @@ public:
 	void init_peripherals();
 	void init_clock_generator();
 	void shutdown();
-
-	void run_from_irc();
-	void run_at_full_speed();
 
 	void start_audio_pll();
 	void stop_audio_pll();
@@ -83,10 +81,6 @@ private:
 	ReferenceSource reference_source;
 	//uint32_t _clock_f;
 
-	void change_clock_configuration(const cgu::CLK_SEL clk_sel);
-
-	void enable_gp_clkin_source();
-	void disable_gp_clkin_source();
 	void set_gp_clkin_to_clkin_direct();
 
 	void start_frequency_monitor_measurement(const cgu::CLK_SEL clk_sel);
@@ -101,8 +95,11 @@ private:
 	void power_down_pll1();
 
 	void stop_peripherals();
-	void update_peripheral_clocks(const cgu::CLK_SEL clk_sel);
-	void start_peripherals(const cgu::CLK_SEL clk_sel);
+
+	uint32_t measure_gp_clkin_frequency();
+
+	ClockManager::ReferenceSource detect_reference_source();
+	ClockManager::ReferenceSource choose_reference_source();
 };
 
 #endif/*__CLOCK_MANAGER_H__*/
