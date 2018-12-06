@@ -84,6 +84,7 @@ typedef struct {
 typedef struct {
   /** @brief GPIO setup data.*/
   gpio_setup_t    P[8];
+  scu_setup_t     SCU[86];
 } PALConfig;
 
 /**
