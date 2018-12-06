@@ -38,5 +38,9 @@ build/
 # Debugging
 .gdbinit*
 
+# Editor files
+*.sublime-project
+*.sublime-workspace
+
 # Host OS turds
 .DS_Store

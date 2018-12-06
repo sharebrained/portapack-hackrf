@@ -119,10 +119,17 @@ SetFrequencyCorrectionView::SetFrequencyCorrectionView(
 		nav.pop();
 	},
 
+	add_child(&text_title);
+	if( portapack::clock_manager.get_reference_source() == ClockManager::ReferenceSource::External ) {
+		add_child(&text_ext);
+	} else {
+		add_children({
+			&field_ppm,
+			&text_ppm,
+		});
+	}
+
 	add_children({
-		&text_title,
-		&field_ppm,
-		&text_ppm,
 		&button_ok,
 		&button_cancel,
 	});

@@ -152,6 +152,10 @@ private:
 		1,
 		'0',
 	};
+	Text text_ext {
+		{ 11 * 8, 9 * 16, 3 * 8, 16 },
+		"EXT",
+	};
 	Text text_ppm {
 		{ 15 * 8, 9 * 16, 3 * 8, 16 },
 		"PPM",
