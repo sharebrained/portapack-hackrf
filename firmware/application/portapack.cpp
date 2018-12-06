@@ -154,7 +154,7 @@ static void configure_unused_mcu_peripherals(const bool enabled) {
 	const uint32_t clock_run_state = enabled ? 1 : 0;
 	const bool power_down = !enabled;
 
-	if( !power_down ) {
+	if( power_down == false ) {
 		// Power up peripheral clocks *before* enabling run state.
 		configure_unused_mcu_peripherals_power_down(power_down);
 	}
@@ -190,7 +190,7 @@ static void configure_unused_mcu_peripherals(const bool enabled) {
 	LPC_CCU2->CLK_APB0_USART0_CFG.RUN = clock_run_state;
 	LPC_CCU2->CLK_APB0_SSP0_CFG.RUN = clock_run_state;
 
-	if( power_down ) {
+	if( power_down == true ) {
 		// Power down peripheral clocks *after* disabling run state.
 		configure_unused_mcu_peripherals_power_down(power_down);
 	}
