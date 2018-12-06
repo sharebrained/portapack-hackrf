@@ -140,7 +140,22 @@ public:
 	void focus() override;
 
 private:
-	Text text_title {
+	Text label_source {
+		{ (240 - 16 * 8) / 2, 2 * 16, 30 * 8, 16 },
+		"Reference Source"
+	};
+
+	Text value_source {
+		{ (240 -  9 * 8) / 2, 4 * 16, 30 * 8, 16 },
+		"---"
+	};
+
+	Text value_source_frequency {
+		{ (240 - 11 * 8) / 2, 5 * 16, 30 * 8, 16 },
+		"---"
+	};
+
+	Text label_correction {
 		{ 5 * 8, 7 * 16, 20 * 8, 16 },
 		"Frequency Correction"
 	};
@@ -153,10 +168,10 @@ private:
 		'0',
 	};
 	Text text_ext {
-		{ 11 * 8, 9 * 16, 3 * 8, 16 },
-		"EXT",
+		{ 11 * 8, 9 * 16, 9 * 8, 16 },
+		"External",
 	};
-	Text text_ppm {
+	Text label_ppm {
 		{ 15 * 8, 9 * 16, 3 * 8, 16 },
 		"PPM",
 	};

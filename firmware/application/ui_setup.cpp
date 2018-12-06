@@ -23,6 +23,8 @@
 
 #include "ui_touch_calibration.hpp"
 
+#include "string_format.hpp"
+
 #include "portapack_persistent_memory.hpp"
 #include "lpc43xx_cpp.hpp"
 using namespace lpc43xx;
@@ -113,19 +115,35 @@ SetFrequencyCorrectionView::SetFrequencyCorrectionView(
 		const auto model = this->form_collect();
 		portapack::persistent_memory::set_correction_ppb(model.ppm * 1000);
 		nav.pop();
-	},
+	};
 
 	button_cancel.on_select = [&nav](Button&){
 		nav.pop();
-	},
+	};
 
-	add_child(&text_title);
-	if( portapack::clock_manager.get_reference_source() == ClockManager::ReferenceSource::External ) {
-		add_child(&text_ext);
-	} else {
+	const auto reference = portapack::clock_manager.get_reference();
+	
+	std::string source_name("---");
+	switch(reference.source) {
+	case ClockManager::ReferenceSource::Xtal:      source_name = "HackRF";    break;
+	case ClockManager::ReferenceSource::PortaPack: source_name = "PortaPack"; break;
+	case ClockManager::ReferenceSource::External:  source_name = "External";  break;
+	}
+
+	value_source.set(source_name);
+	value_source_frequency.set(to_string_dec_uint(reference.frequency, 8) + " Hz");
+
+	add_children({
+		&label_source,
+		&value_source,
+		&value_source_frequency,
+	});
+
+	if( reference.source == ClockManager::ReferenceSource::Xtal ) {
 		add_children({
+			&label_correction,
 			&field_ppm,
-			&text_ppm,
+			&label_ppm,
 		});
 	}
 
