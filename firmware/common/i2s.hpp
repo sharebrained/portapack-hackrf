@@ -154,6 +154,18 @@ struct ConfigDMA {
 	uint32_t dma2;
 };
 
+typedef struct {
+	base_clock_regs_t base;
+	branch_clock_regs_t branch;
+	peripheral_reset_t reset[2];
+} i2s_resources_t;
+
+static const i2s_resources_t i2s_resources = {
+	.base = { .clk = &LPC_CGU->BASE_APB1_CLK, .stat = &LPC_CCU1->BASE_STAT, .stat_mask = (1 << 1) },
+	.branch = { .cfg = &LPC_CCU1->CLK_APB1_I2S_CFG, .stat = &LPC_CCU1->CLK_APB1_I2S_STAT },
+	.reset = { { .output_index = 52 }, { .output_index = 53 } },
+};
+
 template<uint32_t BaseAddress>
 class I2S {
 public:
@@ -161,6 +173,16 @@ public:
 		const ConfigTX& config_tx,
 		const ConfigRX& config_rx
 	) {
+		base_clock_enable(&i2s_resources.base);
+		branch_clock_enable(&i2s_resources.branch);
+
+		if( &p() == LPC_I2S0 ) {
+			peripheral_reset(&i2s_resources.reset[0]);
+		}
+		if( &p() == LPC_I2S1 ) {
+			peripheral_reset(&i2s_resources.reset[1]);
+		}
+
 		reset();
 
 		if( &p() == LPC_I2S0 ) {
