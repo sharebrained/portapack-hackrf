@@ -438,7 +438,7 @@ void sd_lld_start(SerialDriver *sdp, const SerialConfig *config) {
 void sd_lld_stop(SerialDriver *sdp) {
 
   if (sdp->state == SD_READY) {
-    uart_deinit(&sdp->uart);
+    uart_deinit(sdp->uart);
     interrupt_disable(&sdp->resources->interrupt);
     peripheral_reset(&sdp->resources->reset);
     branch_clock_disable(&sdp->resources->branch_peripheral);
