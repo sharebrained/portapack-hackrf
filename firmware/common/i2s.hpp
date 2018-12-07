@@ -157,8 +157,18 @@ struct ConfigDMA {
 typedef struct {
 	base_clock_regs_t base;
 	branch_clock_regs_t branch;
+} audio_clock_resources_t;
+
+typedef struct {
+	base_clock_regs_t base;
+	branch_clock_regs_t branch;
 	peripheral_reset_t reset[2];
 } i2s_resources_t;
+
+static const audio_clock_resources_t audio_clock_resources = {
+	.base = { .clk = &LPC_CGU->BASE_AUDIO_CLK, .stat = &LPC_CCU2->BASE_STAT, .stat_mask = 0 },
+	.branch = { .cfg = &LPC_CCU2->CLK_AUDIO_CFG, .stat = &LPC_CCU2->CLK_AUDIO_STAT },
+};
 
 static const i2s_resources_t i2s_resources = {
 	.base = { .clk = &LPC_CGU->BASE_APB1_CLK, .stat = &LPC_CCU1->BASE_STAT, .stat_mask = (1 << 1) },
@@ -175,6 +185,9 @@ public:
 	) {
 		base_clock_enable(&i2s_resources.base);
 		branch_clock_enable(&i2s_resources.branch);
+
+		base_clock_enable(&audio_clock_resources.base);
+		branch_clock_enable(&audio_clock_resources.branch);
 
 		if( &p() == LPC_I2S0 ) {
 			peripheral_reset(&i2s_resources.reset[0]);
