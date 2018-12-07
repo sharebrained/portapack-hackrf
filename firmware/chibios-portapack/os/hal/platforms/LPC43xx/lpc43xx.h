@@ -37,6 +37,10 @@ typedef struct {
   uint32_t priority_mask;
 } interrupt_config_t;
 
+#ifdef __cplusplus
+extern "C" {
+#endif
+  
 void peripheral_reset(const peripheral_reset_t* const reset);
 
 void base_clock_enable(const base_clock_regs_t* const base);
@@ -47,5 +51,9 @@ void branch_clock_disable(const branch_clock_regs_t* const branch);
 
 void interrupt_enable(const interrupt_config_t* const interrupt);
 void interrupt_disable(const interrupt_config_t* const interrupt);
+
+#ifdef __cplusplus
+}
+#endif
 
 #endif /* _LPC43XX_H_ */
