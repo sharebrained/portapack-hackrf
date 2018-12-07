@@ -307,7 +307,7 @@ typedef struct {
   /* Pointer to the UART registers block.*/                                 \
   LPC_USART_Type        *uart;                                              \
   /* Pointer to the non-peripheral SSP resources.*/                         \
-  const ssp_resources_t * resources;
+  const uart_resources_t * resources;
 
 /*===========================================================================*/
 /* Driver macros.                                                            */
