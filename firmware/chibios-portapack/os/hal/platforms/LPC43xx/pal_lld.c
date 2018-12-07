@@ -43,6 +43,18 @@
 static const scu_config_t pin_config_vaa_enablex_pwm  = { .MODE=1, .EPD=0, .EPUN=1, .EHS=0, .EZI=0, .ZIF=0 };
 static const scu_config_t pin_config_vaa_enablex_gpio = { .MODE=0, .EPD=0, .EPUN=1, .EHS=0, .EZI=0, .ZIF=0 };
 
+typedef struct {
+  base_clock_regs_t base;
+  branch_clock_regs_t branch;
+  peripheral_reset_t reset;
+} motocon_pwm_resources_t;
+
+static const motocon_pwm_resources_t motocon_pwm_resources = {
+  .base = { .clk = &LPC_CGU->BASE_APB1_CLK, .stat = &LPC_CCU1->BASE_STAT, .stat_mask = (1 << 1) },
+  .branch = { .cfg = &LPC_CCU1->CLK_APB1_MOTOCON_PWM_CFG, .stat = &LPC_CCU1->CLK_APB1_MOTOCON_PWM_STAT },
+  .reset = { .output_index = 38 },
+};
+
 /*===========================================================================*/
 /* Driver local functions.                                                   */
 /*===========================================================================*/
@@ -68,7 +80,9 @@ static void vaa_power_on(void) {
   /* Configure and enable MOTOCONPWM peripheral clocks.
    * Assume IDIVC is running the post-bootloader configuration, outputting 96MHz derived from PLL1.
    */
-  LPC_CCU1->CLK_APB1_MOTOCON_PWM_CFG.RUN = true;
+  base_clock_enable(&motocon_pwm_resources.base);
+  branch_clock_enable(&motocon_pwm_resources.branch);
+  peripheral_reset(&motocon_pwm_resources.reset);
 
   /* Combination of pulse duration and duty cycle was arrived at empirically, to keep supply glitching
    * to +/- 0.15V.
@@ -95,11 +109,9 @@ static void vaa_power_on(void) {
   LPC_GPIO->DIR[2] |= (1 << 9);
   LPC_SCU->SFSP[5][ 0] = pin_config_vaa_enablex_gpio.word; // P5_0 /GPIO2[ 9]/MCOB2: !VAA_ENABLE, 10K PU
 
-  /* Reset the MOTOCONPWM peripheral. */
-  LPC_RGU->RESET_CTRL[1] = (1U << 6);
-
-  /* Shut down the MOTOCONPWM clocks. */
-  LPC_CCU1->CLK_APB1_MOTOCON_PWM_CFG.RUN = false;
+  peripheral_reset(&motocon_pwm_resources.reset);
+  branch_clock_disable(&motocon_pwm_resources.branch);
+  base_clock_disable(&motocon_pwm_resources.base);
 }
 
 static void vaa_power_off(void) {
