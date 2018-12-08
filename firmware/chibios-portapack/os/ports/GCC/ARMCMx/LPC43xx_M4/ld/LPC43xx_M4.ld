@@ -127,6 +127,8 @@ SECTIONS
         PROVIDE(_edata = .);
     } > ram
 
+    _textend = LOADADDR(.data) + SIZEOF(.data);
+
     .bss ALIGN(4) : ALIGN(4)
     {
         . = ALIGN(4);
