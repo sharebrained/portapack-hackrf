@@ -96,7 +96,6 @@ private:
 	void set_m4_clock_to_irc();
 
 	void set_m4_clock_to_pll1();
-	void power_down_pll1();
 
 	void stop_peripherals();
 

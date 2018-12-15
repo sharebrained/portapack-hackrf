@@ -588,11 +588,6 @@ void ClockManager::set_m4_clock_to_pll1() {
 	i2c0.start(i2c_config_fast_clock);
 }
 
-void ClockManager::power_down_pll1() {
-	/* Power down PLL1 if not needed */
-	cgu::pll1::disable();
-}
-
 void ClockManager::start_audio_pll() {
 	cgu::pll0audio::ctrl({
 		.pd = 1,
