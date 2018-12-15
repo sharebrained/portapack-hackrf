@@ -49,6 +49,7 @@ constexpr uint32_t clock_source_pll1_step_f	= 100000000;
 constexpr uint32_t clock_source_pll1_f		= 200000000;
 
 constexpr auto systick_count_irc = systick_load(clock_source_irc_f);
+constexpr auto systick_count_pll1_boot = systick_load(clock_source_pll1_boot_f);
 constexpr auto systick_count_pll1 = systick_load(clock_source_pll1_f);
 constexpr auto systick_count_pll1_step = systick_load(clock_source_pll1_step_f);
 
@@ -382,6 +383,31 @@ ClockManager::Reference ClockManager::choose_reference() {
 
 void ClockManager::shutdown() {
 	set_m4_clock_to_irc();
+
+	cgu::pll1::ctrl({
+		.pd = 1,
+		.bypass = 0,
+		.fbsel = 0,
+		.direct = 1,
+		.psel = 0,
+		.autoblock = 1,
+		.nsel = 0,
+		.msel = 23,
+		.clk_sel = cgu::CLK_SEL::IRC,
+	});
+
+	cgu::pll1::enable();
+	while( !cgu::pll1::is_locked() );
+
+	LPC_CGU->IDIVA_CTRL.word =
+		  ( 1 <<  0)	/* PD */
+		| ( 2 <<  2)	/* IDIV (/1) */
+		| ( 1 << 11)	/* AUTOBLOCK */
+		| ( 1 << 24)	/* IRC */
+		;
+
+	systick_adjust_period(systick_count_pll1_boot);
+	halLPCSetSystemClock(clock_source_pll1_boot_f);
 
 	clock_generator.reset();
 }
