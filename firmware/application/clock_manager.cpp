@@ -516,15 +516,6 @@ uint32_t ClockManager::get_frequency_monitor_measurement_in_hertz() {
 	return LPC_CGU->FREQ_MON.FCNT * 25000;
 }
 
-void ClockManager::enable_xtal_oscillator() {
-	LPC_CGU->XTAL_OSC_CTRL.BYPASS = 0;
-	LPC_CGU->XTAL_OSC_CTRL.ENABLE = 1;
-}
-
-void ClockManager::disable_xtal_oscillator() {
-	LPC_CGU->XTAL_OSC_CTRL.ENABLE = 0;
-}
-
 void ClockManager::set_m4_clock_to_irc() {
 	/* Set M4 clock to safe default speed (~12MHz IRC) */
 

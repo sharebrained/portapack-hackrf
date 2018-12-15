@@ -90,9 +90,6 @@ private:
 	void start_frequency_monitor_measurement(const cgu::CLK_SEL clk_sel);
 	void wait_For_frequency_monitor_measurement_done();
 
-	void enable_xtal_oscillator();
-	void disable_xtal_oscillator();
-
 	void set_m4_clock_to_irc();
 
 	void set_m4_clock_to_pll1();
