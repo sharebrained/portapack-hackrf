@@ -381,7 +381,8 @@ ClockManager::Reference ClockManager::choose_reference() {
 }
 
 void ClockManager::shutdown() {
-	// run_from_irc();
+	set_m4_clock_to_irc();
+
 	clock_generator.reset();
 }
 
@@ -498,11 +499,7 @@ void ClockManager::disable_xtal_oscillator() {
 	LPC_CGU->XTAL_OSC_CTRL.ENABLE = 0;
 }
 
-void ClockManager::set_m4_clock_to_pll1() {
-	/* Incantation from LPC43xx UM10503 section 12.2.1.1, to bring the M4
-	 * core clock speed to the 110 - 204MHz range.
-	 */
-
+void ClockManager::set_m4_clock_to_irc() {
 	/* Set M4 clock to safe default speed (~12MHz IRC) */
 
 	i2c0.stop();
@@ -526,6 +523,16 @@ void ClockManager::set_m4_clock_to_pll1() {
 		| ( 1 << 24)	/* IRC */
 		;
 
+	cgu::pll1::disable();
+}
+
+void ClockManager::set_m4_clock_to_pll1() {
+	/* Incantation from LPC43xx UM10503 section 12.2.1.1, to bring the M4
+	 * core clock speed to the 110 - 204MHz range.
+	 */
+
+	set_m4_clock_to_irc();
+	
 	/* Step into the 90-110MHz M4 clock range */
 	/* Fclkin = 40M
 	 * 	/N=2 = 20M = PFDin
