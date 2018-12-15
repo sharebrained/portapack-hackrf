@@ -384,6 +384,12 @@ ClockManager::Reference ClockManager::choose_reference() {
 void ClockManager::shutdown() {
 	set_m4_clock_to_irc();
 
+	set_clock(LPC_CGU->BASE_PERIPH_CLK, cgu::CLK_SEL::IRC);
+	set_clock(LPC_CGU->BASE_APB1_CLK, cgu::CLK_SEL::IRC);
+	set_clock(LPC_CGU->BASE_APB3_CLK, cgu::CLK_SEL::IRC);
+	set_clock(LPC_CGU->BASE_SDIO_CLK, cgu::CLK_SEL::IRC);
+	set_clock(LPC_CGU->BASE_SSP1_CLK, cgu::CLK_SEL::IRC);
+
 	cgu::pll1::ctrl({
 		.pd = 1,
 		.bypass = 0,
@@ -400,14 +406,30 @@ void ClockManager::shutdown() {
 	while( !cgu::pll1::is_locked() );
 
 	LPC_CGU->IDIVA_CTRL.word =
-		  ( 1 <<  0)	/* PD */
-		| ( 2 <<  2)	/* IDIV (/1) */
-		| ( 1 << 11)	/* AUTOBLOCK */
+		  ( 0 <<  0)	/* PD */
+		| ( 0 <<  2)	/* IDIV (/1) */
+		| ( 0 << 11)	/* AUTOBLOCK */
 		| ( 1 << 24)	/* IRC */
 		;
+	LPC_CGU->IDIVB_CTRL.word =
+		  ( 0 <<  0)	/* PD */
+		| ( 8 <<  2)	/* IDIV (/9) */
+		| ( 1 << 11)	/* AUTOBLOCK */
+		| ( 9 << 24)	/* PLL1 */
+		;
+	LPC_CGU->IDIVC_CTRL.word =
+		  ( 0 <<  0)	/* PD */
+		| ( 2 <<  2)	/* IDIV (/3) */
+		| ( 1 << 11)	/* AUTOBLOCK */
+		| ( 9 << 24)	/* PLL1 */
+		;
+
+	set_clock(LPC_CGU->BASE_M4_CLK, cgu::CLK_SEL::IDIVC);
 
 	systick_adjust_period(systick_count_pll1_boot);
 	halLPCSetSystemClock(clock_source_pll1_boot_f);
+
+	i2c0.start(i2c_config_boot_clock);
 
 	clock_generator.reset();
 }
