@@ -119,91 +119,6 @@ Backlight* backlight() {
 		: static_cast<portapack::Backlight*>(&backlight_on_off);
 }
 
-static void configure_unused_mcu_peripherals_power_down(const bool power_down) {
-	LPC_CGU->IDIVD_CTRL.PD = power_down;
-	LPC_CGU->IDIVE_CTRL.PD = power_down;
-	
-	LPC_CGU->BASE_USB1_CLK.PD = power_down;
-	LPC_CGU->BASE_SPI_CLK.PD = power_down;
-	LPC_CGU->BASE_PHY_RX_CLK.PD = power_down;
-	LPC_CGU->BASE_PHY_TX_CLK.PD = power_down;
-	LPC_CGU->BASE_LCD_CLK.PD = power_down;
-	LPC_CGU->BASE_SSP0_CLK.PD = power_down;
-	LPC_CGU->BASE_UART0_CLK.PD = power_down;
-	LPC_CGU->BASE_UART1_CLK.PD = power_down;
-	LPC_CGU->BASE_UART2_CLK.PD = power_down;
-	LPC_CGU->BASE_UART3_CLK.PD = power_down;
-	LPC_CGU->BASE_OUT_CLK.PD = power_down;
-	LPC_CGU->BASE_CGU_OUT0_CLK.PD = power_down;
-	LPC_CGU->BASE_CGU_OUT1_CLK.PD = power_down;
-}
-
-static void configure_unused_mcu_peripherals(const bool enabled) {
-	/* Disabling these peripherals reduces "idle" (PortaPack at main
-	 * menu) current by 42mA.
-	 */
-
-	/* Some surprising peripherals in use by PortaPack firmware:
-	 *
-	 * RITIMER: M0 SysTick substitute (because M0 has no SysTick)
-	 * TIMER3: M0 cycle/PCLK counter
-	 * IDIVB: Clock for SPI (set up in bootstrap code)
-	 * IDIVC: I2S audio clock
-	 */
-
-	const uint32_t clock_run_state = enabled ? 1 : 0;
-	const bool power_down = !enabled;
-
-	if( power_down == false ) {
-		// Power up peripheral clocks *before* enabling run state.
-		configure_unused_mcu_peripherals_power_down(power_down);
-	}
-
-	LPC_CCU1->CLK_APB3_I2C1_CFG.RUN = clock_run_state;
-	LPC_CCU1->CLK_APB3_DAC_CFG.RUN = clock_run_state;
-	LPC_CCU1->CLK_APB3_CAN0_CFG.RUN = clock_run_state;
-	LPC_CCU1->CLK_APB1_MOTOCON_PWM_CFG.RUN = clock_run_state;
-	LPC_CCU1->CLK_APB1_CAN1_CFG.RUN = clock_run_state;
-	LPC_CCU1->CLK_M4_LCD_CFG.RUN = clock_run_state;
-	LPC_CCU1->CLK_M4_ETHERNET_CFG.RUN = clock_run_state;
-	LPC_CCU1->CLK_M4_USB0_CFG.RUN = clock_run_state;
-	LPC_CCU1->CLK_M4_EMC_CFG.RUN = clock_run_state;
-	LPC_CCU1->CLK_M4_SCT_CFG.RUN = clock_run_state;
-	LPC_CCU1->CLK_M4_USB1_CFG.RUN = clock_run_state;
-	LPC_CCU1->CLK_M4_EMCDIV_CFG.RUN = clock_run_state;
-	LPC_CCU1->CLK_M4_WWDT_CFG.RUN = clock_run_state;
-	LPC_CCU1->CLK_M4_USART0_CFG.RUN = clock_run_state;
-	LPC_CCU1->CLK_M4_UART1_CFG.RUN = clock_run_state;
-	LPC_CCU1->CLK_M4_SSP0_CFG.RUN = clock_run_state;
-	LPC_CCU1->CLK_M4_TIMER1_CFG.RUN = clock_run_state;
-	LPC_CCU1->CLK_M4_USART2_CFG.RUN = clock_run_state;
-	LPC_CCU1->CLK_M4_USART3_CFG.RUN = clock_run_state;
-	LPC_CCU1->CLK_M4_TIMER2_CFG.RUN = clock_run_state;
-	LPC_CCU1->CLK_M4_QEI_CFG.RUN = clock_run_state;
-
-	LPC_CCU1->CLK_USB1_CFG.RUN = clock_run_state;
-	LPC_CCU1->CLK_SPI_CFG.RUN = clock_run_state;
-
-	LPC_CCU2->CLK_APB2_USART3_CFG.RUN = clock_run_state;
-	LPC_CCU2->CLK_APB2_USART2_CFG.RUN = clock_run_state;
-	LPC_CCU2->CLK_APB0_UART1_CFG.RUN = clock_run_state;
-	LPC_CCU2->CLK_APB0_USART0_CFG.RUN = clock_run_state;
-	LPC_CCU2->CLK_APB0_SSP0_CFG.RUN = clock_run_state;
-
-	if( power_down == true ) {
-		// Power down peripheral clocks *after* disabling run state.
-		configure_unused_mcu_peripherals_power_down(power_down);
-	}
-}
-
-static void disable_unused_mcu_peripheral_clocks() {
-	configure_unused_mcu_peripherals(false);
-}
-
-static void enable_unused_mcu_peripheral_clocks() {
-	configure_unused_mcu_peripherals(true);
-}
-
 static void shutdown_base() {
 	clock_manager.shutdown();
 
@@ -211,9 +126,7 @@ static void shutdown_base() {
 
 	systick_stop();
 
-	enable_unused_mcu_peripheral_clocks();
-
-	hackrf::one::reset();
+	peripherals_reset();
 }
 
 bool init() {
