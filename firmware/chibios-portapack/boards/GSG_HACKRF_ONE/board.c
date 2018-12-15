@@ -364,6 +364,46 @@ void peripherals_reset(void) {
         ;
 }
 
+static const scu_setup_t pins_spifi[] = {
+    {  3,  3, .config={ .MODE=3, .EPD=0, .EPUN=1, .EHS=1, .EZI=1, .ZIF=1 } }, /* SPIFI_SCK: W25Q80BV.CLK(I), enable input buffer for timing feedback */
+    {  3,  4, .config={ .MODE=3, .EPD=0, .EPUN=1, .EHS=1, .EZI=1, .ZIF=1 } }, /* SPIFI_SIO3/P82: W25Q80BV.HOLD(IO) */
+    {  3,  5, .config={ .MODE=3, .EPD=0, .EPUN=1, .EHS=1, .EZI=1, .ZIF=1 } }, /* SPIFI_SIO2/P81: W25Q80BV.WP(IO) */
+    {  3,  6, .config={ .MODE=3, .EPD=0, .EPUN=1, .EHS=1, .EZI=1, .ZIF=1 } }, /* SPIFI_MISO: W25Q80BV.DO(IO) */
+    {  3,  7, .config={ .MODE=3, .EPD=0, .EPUN=1, .EHS=1, .EZI=1, .ZIF=1 } }, /* SPIFI_MOSI: W25Q80BV.DI(IO) */
+    {  3,  8, .config={ .MODE=3, .EPD=0, .EPUN=1, .EHS=1, .EZI=1, .ZIF=1 } }, /* SPIFI_CS/P68: W25Q80BV.CS(I) */
+};
+
+#define ARRAY_SIZE(a) (sizeof(a)/sizeof(a[0]))
+
+static void configure_spifi(void) {
+
+    for(size_t i=0; i<ARRAY_SIZE(pins_spifi); i++) {
+        LPC_SCU->SFSP[pins_spifi[i].port][pins_spifi[i].pin] = pins_spifi[i].config.word;
+    }
+
+    /* Tweak SPIFI mode */
+    LPC_SPIFI->CTRL =
+          (0xffff <<  0)    /* Timeout */
+        | (0x1    << 16)    /* CS high time in "clocks - 1" */
+        | (0      << 21)    /* 0: Attempt speculative prefetch on data accesses */
+        | (0      << 22)    /* 0: No interrupt on command ended */
+        | (0      << 23)    /* 0: SCK driven low after rising edge at which last bit of command is captured. Stays low while CS# is high. */
+        | (0      << 27)    /* 0: Cache prefetching enabled */
+        | (0      << 28)    /* 0: Quad protocol, IO3:0 */
+        | (1      << 29)    /* 1: Read data sampled on falling edge of clock */
+        | (1      << 30)    /* 1: Read data is sampled using feedback clock from SCK pin */
+        | (0      << 31)    /* 0: DMA request disabled */
+        ;
+
+    /* Throttle up the SPIFI interface to 96MHz (IDIVA=PLL1 / 3) */
+    LPC_CGU->IDIVB_CTRL.word =
+          ( 0 <<  0)    /* PD */
+        | ( 2 <<  2)    /* IDIV (/3) */
+        | ( 1 << 11)    /* AUTOBLOCK */
+        | ( 9 << 24)    /* PLL1 */
+        ;
+}
+
 typedef struct {
   base_clock_regs_t base;
   branch_clock_regs_t branch;
@@ -444,8 +484,72 @@ void vaa_power_off(void) {
  * @details This initialization must be performed just after stack setup
  *          and before any other initialization.
  */
-// void __early_init(void) {
-// }
+void __early_init(void) {
+    /*
+     * Upon exit from bootloader into SPIFI boot mode:
+     *
+     * Enabled:
+     *   PLL1: IRC, M=/24, N=/1, P=/1, autoblock, direct = 288 MHz
+     *   IDIVA: IRC /1 = 12 MHz
+     *   IDIVB: PLL1 /9, autoblock = 32 MHz
+     *   IDIVC: PLL1 /3, autoblock = 96 MHz
+     *   IDIVD: IRC /1 = 12 MHz
+     *   IDIVE: IRC /1 = 12 MHz
+     *   BASE_M4_CLK: IDIVC, autoblock
+     *   BASE_SPIFI_CLK: IDIVB, autoblock
+     *
+     * Disabled:
+     *   XTAL_OSC
+     *   PLL0USB
+     *   PLL0AUDIO
+     */
+    /* LPC43xx M4 takes about 500 usec to get to __early_init
+     * Before __early_init, LPC bootloader runs and starts our code. In user code, the process stack
+     * is initialized, hardware floating point is initialized, and stacks are zeroed,
+     */
+    const uint32_t CORTEX_M4_CPUID      = 0x410fc240;
+    const uint32_t CORTEX_M4_CPUID_MASK = 0xff0ffff0;
+
+    if( (SCB->CPUID & CORTEX_M4_CPUID_MASK) == CORTEX_M4_CPUID ) {
+        /* Enable unaligned exception handler */
+        SCB_CCR |= (1 << 3);
+
+        /* Enable MemManage, BusFault, UsageFault exception handlers */
+        SCB_SHCSR |= (1 << 18) | (1 << 17) | (1 << 16);
+
+        peripherals_reset();
+
+        configure_spifi();
+
+        LPC_CCU1->CLK_M4_M0APP_CFG.RUN = true;
+        LPC_CREG->M0APPMEMMAP = LPC_SPIFI_DATA_CACHED_BASE + 0x0;
+        LPC_RGU->RESET_CTRL[1] = 0;
+
+        /* Prevent the M4 from doing any more initializing by sleep-waiting forever...
+         * ...until the M0 resets the M4 with some code to run.
+         */
+        while(1) {
+            __WFE();
+        }
+    }
+}
+
+void __late_init(void) {
+    /*
+     * System initializations.
+     * - HAL initialization, this also initializes the configured device drivers
+     *   and performs the board-specific initializations.
+     * - Kernel initialization, the main() function becomes a thread and the
+     *   RTOS is active.
+     */
+    halInit();
+
+    /* After this call, scheduler, systick, heap, etc. are available. */
+    /* By doing chSysInit() here, it runs before C++ constructors, which may
+     * require the heap.
+     */
+    chSysInit();
+}
 
 /**
  * @brief   Board-specific initialization code.
