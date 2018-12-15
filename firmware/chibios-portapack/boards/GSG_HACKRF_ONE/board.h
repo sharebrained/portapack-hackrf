@@ -36,6 +36,8 @@ extern "C" {
 
   void vaa_power_on(void);
   void vaa_power_off(void);
+
+  void peripherals_reset(void);
 #ifdef __cplusplus
 }
 #endif

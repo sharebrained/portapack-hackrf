@@ -314,6 +314,56 @@ const PALConfig pal_default_config = {
 };
 #endif
 
+void peripherals_reset(void) {
+    /* "The reset delay is counted in IRC clock cycles. If the core frequency
+     * CCLK is much higher than the IRC frequency, add a software delay of
+     * fCCLK/fIRC clock cycles between resetting and accessing any of the
+     * peripheral blocks."
+     */
+
+    /* Don't reset these peripherals, as they're operating during initialization:
+     *   WWDT, CREG, SCU, SPIFI
+     */
+    LPC_RGU->RESET_CTRL[0] =
+          (1U << 16) // LCD_RST
+        | (1U << 17) // USB0_RST
+        | (1U << 18) // USB1_RST
+        | (1U << 19) // DMA_RST
+        | (1U << 20) // SDIO_RST
+        | (1U << 21) // EMC_RST
+        | (1U << 22) // ETHERNET_RST
+        | (1U << 28) // GPIO_RST
+        ;
+    LPC_RGU->RESET_CTRL[1] =
+          (1U <<  0) // TIMER0_RST
+        | (1U <<  1) // TIMER1_RST
+        | (1U <<  2) // TIMER2_RST
+        | (1U <<  3) // TIMER3_RST
+        | (1U <<  4) // RITIMER_RST
+        | (1U <<  5) // SCT_RST
+        | (1U <<  6) // MOTOCONPWM_RST
+        | (1U <<  7) // QEI_RST
+        | (1U <<  8) // ADC0_RST
+        | (1U <<  9) // ADC1_RST
+        | (1U << 10) // DAC_RST
+        | (1U << 12) // UART0_RST
+        | (1U << 13) // UART1_RST
+        | (1U << 14) // UART2_RST
+        | (1U << 15) // UART3_RST
+        | (1U << 16) // I2C0_RST
+        | (1U << 17) // I2C1_RST
+        | (1U << 18) // SSP0_RST
+        | (1U << 19) // SSP1_RST
+        | (1U << 20) // I2S_RST
+        | (1U << 22) // CAN1_RST
+        | (1U << 23) // CAN0_RST
+        | (1U << 24) // M0APP_RST
+        | (1U << 25) // SGPIO_RST
+        | (1U << 26) // SPI_RST
+        | (1U << 28) // ADCHS_RST
+        ;
+}
+
 typedef struct {
   base_clock_regs_t base;
   branch_clock_regs_t branch;
