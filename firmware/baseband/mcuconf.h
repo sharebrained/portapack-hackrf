@@ -47,6 +47,7 @@
 #define LPC43XX_M4_CLK                      200000000
 #endif
 
+/* M0 has already initialized IDIVA by the time a baseband image runs. */
 #if !defined(LPC43XX_M4_CLK_SRC) || defined(__DOXYGEN__)
-#define LPC43XX_M4_CLK_SRC                  0x09
+#define LPC43XX_M4_CLK_SRC                  0x0C
 #endif
