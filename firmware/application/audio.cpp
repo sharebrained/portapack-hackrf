@@ -220,6 +220,8 @@ void init(audio::Codec* const codec) {
 void shutdown() {
 	audio_codec->reset();
 	output::stop();
+
+	clock_manager.stop_audio_pll();
 }
 
 void set_rate(const Rate rate) {
