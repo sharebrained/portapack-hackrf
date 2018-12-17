@@ -54,7 +54,6 @@ public:
 	{
 	}
 
-	void init_peripherals();
 	void init_clock_generator();
 	void shutdown();
 
@@ -93,8 +92,6 @@ private:
 	void set_m4_clock_to_irc();
 
 	void set_m4_clock_to_pll1();
-
-	void stop_peripherals();
 
 	uint32_t measure_gp_clkin_frequency();
 

@@ -29,56 +29,7 @@ using namespace hackrf::one;
 #include "lpc43xx_cpp.hpp"
 using namespace lpc43xx;
 
-static void set_clock(LPC_CGU_BASE_CLK_Type& clk, const cgu::CLK_SEL clock_source) {
-	clk.AUTOBLOCK = 1;
-	clk.CLK_SEL = toUType(clock_source);
-}
-
-static constexpr uint32_t systick_count(const uint32_t clock_source_f) {
-	return clock_source_f / CH_FREQUENCY;
-}
-
-static constexpr uint32_t systick_load(const uint32_t clock_source_f) {
-	return systick_count(clock_source_f) - 1;
-}
-
-constexpr uint32_t clock_source_irc_f		=  12000000;
-constexpr uint32_t clock_source_pll1_boot_f	=  96000000;
-//constexpr uint32_t clock_source_gp_clkin	=  20000000;
-constexpr uint32_t clock_source_pll1_step_f	= 100000000;
-constexpr uint32_t clock_source_pll1_f		= 200000000;
-
-constexpr auto systick_count_irc = systick_load(clock_source_irc_f);
-constexpr auto systick_count_pll1_boot = systick_load(clock_source_pll1_boot_f);
-constexpr auto systick_count_pll1 = systick_load(clock_source_pll1_f);
-constexpr auto systick_count_pll1_step = systick_load(clock_source_pll1_step_f);
-
 constexpr uint32_t si5351_vco_f	= 800000000;
-
-constexpr uint32_t i2c0_bus_f			= 400000;
-constexpr uint32_t i2c0_high_period_ns	= 900;
-
-constexpr I2CClockConfig i2c_clock_config_400k_boot_clock {
-	.clock_source_f = clock_source_pll1_boot_f,
-	.bus_f = i2c0_bus_f,
-	.high_period_ns = i2c0_high_period_ns,
-};
-
-constexpr I2CClockConfig i2c_clock_config_400k_fast_clock {
-	.clock_source_f = clock_source_pll1_f,
-	.bus_f = i2c0_bus_f,
-	.high_period_ns = i2c0_high_period_ns,
-};
-
-constexpr I2CConfig i2c_config_boot_clock {
-	.high_count = i2c_clock_config_400k_boot_clock.i2c_high_count(),
-	.low_count = i2c_clock_config_400k_boot_clock.i2c_low_count(),
-};
-
-constexpr I2CConfig i2c_config_fast_clock {
-	.high_count = i2c_clock_config_400k_fast_clock.i2c_high_count(),
-	.low_count = i2c_clock_config_400k_fast_clock.i2c_low_count(),
-};
 
 constexpr si5351::Inputs si5351_inputs {
 	.f_xtal = si5351_xtal_f,
@@ -256,38 +207,6 @@ static void portapack_tcxo_disable() {
 #include "hackrf_gpio.hpp"
 using namespace hackrf::one;
 
-void ClockManager::init_peripherals() {
-	/* Must be sure to run the M4 core from IRC when messing with the signal
-	 * generator that sources the GP_CLKIN signal that drives the micro-
-	 * controller's PLL1 input.
-	 */
-	/* When booting from SPIFI, PLL1 is already running at 288MHz. */
-	/* TODO: Refactor this blob, there's too much knowledge about post-boot
-	 * state, which can change depending on where we're running from -- SPIFI
-	 * or RAM or ???
-	 */
-	// PLL1 is running at 288 MHz upon bootstrap exit.
-	LPC_CGU->IDIVA_CTRL.word =
-		  ( 0 <<  0)	/* PD */
-		| ( 2 <<  2)	/* IDIV (/3) */
-		| ( 1 << 11)	/* AUTOBLOCK */
-		| ( 9 << 24)	/* PLL1 */
-		;
-
-	const auto clk_sel = cgu::CLK_SEL::IDIVA;
-	set_clock(LPC_CGU->BASE_M4_CLK, clk_sel);
-	set_clock(LPC_CGU->BASE_PERIPH_CLK, clk_sel);
-	set_clock(LPC_CGU->BASE_APB1_CLK, clk_sel);
-	set_clock(LPC_CGU->BASE_APB3_CLK, clk_sel);
-	set_clock(LPC_CGU->BASE_SDIO_CLK, clk_sel);
-	set_clock(LPC_CGU->BASE_SSP1_CLK, clk_sel);
-
-	// IDIVC should no longer be in use.
-	LPC_CGU->IDIVC_CTRL.PD = 1;
-
-	i2c0.start(i2c_config_boot_clock);
-}
-
 void ClockManager::init_clock_generator() {
 	clock_generator.reset();
 	clock_generator.set_crystal_internal_load_capacitance(CrystalInternalLoadCapacitance::XTAL_CL_8pF);
@@ -338,8 +257,6 @@ void ClockManager::init_clock_generator() {
 		si5351_clock_control_common[clock_generator_output_mcu_clkin].ms_src(ref_pll).clk_pdn(ClockControl::ClockPowerDown::Power_On)
 	);
 	clock_generator.enable_output(clock_generator_output_mcu_clkin);
-
-	set_m4_clock_to_pll1();
 }
 
 uint32_t ClockManager::measure_gp_clkin_frequency() {
@@ -382,55 +299,6 @@ ClockManager::Reference ClockManager::choose_reference() {
 }
 
 void ClockManager::shutdown() {
-	set_m4_clock_to_irc();
-
-	set_clock(LPC_CGU->BASE_PERIPH_CLK, cgu::CLK_SEL::IRC);
-	set_clock(LPC_CGU->BASE_APB1_CLK, cgu::CLK_SEL::IRC);
-	set_clock(LPC_CGU->BASE_APB3_CLK, cgu::CLK_SEL::IRC);
-	set_clock(LPC_CGU->BASE_SDIO_CLK, cgu::CLK_SEL::IRC);
-	set_clock(LPC_CGU->BASE_SSP1_CLK, cgu::CLK_SEL::IRC);
-
-	cgu::pll1::ctrl({
-		.pd = 1,
-		.bypass = 0,
-		.fbsel = 0,
-		.direct = 1,
-		.psel = 0,
-		.autoblock = 1,
-		.nsel = 0,
-		.msel = 23,
-		.clk_sel = cgu::CLK_SEL::IRC,
-	});
-
-	cgu::pll1::enable();
-	while( !cgu::pll1::is_locked() );
-
-	LPC_CGU->IDIVA_CTRL.word =
-		  ( 0 <<  0)	/* PD */
-		| ( 0 <<  2)	/* IDIV (/1) */
-		| ( 0 << 11)	/* AUTOBLOCK */
-		| ( 1 << 24)	/* IRC */
-		;
-	LPC_CGU->IDIVB_CTRL.word =
-		  ( 0 <<  0)	/* PD */
-		| ( 8 <<  2)	/* IDIV (/9) */
-		| ( 1 << 11)	/* AUTOBLOCK */
-		| ( 9 << 24)	/* PLL1 */
-		;
-	LPC_CGU->IDIVC_CTRL.word =
-		  ( 0 <<  0)	/* PD */
-		| ( 2 <<  2)	/* IDIV (/3) */
-		| ( 1 << 11)	/* AUTOBLOCK */
-		| ( 9 << 24)	/* PLL1 */
-		;
-
-	set_clock(LPC_CGU->BASE_M4_CLK, cgu::CLK_SEL::IDIVC);
-
-	systick_adjust_period(systick_count_pll1_boot);
-	halLPCSetSystemClock(clock_source_pll1_boot_f);
-
-	i2c0.start(i2c_config_boot_clock);
-
 	clock_generator.reset();
 }
 
@@ -538,102 +406,6 @@ uint32_t ClockManager::get_frequency_monitor_measurement_in_hertz() {
 	return LPC_CGU->FREQ_MON.FCNT * 25000;
 }
 
-void ClockManager::set_m4_clock_to_irc() {
-	/* Set M4 clock to safe default speed (~12MHz IRC) */
-
-	i2c0.stop();
-
-	// All other peripherals capable of running at 204 MHz.
-	LPC_CGU->IDIVA_CTRL.word =
-		  ( 0 <<  0)	/* PD */
-		| ( 0 <<  2)	/* IDIV (/1) */
-		| ( 1 << 11)	/* AUTOBLOCK */
-		| ( 1 << 24)	/* IRC */
-		;
-
-	systick_adjust_period(systick_count_irc);
-	halLPCSetSystemClock(clock_source_irc_f);
-
-	// SPIFI clock
-	LPC_CGU->IDIVB_CTRL.word =
-		  ( 0 <<  0)	/* PD */
-		| ( 0 <<  2)	/* IDIV (/1) */
-		| ( 1 << 11)	/* AUTOBLOCK */
-		| ( 1 << 24)	/* IRC */
-		;
-
-	cgu::pll1::disable();
-}
-
-void ClockManager::set_m4_clock_to_pll1() {
-	/* Incantation from LPC43xx UM10503 section 12.2.1.1, to bring the M4
-	 * core clock speed to the 110 - 204MHz range.
-	 */
-
-	set_m4_clock_to_irc();
-	
-	/* Step into the 90-110MHz M4 clock range */
-	/* Fclkin = 40M
-	 * 	/N=2 = 20M = PFDin
-	 * Fcco = PFDin * (M=10) = 200M
-	 * Fclk = Fcco / (2*(P=1)) = 100M
-	 */
-	cgu::pll1::ctrl({
-		.pd = 1,
-		.bypass = 0,
-		.fbsel = 0,
-		.direct = 0,
-		.psel = 0,
-		.autoblock = 1,
-		.nsel = 1,
-		.msel = 9,
-		.clk_sel = cgu::CLK_SEL::GP_CLKIN,
-	});
-
-	cgu::pll1::enable();
-	while( !cgu::pll1::is_locked() );
-
-	/* Switch M4 clock to PLL1 running at intermediate rate */
-	// All other peripherals capable of running at 204 MHz.
-	LPC_CGU->IDIVA_CTRL.word =
-		  ( 0 <<  0)	/* PD */
-		| ( 0 <<  2)	/* IDIV (/1) */
-		| ( 1 << 11)	/* AUTOBLOCK */
-		| ( 9 << 24)	/* PLL1 */
-		;
-
-	systick_adjust_period(systick_count_pll1_step);
-	halLPCSetSystemClock(clock_source_pll1_step_f);
-
-	// SPIFI clock
-	LPC_CGU->IDIVB_CTRL.word =
-		  ( 0 <<  0)	/* PD */
-		| ( 0 <<  2)	/* IDIV (/1) */
-		| ( 1 << 11)	/* AUTO BLOCK */
-		| ( 9 << 24)	/* PLL1 */
-		;
-
-	/* Delay >50us at 90-110MHz clock speed */
-	volatile uint32_t delay = 1400;
-	while(delay--);
-
-	// SPIFI clock
-	LPC_CGU->IDIVB_CTRL.word =
-		  ( 0 <<  0)	/* PD */
-		| ( 1 <<  2)	/* IDIV (/2) */
-		| ( 1 << 11)	/* AUTOBLOCK */
-		| ( 9 << 24)	/* PLL1 */
-		;
-
-	/* Remove /2P divider from PLL1 output to achieve full speed */
-	cgu::pll1::direct();
-
-	systick_adjust_period(systick_count_pll1);
-	halLPCSetSystemClock(clock_source_pll1_f);
-
-	i2c0.start(i2c_config_fast_clock);
-}
-
 void ClockManager::start_audio_pll() {
 	cgu::pll0audio::ctrl({
 		.pd = 1,
@@ -671,11 +443,13 @@ void ClockManager::start_audio_pll() {
 	cgu::pll0audio::clock_enable();
 
 	set_base_audio_clock_divider(1);
-	set_clock(LPC_CGU->BASE_AUDIO_CLK, cgu::CLK_SEL::IDIVC);
+
+	LPC_CGU->BASE_AUDIO_CLK.AUTOBLOCK = 1;
+	LPC_CGU->BASE_AUDIO_CLK.CLK_SEL = toUType(cgu::CLK_SEL::IDIVD);
 }
 
 void ClockManager::set_base_audio_clock_divider(const size_t divisor) {
-	LPC_CGU->IDIVC_CTRL.word =
+	LPC_CGU->IDIVD_CTRL.word =
 		  (0 <<  0)
 		| ((divisor - 1) <<  2)
 		| (1 << 11)
@@ -687,8 +461,4 @@ void ClockManager::stop_audio_pll() {
 	cgu::pll0audio::clock_disable();
 	cgu::pll0audio::power_down();
 	while( cgu::pll0audio::is_locked() );
-}
-
-void ClockManager::stop_peripherals() {
-	i2c0.stop();
 }
