@@ -1,6 +1,6 @@
 # List of all the board related files.
 set(BOARDSRC
-	${CHIBIOS_PORTAPACK}/boards/PORTAPACK_APPLICATION/board.c
+	${CHIBIOS_PORTAPACK}/boards/PORTAPACK_APPLICATION/board.cpp
 )
 
 # Required include directories
