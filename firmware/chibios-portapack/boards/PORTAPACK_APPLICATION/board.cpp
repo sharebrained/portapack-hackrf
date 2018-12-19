@@ -18,6 +18,8 @@
 #include "ch.h"
 #include "hal.h"
 
+#include <array>
+
 #if HAL_USE_PAL || defined(__DOXYGEN__)
 /**
  * @brief   PAL setup.
@@ -313,22 +315,28 @@ const PALConfig pal_default_config = {
 };
 #endif
 
-static const scu_setup_t pins_spifi[] = {
+static const std::array<scu_setup_t, 6> pins_setup_spifi { {
     {  3,  3, scu_config_normal_drive_t { .mode=3, .epd=0, .epun=1, .ehs=1, .ezi=1, .zif=1 } }, /* SPIFI_SCK: W25Q80BV.CLK(I), enable input buffer for timing feedback */
     {  3,  4, scu_config_normal_drive_t { .mode=3, .epd=0, .epun=1, .ehs=1, .ezi=1, .zif=1 } }, /* SPIFI_SIO3/P82: W25Q80BV.HOLD(IO) */
     {  3,  5, scu_config_normal_drive_t { .mode=3, .epd=0, .epun=1, .ehs=1, .ezi=1, .zif=1 } }, /* SPIFI_SIO2/P81: W25Q80BV.WP(IO) */
     {  3,  6, scu_config_normal_drive_t { .mode=3, .epd=0, .epun=1, .ehs=1, .ezi=1, .zif=1 } }, /* SPIFI_MISO: W25Q80BV.DO(IO) */
     {  3,  7, scu_config_normal_drive_t { .mode=3, .epd=0, .epun=1, .ehs=1, .ezi=1, .zif=1 } }, /* SPIFI_MOSI: W25Q80BV.DI(IO) */
     {  3,  8, scu_config_normal_drive_t { .mode=3, .epd=0, .epun=1, .ehs=1, .ezi=1, .zif=1 } }, /* SPIFI_CS/P68: W25Q80BV.CS(I) */
-};
+} };
 
-#define ARRAY_SIZE(a) (sizeof(a)/sizeof(a[0]))
+static void setup_pin(const scu_setup_t& pin_setup) {
+    LPC_SCU->SFSP[pin_setup.port][pin_setup.pin] = pin_setup.config;
+}
+
+template<size_t N>
+void setup_pins(const std::array<scu_setup_t, N>& pins_setup) {
+    for(const auto& pin_setup : pins_setup) {
+        setup_pin(pin_setup);
+    }
+}
 
 static void configure_spifi(void) {
-
-    for(size_t i=0; i<ARRAY_SIZE(pins_spifi); i++) {
-        LPC_SCU->SFSP[pins_spifi[i].port][pins_spifi[i].pin] = pins_spifi[i].config;
-    }
+    setup_pins(pins_setup_spifi);
 
     /* Tweak SPIFI mode */
     LPC_SPIFI->CTRL =
@@ -365,8 +373,8 @@ static const motocon_pwm_resources_t motocon_pwm_resources = {
   .reset = { .output_index = 38 },
 };
 
-static const scu_config_t pin_config_vaa_enablex_pwm  = scu_config_normal_drive_t { .mode=1, .epd=0, .epun=1, .ehs=0, .ezi=0, .zif=0 };
-static const scu_config_t pin_config_vaa_enablex_gpio = scu_config_normal_drive_t { .mode=0, .epd=0, .epun=1, .ehs=0, .ezi=0, .zif=0 };
+static const scu_setup_t pin_setup_vaa_enablex_pwm  = { 5, 0, scu_config_normal_drive_t { .mode=1, .epd=0, .epun=1, .ehs=0, .ezi=0, .zif=0 } };
+static const scu_setup_t pin_setup_vaa_enablex_gpio = { 5, 0, scu_config_normal_drive_t { .mode=0, .epd=0, .epun=1, .ehs=0, .ezi=0, .zif=0 } };
 
 /* VAA powers:
  * MAX5864 analog section.
@@ -402,7 +410,7 @@ void vaa_power_on(void) {
   LPC_MCPWM->LIM2 = cycle_period;
 
   /* Switch !VAA_ENABLE pin from GPIO to MOTOCONPWM peripheral output, now that the peripheral is configured. */
-  LPC_SCU->SFSP[5][ 0] = pin_config_vaa_enablex_pwm; // P5_0 /GPIO2[ 9]/MCOB2: !VAA_ENABLE, 10K PU
+  setup_pin(pin_setup_vaa_enablex_pwm); // P5_0 /GPIO2[ 9]/MCOB2: !VAA_ENABLE, 10K PU
 
   /* Start the PWM operation. */
   LPC_MCPWM->CON_SET = (1 << 16);
@@ -415,7 +423,7 @@ void vaa_power_on(void) {
   /* Hold !VAA_ENABLE active using a GPIO, so we can reclaim and shut down the MOTOCONPWM peripheral. */
   LPC_GPIO->CLR[2]  = (1 << 9); // !VAA_ENABLE
   LPC_GPIO->DIR[2] |= (1 << 9);
-  LPC_SCU->SFSP[5][ 0] = pin_config_vaa_enablex_gpio; // P5_0 /GPIO2[ 9]/MCOB2: !VAA_ENABLE, 10K PU
+  setup_pin(pin_setup_vaa_enablex_gpio); // P5_0 /GPIO2[ 9]/MCOB2: !VAA_ENABLE, 10K PU
 
   peripheral_reset(&motocon_pwm_resources.reset);
   branch_clock_disable(&motocon_pwm_resources.branch);
