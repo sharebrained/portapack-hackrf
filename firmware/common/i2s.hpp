@@ -229,6 +229,21 @@ public:
 		p().DMA2 = config_dma.dma2;
 	}
 
+	static void shutdown() {
+		if( &p() == LPC_I2S0 ) {
+			peripheral_reset(&i2s_resources.reset[0]);
+		}
+		if( &p() == LPC_I2S1 ) {
+			peripheral_reset(&i2s_resources.reset[1]);
+		}
+
+		base_clock_disable(&audio_clock_resources.base);
+		branch_clock_disable(&audio_clock_resources.branch);
+
+		base_clock_disable(&i2s_resources.base);
+		branch_clock_disable(&i2s_resources.branch);
+	}
+
 	static void rx_start() {
 		p().DAI &= ~(1U << 3);
 	}
