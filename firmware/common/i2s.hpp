@@ -154,17 +154,6 @@ struct ConfigDMA {
 	uint32_t dma2;
 };
 
-typedef struct {
-	base_clock_regs_t base;
-	branch_clock_regs_t branch;
-} audio_clock_resources_t;
-
-typedef struct {
-	base_clock_regs_t base;
-	branch_clock_regs_t branch;
-	peripheral_reset_t reset[2];
-} i2s_resources_t;
-
 static const audio_clock_resources_t audio_clock_resources = {
 	.base = { .clk = &LPC_CGU->BASE_AUDIO_CLK, .stat = &LPC_CCU2->BASE_STAT, .stat_mask = 0 },
 	.branch = { .cfg = &LPC_CCU2->CLK_AUDIO_CFG, .stat = &LPC_CCU2->CLK_AUDIO_STAT },

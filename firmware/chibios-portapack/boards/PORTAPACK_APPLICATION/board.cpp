@@ -361,12 +361,6 @@ static void configure_spifi(void) {
         ;
 }
 
-typedef struct {
-  base_clock_regs_t base;
-  branch_clock_regs_t branch;
-  peripheral_reset_t reset;
-} motocon_pwm_resources_t;
-
 static const motocon_pwm_resources_t motocon_pwm_resources = {
   .base = { .clk = &LPC_CGU->BASE_APB1_CLK, .stat = &LPC_CCU1->BASE_STAT, .stat_mask = (1 << 1) },
   .branch = { .cfg = &LPC_CCU1->CLK_APB1_MOTOCON_PWM_CFG, .stat = &LPC_CCU1->CLK_APB1_MOTOCON_PWM_STAT },

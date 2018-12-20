@@ -42,16 +42,6 @@
 /*===========================================================================*/
 
 /**
- * @brief   GPIO port setup info.
- */
-typedef struct {
-  /** Initial value for FIO_PIN register.*/
-  uint32_t      data;
-  /** Initial value for FIO_DIR register.*/
-  uint32_t      dir;
-} gpio_setup_t;
-
-/**
  * @brief   Generic I/O ports static initializer.
  * @details An instance of this structure must be passed to @p palInit() at
  *          system startup time in order to initialized the digital I/O

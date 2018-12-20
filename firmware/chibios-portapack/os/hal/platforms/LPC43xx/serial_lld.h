@@ -260,14 +260,6 @@
 /**
  * @brief   Structure used for UART configuration.
  */
-typedef struct {
-  base_clock_regs_t base;
-  branch_clock_regs_t branch_register_if;
-  branch_clock_regs_t branch_peripheral;
-  peripheral_reset_t reset;
-  interrupt_config_t interrupt;
-} uart_resources_t;
-
 /**
  * @brief   LPC Serial Driver configuration structure.
  * @details An instance of this structure must be passed to @p sdStart()

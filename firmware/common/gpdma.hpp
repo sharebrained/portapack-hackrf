@@ -341,12 +341,6 @@ constexpr std::array<channel::Channel, 8> channels { {
 	{ 4 }, { 5 }, { 6 }, { 7 },
 } };
 
-typedef struct {
-  base_clock_regs_t base;
-  branch_clock_regs_t branch;
-  peripheral_reset_t reset;
-} gpdma_resources_t;
-
 static const gpdma_resources_t gpdma_resources = {
   .base = { .clk = &LPC_CGU->BASE_M4_CLK, .stat = &LPC_CCU1->BASE_STAT, .stat_mask = (1 << 3) },
   .branch = { .cfg = &LPC_CCU1->CLK_M4_DMA_CFG, .stat = &LPC_CCU1->CLK_M4_DMA_STAT },

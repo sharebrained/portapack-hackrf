@@ -37,6 +37,11 @@ typedef struct {
   uint32_t priority_mask;
 } interrupt_config_t;
 
+typedef struct {
+  uint32_t      data;
+  uint32_t      dir;
+} gpio_setup_t;
+
 struct scu_config_normal_drive_t {
   uint16_t mode;
   uint16_t epd;
@@ -118,6 +123,133 @@ typedef struct {
   uint8_t pin;
   scu_config_t config;
 } scu_setup_t;
+
+typedef struct {
+  base_clock_regs_t base;
+  branch_clock_regs_t branch;
+  peripheral_reset_t reset;
+  interrupt_config_t interrupt;
+} adc_resources_t;
+
+typedef struct {
+  base_clock_regs_t base;
+  branch_clock_regs_t branch;
+} audio_clock_resources_t;
+
+typedef struct {
+  base_clock_regs_t base;
+  branch_clock_regs_t branch;
+  peripheral_reset_t reset;
+} gpdma_resources_t;
+
+typedef struct {
+  base_clock_regs_t base;
+  branch_clock_regs_t branch;
+  peripheral_reset_t reset;
+} i2c_resources_t;
+
+typedef struct {
+  base_clock_regs_t base;
+  branch_clock_regs_t branch;
+  peripheral_reset_t reset[2];
+} i2s_resources_t;
+
+typedef struct {
+  base_clock_regs_t base;
+  branch_clock_regs_t branch;
+  peripheral_reset_t reset;
+} motocon_pwm_resources_t;
+
+typedef struct {
+  base_clock_regs_t base;
+  branch_clock_regs_t branch_register_if;
+  branch_clock_regs_t branch_peripheral;
+  peripheral_reset_t reset;
+  interrupt_config_t interrupt;
+} sdio_resources_t;
+
+typedef struct {
+  base_clock_regs_t base;
+  branch_clock_regs_t branch;
+  peripheral_reset_t reset;
+} sgpio_resources_t;
+
+typedef struct {
+  base_clock_regs_t base;
+  branch_clock_regs_t branch_register_if;
+  branch_clock_regs_t branch_peripheral;
+  peripheral_reset_t reset;
+} ssp_resources_t;
+
+typedef struct {
+  branch_clock_regs_t branch;
+  peripheral_reset_t reset;
+  interrupt_config_t interrupt;
+} timer_resources_t;
+
+typedef struct {
+  base_clock_regs_t base;
+  branch_clock_regs_t branch_register_if;
+  branch_clock_regs_t branch_peripheral;
+  peripheral_reset_t reset;
+  interrupt_config_t interrupt;
+} uart_resources_t;
+
+static const base_clock_regs_t base_clock_apb3 = {
+  .clk = &LPC_CGU->BASE_APB3_CLK, .stat = &LPC_CCU1->BASE_STAT, .stat_mask = (1 << 0),
+};
+
+static const base_clock_regs_t base_clock_apb1 = {
+  .clk = &LPC_CGU->BASE_APB1_CLK, .stat = &LPC_CCU1->BASE_STAT, .stat_mask = (1 << 1),
+};
+
+static const base_clock_regs_t base_clock_spifi = {
+  .clk = &LPC_CGU->BASE_SPIFI_CLK, .stat = &LPC_CCU1->BASE_STAT, .stat_mask = (1 << 2),
+};
+
+static const base_clock_regs_t base_clock_m4 = {
+  .clk = &LPC_CGU->BASE_M4_CLK, .stat = &LPC_CCU1->BASE_STAT, .stat_mask = (1 << 3),
+};
+
+static const base_clock_regs_t base_clock_periph = {
+  .clk = &LPC_CGU->BASE_PERIPH_CLK, .stat = &LPC_CCU1->BASE_STAT, .stat_mask = (1 << 6),
+};
+
+static const base_clock_regs_t base_clock_usb0 = {
+  .clk = &LPC_CGU->BASE_USB0_CLK, .stat = &LPC_CCU1->BASE_STAT, .stat_mask = (1 << 7),
+};
+
+static const base_clock_regs_t base_clock_usb1 = {
+  .clk = &LPC_CGU->BASE_USB1_CLK, .stat = &LPC_CCU1->BASE_STAT, .stat_mask = (1 << 8),
+};
+
+static const base_clock_regs_t base_clock_spi = {
+  .clk = &LPC_CGU->BASE_SPI_CLK, .stat = &LPC_CCU1->BASE_STAT, .stat_mask = (1 << 9),
+};
+
+static const base_clock_regs_t base_clock_uart3 = {
+  .clk = &LPC_CGU->BASE_UART3_CLK, .stat = &LPC_CCU2->BASE_STAT, .stat_mask = (1 << 1),
+};
+
+static const base_clock_regs_t base_clock_uart2 = {
+  .clk = &LPC_CGU->BASE_UART2_CLK, .stat = &LPC_CCU2->BASE_STAT, .stat_mask = (1 << 2),
+};
+
+static const base_clock_regs_t base_clock_uart1 = {
+  .clk = &LPC_CGU->BASE_UART1_CLK, .stat = &LPC_CCU2->BASE_STAT, .stat_mask = (1 << 3),
+};
+
+static const base_clock_regs_t base_clock_uart0 = {
+  .clk = &LPC_CGU->BASE_UART0_CLK, .stat = &LPC_CCU2->BASE_STAT, .stat_mask = (1 << 4),
+};
+
+static const base_clock_regs_t base_clock_ssp1 = {
+  .clk = &LPC_CGU->BASE_SSP1_CLK, .stat = &LPC_CCU2->BASE_STAT, .stat_mask = (1 << 5),
+};
+
+static const base_clock_regs_t base_clock_ssp0 = {
+  .clk = &LPC_CGU->BASE_SSP0_CLK, .stat = &LPC_CCU2->BASE_STAT, .stat_mask = (1 << 6),
+};
 
 #ifdef __cplusplus
 extern "C" {
