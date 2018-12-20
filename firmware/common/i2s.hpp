@@ -226,11 +226,11 @@ public:
 			peripheral_reset(&i2s_resources.reset[1]);
 		}
 
-		base_clock_disable(&audio_clock_resources.base);
 		branch_clock_disable(&audio_clock_resources.branch);
+		base_clock_disable(&audio_clock_resources.base);
 
-		base_clock_disable(&i2s_resources.base);
 		branch_clock_disable(&i2s_resources.branch);
+		base_clock_disable(&i2s_resources.base);
 	}
 
 	static void rx_start() {
