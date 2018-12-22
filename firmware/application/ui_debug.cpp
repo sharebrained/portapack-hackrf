@@ -30,6 +30,11 @@
 
 #include "ui_sd_card_debug.hpp"
 
+#include "portapack.hpp"
+using namespace portapack;
+
+#include "irq_controls.hpp"
+
 namespace ui {
 
 /* DebugMemoryView *******************************************************/
@@ -244,6 +249,74 @@ void RegistersView::focus() {
 	button_done.focus();
 }
 
+/* ControlsSwitchesWidget ************************************************/
+
+void ControlsSwitchesWidget::on_show() {
+	display.fill_rectangle(
+		screen_rect(),
+		Color::black()
+	);
+}
+
+bool ControlsSwitchesWidget::on_key(const KeyEvent key) {
+	key_event_mask = 1 << toUType(key);
+	return true;
+}
+
+void ControlsSwitchesWidget::paint(Painter& painter) {
+	const std::array<Rect, 7> button_rects { {
+		{ 64, 32, 16, 16 }, // Right
+		{  0, 32, 16, 16 }, // Left
+		{ 32, 64, 16, 16 }, // Down
+		{ 32,  0, 16, 16 }, // Up
+		{ 32, 32, 16, 16 }, // Select
+		{ 16, 96, 16, 16 }, // Encoder phase 0
+		{ 48, 96, 16, 16 }, // Encoder phase 1
+	} };
+	const auto pos = screen_pos();
+	auto switches_raw = control::debug::switches();
+	auto switches_debounced = get_switches_state().to_ulong();
+	auto switches_event = key_event_mask;
+
+	for(const auto r : button_rects) {
+		const auto c =
+			((switches_event & 1) ?
+				Color::red() :
+				((switches_debounced & 1) ?
+					Color::green() :
+					((switches_raw & 1) ?
+						Color::yellow() :
+						Color::blue()
+					)
+				)
+			);
+		painter.fill_rectangle(r + pos, c);
+		switches_raw >>= 1;
+		switches_debounced >>= 1;
+		switches_event >>= 1;
+	}
+}
+
+void ControlsSwitchesWidget::on_frame_sync() {
+	set_dirty();
+}
+
+/* DebugControlsView *****************************************************/
+
+DebugControlsView::DebugControlsView(NavigationView& nav) {
+	add_children({
+		&text_title,
+		&switches_widget,
+		&button_done,
+	});
+
+	button_done.on_select = [&nav](Button&){ nav.pop(); };
+}
+
+void DebugControlsView::focus() {
+	switches_widget.focus();
+}
+
 /* DebugPeripheralsMenuView **********************************************/
 
 DebugPeripheralsMenuView::DebugPeripheralsMenuView(NavigationView& nav) {
@@ -277,6 +350,7 @@ DebugMenuView::DebugMenuView(NavigationView& nav) {
 		{ "SD Card",     [&nav](){ nav.push<SDCardDebugView>(); } },
 		{ "Peripherals", [&nav](){ nav.push<DebugPeripheralsMenuView>(); } },
 		{ "Temperature", [&nav](){ nav.push<TemperatureView>(); } },
+		{ "Controls",    [&nav](){ nav.push<DebugControlsView>(); } },
 	});
 	on_left = [&nav](){ nav.pop(); };
 }
