@@ -276,6 +276,19 @@ void EventDispatcher::handle_lcd_frame_sync() {
 void EventDispatcher::handle_switches() {
 	const auto switches_state = get_switches_state();
 
+	if( switches_state.count() == 0 ) {
+		// If all keys are released, we are no longer in a key event.
+		in_key_event = false;
+	}
+
+	if( in_key_event ) {
+		// If we're in a key event, return. We will ignore all additional key
+		// presses until the first key is released. We also want to ignore events
+		// where the last key held generates a key event when other pressed keys
+		// are released.
+		return;
+	}
+
 	if( display_sleep ) {
 		// Swallow event, wake up display.
 		if( switches_state.any() ) {
@@ -291,6 +304,8 @@ void EventDispatcher::handle_switches() {
 			if( !event_bubble_key(event) ) {
 				context.focus_manager().update(top_widget, event);
 			}
+
+			in_key_event = true;
 		}
 	}
 }

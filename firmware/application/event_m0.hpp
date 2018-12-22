@@ -99,6 +99,7 @@ private:
 	bool sd_card_present = false;
 	bool display_sleep = false;
 	bool halt = false;
+	bool in_key_event = false;
 
 	eventmask_t wait();
 	void dispatch(const eventmask_t events);
