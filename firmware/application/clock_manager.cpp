@@ -250,7 +250,8 @@ void ClockManager::init_clock_generator() {
 
 	// Wait for both PLLs to lock.
 	// TODO: Disable the unused PLL?
-	while((clock_generator.device_status() & 0x60) != 0);
+	const uint8_t device_status_mask = (ref_pll == ClockControl::MultiSynthSource::PLLB) ? 0x40 : 0x20;
+	while((clock_generator.device_status() & device_status_mask) != 0);
 
 	clock_generator.set_clock_control(
 		clock_generator_output_mcu_clkin,
