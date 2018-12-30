@@ -1,6 +1,11 @@
 language: cpp
 
-cache: apt
+matrix:
+  include:
+    - os: linux
+      compiler: gcc
+      cache: apt
+      dist: xenial
 
 notifications:
   irc:
