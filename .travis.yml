@@ -32,9 +32,10 @@ script:
   - popd
 
 addons:
-  artifacts:
+  apt:
     packages:
       - dfu-util
+  artifacts:
     paths:
       - $(ls build/firmware/portapack-h1-firmware-*.tar.bz2 | tr "\n" ":")
       - $(ls build/firmware/portapack-h1-firmware-*.zip | tr "\n" ":")
