@@ -25,6 +25,7 @@ set(COMMON ${PROJECT_SOURCE_DIR}/common)
 set(CHIBIOS ${PROJECT_SOURCE_DIR}/chibios)
 set(CHIBIOS_PORTAPACK ${PROJECT_SOURCE_DIR}/chibios-portapack)
 
+# TODO: Set to .SVF from HackRF repo.
 set(HACKRF_CPLD_SVF_FILENAME hackrf_cpld_portapack.svf)
 set(HACKRF_CPLD_SVF_PATH ${PROJECT_SOURCE_DIR}/${HACKRF_CPLD_SVF_FILENAME})
 
