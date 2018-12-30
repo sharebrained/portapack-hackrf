@@ -39,7 +39,7 @@ set(FIRMWARE_FILENAME ${FIRMWARE_NAME}.bin)
 
 include(ExternalProject)
 ExternalProject_Add(hackrf
-	GIT_REPOSITORY git@github.com:jboone/hackrf.git
+	GIT_REPOSITORY https://github.com/jboone/hackrf.git
 	GIT_TAG origin/portapack_ui
 	CMAKE_ARGS -DUSER_INTERFACE=PORTAPACK
 	SOURCE_SUBDIR firmware/hackrf_usb
