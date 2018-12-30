@@ -45,11 +45,6 @@ ExternalProject_Add(hackrf
 	SOURCE_SUBDIR firmware/hackrf_usb
 	INSTALL_COMMAND ""
 )
-# ExternalProject_Add_Step(hackrf libopencm3
-# 	COMMAND make
-# 	WORKING_DIRECTORY <SOURCE_DIR>/firmware/libopencm3
-# 	DEPENDEES configure
-# )
 
 set(HACKRF_FIRMWARE_DFU_FILENAME hackrf_usb.dfu)
 set(HACKRF_FIRMWARE_BIN_FILENAME hackrf_usb.bin)
