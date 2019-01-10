@@ -6,14 +6,14 @@ Visit the [wiki](https://github.com/sharebrained/portapack-hackrf/wiki) for more
 
 Hardware is available at [ShareBrained Technology](http://sharebrained.com/portapack).
 
-![PortaPack H1 Back Side](https://raw.github.com/sharebrained/portapack-hackrf/master/doc/images/hardware/portapack_h1_back.jpg)
-![PortaPack H1 Front Side](https://raw.github.com/sharebrained/portapack-hackrf/master/doc/images/hardware/portapack_h1_front.jpg)
+![PortaPack H1 in operation](https://raw.github.com/sharebrained/portapack-hackrf/master/doc/images/hardware/portapack_h1_operating.jpg)
+![PortaPack H1 kit components](https://raw.github.com/sharebrained/portapack-hackrf/master/doc/images/hardware/portapack_h1_parts.jpg)
 
 # License
 
 Except where specified in subdirectories of this project, all work is offered under the following license:
 
-Copyright (C) 2013-2015 Jared Boone, ShareBrained Technology, Inc.
+Copyright (C) 2013-2019 Jared Boone, ShareBrained Technology, Inc.
 
 This program is free software; you can redistribute it and/or
 modify it under the terms of the GNU General Public License
