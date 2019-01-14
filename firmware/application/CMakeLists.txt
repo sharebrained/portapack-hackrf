@@ -122,24 +122,24 @@ set(CPPSRC
 	${COMMON}/portapack_persistent_memory.cpp
 	${COMMON}/portapack_io.cpp
 	${COMMON}/i2c_pp.cpp
-	spi_pp.cpp
+	hw/spi_pp.cpp
 	clock_manager.cpp
-	si5351.cpp
+	hw/si5351.cpp
 	${COMMON}/wm8731.cpp
 	${COMMON}/ak4951.cpp
 	radio.cpp
 	${COMMON}/baseband_cpld.cpp
 	tuning.cpp
 	rf_path.cpp
-	rffc507x.cpp
-	rffc507x_spi.cpp
-	max2837.cpp
-	max5864.cpp
+	hw/rffc507x.cpp
+	hw/rffc507x_spi.cpp
+	hw/max2837.cpp
+	hw/max5864.cpp
 	${COMMON}/buffer.cpp
-	debounce.cpp
+	hw/debounce.cpp
 	touch.cpp
-	touch_adc.cpp
-	encoder.cpp
+	hw/touch_adc.cpp
+	hw/encoder.cpp
 	audio.cpp
 	${COMMON}/lcd_ili9341.cpp
 	${COMMON}/ui.cpp
@@ -148,33 +148,33 @@ set(CPPSRC
 	${COMMON}/ui_painter.cpp
 	${COMMON}/ui_focus.cpp
 	ui_navigation.cpp
-	ui_menu.cpp
-	ui_rssi.cpp
-	ui_channel.cpp
-	ui_audio.cpp
-	ui_font_fixed_8x16.cpp
+	ui/ui_menu.cpp
+	ui/ui_rssi.cpp
+	ui/ui_channel.cpp
+	ui/ui_audio.cpp
+	ui/ui_font_fixed_8x16.cpp
 	ui_setup.cpp
-	ui_touch_calibration.cpp
-	ui_debug.cpp
+	apps/ui_touch_calibration.cpp
+	apps/ui_debug.cpp
 	ui_baseband_stats_view.cpp
 	ui_sd_card_status_view.cpp
 	ui_sd_card_debug.cpp
 	ui_console.cpp
-	ui_receiver.cpp
+	ui/ui_receiver.cpp
 	ui_record_view.cpp
-	ui_spectrum.cpp
+	ui/ui_spectrum.cpp
 	recent_entries.cpp
 	receiver_model.cpp
 	spectrum_color_lut.cpp
-	analog_audio_app.cpp
+	apps/analog_audio_app.cpp
 	${COMMON}/ais_baseband.cpp
 	${COMMON}/ais_packet.cpp
-	ais_app.cpp
-	tpms_app.cpp
+	apps/ais_app.cpp
+	apps/tpms_app.cpp
 	${COMMON}/tpms_packet.cpp
-	ert_app.cpp
+	apps/ert_app.cpp
 	${COMMON}/ert_packet.cpp
-	capture_app.cpp
+	apps/capture_app.cpp
 	sd_card.cpp
 	rtc_time.cpp
 	file.cpp
@@ -230,6 +230,9 @@ set(INCDIR ${CMAKE_CURRENT_BINARY_DIR} ${COMMON} ${PORTINC} ${KERNINC} ${TESTINC
 	${HALINC} ${PLATFORMINC} ${BOARDINC}
 	${FATFSINC}
 	${CHIBIOS}/os/various
+	ui
+	hw
+	apps
 )
 
 #
