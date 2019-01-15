@@ -25,10 +25,6 @@ set(COMMON ${PROJECT_SOURCE_DIR}/common)
 set(CHIBIOS ${PROJECT_SOURCE_DIR}/chibios)
 set(CHIBIOS_PORTAPACK ${PROJECT_SOURCE_DIR}/chibios-portapack)
 
-# TODO: Set to .SVF from HackRF repo.
-set(HACKRF_CPLD_SVF_FILENAME hackrf_cpld_portapack.svf)
-set(HACKRF_CPLD_SVF_PATH ${PROJECT_SOURCE_DIR}/${HACKRF_CPLD_SVF_FILENAME})
-
 set(EXTRACT_CPLD_DATA ${PROJECT_SOURCE_DIR}/tools/extract_cpld_data.py)
 set(EXTRACT_SVF_DATA_XC2C64A ${PROJECT_SOURCE_DIR}/tools/extract_svf_data_xc2c64a.py)
 set(STRIP_DFU ${PROJECT_SOURCE_DIR}/tools/strip_dfu.py)
@@ -48,13 +44,18 @@ ExternalProject_Add(hackrf
 	BUILD_COMMAND ${MAKE_EXE} hackrf_usb.dfu
 	INSTALL_COMMAND ""
 )
+ExternalProject_Get_Property(hackrf SOURCE_DIR)
+ExternalProject_Get_Property(hackrf BINARY_DIR)
+set(hackrf_SOURCE_DIR ${SOURCE_DIR})
+set(hackrf_BINARY_DIR ${BINARY_DIR})
 
 set(HACKRF_FIRMWARE_DFU_FILENAME hackrf_usb.dfu)
 set(HACKRF_FIRMWARE_BIN_FILENAME hackrf_usb.bin)
 
-ExternalProject_Get_Property(hackrf BINARY_DIR)
-set(HACKRF_FIRMWARE_DFU_IMAGE ${BINARY_DIR}/${HACKRF_FIRMWARE_DFU_FILENAME})
-set(HACKRF_FIRMWARE_BIN_IMAGE ${BINARY_DIR}/${HACKRF_FIRMWARE_BIN_FILENAME})
+set(HACKRF_FIRMWARE_DFU_IMAGE ${hackrf_BINARY_DIR}/${HACKRF_FIRMWARE_DFU_FILENAME})
+set(HACKRF_FIRMWARE_BIN_IMAGE ${hackrf_BINARY_DIR}/${HACKRF_FIRMWARE_BIN_FILENAME})
+set(HACKRF_CPLD_SVF_FILENAME default.svf)
+set(HACKRF_CPLD_SVF_PATH ${hackrf_SOURCE_DIR}/firmware/cpld/sgpio_if/${HACKRF_CPLD_SVF_FILENAME})
 
 add_subdirectory(application)
 add_subdirectory(baseband)
