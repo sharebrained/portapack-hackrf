@@ -261,9 +261,9 @@ const PALConfig pal_default_config = {
     {  1, 14, scu_config_normal_drive_t { .mode=6, .epd=0, .epun=0, .ehs=1, .ezi=0, .zif=0 } }, /* SGPIO10/P78/BANK2F3M8: CPLD.76/HOST_DISABLE(I) */
     {  1, 17, scu_config_normal_drive_t { .mode=6, .epd=0, .epun=0, .ehs=1, .ezi=0, .zif=0 } }, /* SGPIO11/P79/BANK2F3M11: CPLD.71/HOST_DIRECTION(I) */
     {  1, 18, scu_config_normal_drive_t { .mode=0, .epd=1, .epun=1, .ehs=0, .ezi=0, .zif=0 } }, /* SGPIO12/BANK2F3M12: CPLD.70/HOST_INVERT(I) */
-    {  4,  8, scu_config_normal_drive_t { .mode=4, .epd=0, .epun=0, .ehs=0, .ezi=0, .zif=0 } }, /* SGPIO13/BANK2F3M2: CPLD.90/HOST_DECIM_SEL0(I) */
-    {  4,  9, scu_config_normal_drive_t { .mode=4, .epd=0, .epun=0, .ehs=0, .ezi=0, .zif=0 } }, /* SGPIO14/BANK2F3M4: CPLD.81/HOST_DECIM_SEL1(I) */
-    {  4, 10, scu_config_normal_drive_t { .mode=4, .epd=0, .epun=0, .ehs=0, .ezi=0, .zif=0 } }, /* SGPIO15/BANK2F3M6: CPLD.78/HOST_DECIM_SEL2(I) */
+    {  4,  8, scu_config_normal_drive_t { .mode=4, .epd=1, .epun=1, .ehs=0, .ezi=0, .zif=0 } }, /* SGPIO13/BANK2F3M2: CPLD.90/HOST_SYNC_EN(I) */
+    {  4,  9, scu_config_normal_drive_t { .mode=4, .epd=0, .epun=0, .ehs=0, .ezi=0, .zif=0 } }, /* SGPIO14/BANK2F3M4: CPLD.81/CPLD_P81 */
+    {  4, 10, scu_config_normal_drive_t { .mode=4, .epd=0, .epun=0, .ehs=0, .ezi=0, .zif=0 } }, /* SGPIO15/BANK2F3M6: CPLD.78/CPLD_P78 */
 
     /* HackRF: CPLD */
     {  6,  1, scu_config_normal_drive_t { .mode=0, .epd=0, .epun=1, .ehs=0, .ezi=0, .zif=0 } }, /* CPLD_TCK: CPLD.TCK(I), PortaPack CPLD.TCK(I) */

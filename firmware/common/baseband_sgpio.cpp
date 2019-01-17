@@ -135,9 +135,9 @@ enum {
 	PIN_DISABLE = 10,
 	PIN_DIRECTION = 11,
 	PIN_INVERT = 12,
-	PIN_DECIM0 = 13,
-	PIN_DECIM1 = 14,
-	PIN_DECIM2 = 15,
+	PIN_SYNC_EN = 13,
+	PIN_P81 = 14,
+	PIN_P78 = 15,
 };
 
 enum class Slice : uint8_t {
@@ -189,9 +189,9 @@ constexpr uint32_t gpio_outreg(const Direction direction) {
 
 constexpr uint32_t gpio_oenreg(const Direction direction) {
 	return
-		  (0U << PIN_DECIM2)
-		| (0U << PIN_DECIM1)
-		| (0U << PIN_DECIM0)
+		  (0U << PIN_P78)
+		| (0U << PIN_P81)
+		| (0U << PIN_SYNC_EN)
 		| (0U << PIN_INVERT)
 		| (1U << PIN_DIRECTION)
 		| (1U << PIN_DISABLE)
