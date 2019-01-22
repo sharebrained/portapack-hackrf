@@ -38,7 +38,6 @@ include(ExternalProject)
 find_program(MAKE_EXE NAMES gmake nmake make)
 ExternalProject_Add(hackrf
 	GIT_REPOSITORY https://github.com/jboone/hackrf.git
-	GIT_TAG origin/portapack_ui
 	CMAKE_ARGS -DUSER_INTERFACE=PORTAPACK
 	SOURCE_SUBDIR firmware/hackrf_usb
 	BUILD_COMMAND ${MAKE_EXE} hackrf_usb.dfu
