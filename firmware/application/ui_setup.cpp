@@ -131,7 +131,7 @@ SetFrequencyCorrectionView::SetFrequencyCorrectionView(
 	}
 
 	value_source.set(source_name);
-	value_source_frequency.set(to_string_dec_uint(reference.frequency, 8) + " Hz");
+	value_source_frequency.set(to_string_dec_uint(reference.frequency / 1000000, 2) + "." + to_string_dec_uint((reference.frequency % 1000000) / 100, 4, '0') + " MHz");
 
 	add_children({
 		&label_source,
