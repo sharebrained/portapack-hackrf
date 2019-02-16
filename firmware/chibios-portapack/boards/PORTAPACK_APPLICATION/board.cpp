@@ -50,128 +50,199 @@ const PALConfig pal_default_config = {
   .P = {
     {   // GPIO0
         .data
-            = (1 << 15) // CS_XCVR
-            | (1 << 14) // AMP_BYPASS
-            | (0 <<  9) // 10K PD, BOOT1
-            | (1 <<  8) // 10K PU, BOOT0
+            = (1 << 15) // P1_20: CS_XCVR
+            | (1 << 14) // P2_10: AMP_BYPASS
+            | (1 << 13) // P1_18: SGPIO12
+            | (1 << 12) // P1_17: SGPIO11
+            | (1 << 11) // P1_4:  SSP1_MOSI
+            | (1 << 10) // P1_3:  SSP1_MISO
+            | (0 <<  9) // P1_2:  10K PD, BOOT1
+            | (1 <<  8) // P1_1:  10K PU, BOOT0
+            | (1 <<  7) // P2_7:  10K PU, ISP
+            | (0 <<  6) // P3_6:  SPIFI_MISO
+            | (1 <<  5) // P6_6:  SGPIO5
+            | (1 <<  4) // P1_0:  SGPIO7
+            | (1 <<  3) // P1_16: SGPIO3
+            | (1 <<  2) // P1_15: SGPIO2
+            | (1 <<  1) // P0_1:  SGPIO1
+            | (1 <<  0) // P0_0:  SGPIO0
             ,
         .dir
-            = (1 << 15) // CS_XCVR
-            | (1 << 14) // AMP_BYPASS
-            | (0 <<  9) // 10K PD, BOOT1
-            | (0 <<  8) // 10K PU, BOOT0
+            = (1 << 15) // P1_20: CS_XCVR
+            | (1 << 14) // P2_10: AMP_BYPASS
+            | (0 << 13) // P1_18: SGPIO12
+            | (0 << 12) // P1_17: SGPIO11
+            | (0 << 11) // P1_4:  SSP1_MOSI
+            | (0 << 10) // P1_3:  SSP1_MISO
+            | (0 <<  9) // P1_2:  10K PD, BOOT1
+            | (0 <<  8) // P1_1:  10K PU, BOOT0
+            | (0 <<  7) // P2_7:  10K PU, ISP
+            | (0 <<  6) // P3_6:  SPIFI_MISO
+            | (0 <<  5) // P6_6:  SGPIO5
+            | (0 <<  4) // P1_0:  SGPIO7
+            | (0 <<  3) // P1_16: SGPIO3
+            | (0 <<  2) // P1_15: SGPIO2
+            | (0 <<  1) // P0_1:  SGPIO1
+            | (0 <<  0) // P0_0:  SGPIO0
     },
     {   // GPIO1
         .data
-            = (1 << 13) // PortaPack P2_13/DIR
-            | (1 << 12) // !RX_AMP_PWR
-            | (0 << 11) // RX_AMP
-            | (1 << 10) // 10K PD, BOOT3, PortaPack P2_9/LCD_WRX
-            | (1 <<  8) // PortaPack CPLD.TDO(O)
-            | (1 <<  1) // PortaPack CPLD.TMS(I)
-            | (0 <<  0) // !MIX_BYPASS
+            = (1 << 15) // P3_5:  SPIFI_SIO2
+            | (1 << 14) // P3_4:  SPIFI_SIO3
+            | (1 << 13) // P2_13: PortaPack DIR
+            | (1 << 12) // P2_12: !RX_AMP_PWR
+            | (0 << 11) // P2_11: RX_AMP
+            | (0 << 10) // P2_9:  10K PD, BOOT3, PortaPack LCD_WRX
+            | (1 <<  9) // P1_6:  SD_CMD
+            | (1 <<  8) // P1_5:  SD_POW, PortaPack CPLD.TDO(O)
+            | (1 <<  7) // P1_14: SGPIO10
+            | (1 <<  6) // P1_13: SD_CD
+            | (1 <<  5) // P1_12: SD_DAT3
+            | (1 <<  4) // P1_11: SD_DAT2
+            | (1 <<  3) // P1_10: SD_DAT1
+            | (1 <<  2) // P1_9:  SD_DAT0
+            | (1 <<  1) // P1_8:  PortaPack CPLD.TMS(I)
+            | (0 <<  0) // P1_7:  !MIX_BYPASS
             ,
         .dir
-            = (1 << 13) // PortaPack P2_13/DIR
-            | (1 << 12) // !RX_AMP_PWR
-            | (1 << 11) // RX_AMP
-            | (1 << 10) // 10K PD, BOOT3, PortaPack P2_9/LCD_WRX
-            | (0 <<  8) // PortaPack CPLD.TDO(O) (input with pull up)
-            | (0 <<  1) // PortaPack CPLD.TMS(I) (output only when needed, pull up internal to CPLD)
-            | (1 <<  0) // !MIX_BYPASS
+            = (0 << 15) // P3_5:  SPIFI_SIO2
+            | (0 << 14) // P3_4:  SPIFI_SIO3
+            | (1 << 13) // P2_13: PortaPack DIR
+            | (1 << 12) // P2_12: !RX_AMP_PWR
+            | (1 << 11) // P2_11: RX_AMP
+            | (1 << 10) // P2_9:  10K PD, BOOT3, PortaPack LCD_WRX
+            | (0 <<  9) // P1_6:  SD_CMD
+            | (0 <<  8) // P1_5:  PortaPack CPLD.TDO(O) (input with pull up)
+            | (0 <<  7) // P1_14: SGPIO10
+            | (0 <<  6) // P1_13: SD_CD
+            | (0 <<  5) // P1_12: SD_DAT3
+            | (0 <<  4) // P1_11: SD_DAT2
+            | (0 <<  3) // P1_10: SD_DAT1
+            | (0 <<  2) // P1_9:  SD_DAT0
+            | (0 <<  1) // P1_8:  PortaPack CPLD.TMS(I) (output only when needed, pull up internal to CPLD)
+            | (1 <<  0) // P1_7:  !MIX_BYPASS
     },
     {   // GPIO2
         .data
-            = (0 << 15) // TX_AMP
-            | (0 << 11) // TX_MIX_BP
-            | (1 << 14) // MIXER_RESETX, 10K PU
-            | (1 << 13) // MIXER_ENX, 10K PU
-            | (1 << 12) // RX_MIX_BP
-            | (0 << 10) // LP
-            | (1 <<  9) // !VAA_ENABLE
-            | (0 <<  8) // LED3 (TX)
-            | (1 <<  7) // CS_AD
-            | (0 <<  6) // XCVR_EN, 10K PD
-            | (0 <<  5) // RXENABLE
-            | (0 <<  4) // TXENABLE
-            | (0 <<  2) // LED2 (RX)
-            | (0 <<  1) // LED1 (USB)
-            | (1 <<  0) // HP
+            = (0 << 15) // P5_6:  TX_AMP
+            | (1 << 14) // P5_5:  MIXER_RESETX, 10K PU
+            | (1 << 13) // P5_4:  MIXER_ENX, 10K PU
+            | (1 << 12) // P5_3:  RX_MIX_BP
+            | (0 << 11) // P5_2:  TX_MIX_BP
+            | (0 << 10) // P5_1:  LP
+            | (1 <<  9) // P5_0:  !VAA_ENABLE
+            | (0 <<  8) // P6_12: LED3 (TX)
+            | (1 <<  7) // P5_7:  CS_AD
+            | (0 <<  6) // P4_6:  XCVR_EN, 10K PD
+            | (0 <<  5) // P4_5:  RXENABLE
+            | (0 <<  4) // P4_4:  TXENABLE
+            | (1 <<  3) // P4_3:  SGPIO9
+            | (0 <<  2) // P4_2:  LED2 (RX)
+            | (0 <<  1) // P4_1:  LED1 (USB)
+            | (1 <<  0) // P4_0:  HP
             ,
         .dir
-            = (1 << 15) // TX_AMP
-            | (1 << 14) // MIXER_RESETX, 10K PU
-            | (1 << 13) // MIXER_ENX, 10K PU
-            | (1 << 12) // RX_MIX_BP
-            | (1 << 11) // TX_MIX_BP
-            | (1 << 10) // LP
-            | (1 <<  9) // !VAA_ENABLE
-            | (1 <<  8) // LED3 (TX)
-            | (1 <<  7) // CS_AD
-            | (1 <<  6) // XCVR_EN, 10K PD
-            | (1 <<  5) // RXENABLE
-            | (1 <<  4) // TXENABLE
-            | (1 <<  2) // LED2 (RX)
-            | (1 <<  1) // LED1 (USB)
-            | (1 <<  0) // HP
+            = (1 << 15) // P5_6:  TX_AMP
+            | (1 << 14) // P5_5:  MIXER_RESETX, 10K PU
+            | (1 << 13) // P5_4:  MIXER_ENX, 10K PU
+            | (1 << 12) // P5_3:  RX_MIX_BP
+            | (1 << 11) // P5_2:  TX_MIX_BP
+            | (1 << 10) // P5_1:  LP
+            | (1 <<  9) // P5_0:  !VAA_ENABLE
+            | (1 <<  8) // P6_12: LED3 (TX)
+            | (1 <<  7) // P5_7:  CS_AD
+            | (1 <<  6) // P4_6:  XCVR_EN, 10K PD
+            | (1 <<  5) // P4_5:  RXENABLE
+            | (1 <<  4) // P4_4:  TXENABLE
+            | (0 <<  3) // P4_3:  SGPIO9
+            | (1 <<  2) // P4_2:  LED2 (RX)
+            | (1 <<  1) // P4_1:  LED1 (USB)
+            | (1 <<  0) // P4_0:  HP
     },
     {   // GPIO3
         .data
-            = (0 << 15) // PortaPack GPIO3_15(IO)
-            | (0 << 14) // PortaPack GPIO3_14(IO)
-            | (0 << 13) // PortaPack GPIO3_13(IO)
-            | (0 << 12) // PortaPack GPIO3_12(IO)
-            | (0 << 11) // PortaPack GPIO3_11(IO)
-            | (0 << 10) // PortaPack GPIO3_10(IO)
-            | (0 <<  9) // PortaPack GPIO3_9(IO)
-            | (0 <<  8) // PortaPack GPIO3_8(IO)
-            | (0 <<  7) // VREGMODE
-            | (1 <<  6) // EN1V8, 10K PD
-            | (1 <<  5) // !TX_AMP_PWR, 10K PU
-            | (1 <<  4) // HackRF CPLD.TMS(I) (output only when needed, pull-up internal to CPLD when 1V8 present)
-            | (1 <<  1) // HackRF CPLD.TDI(I), PortaPack I2S0_RX_SDA(O), PortaPack CPLD.TDI(I) (output only when needed, pull-up internal to CPLD when 1V8 present)
-            | (1 <<  0) // HackRF CPLD.TCK(I), PortaPack CPLD.TCK(I) (output only when needed, pull-up internal to CPLD when 1V8 present)
+            = (1 << 15) // P7_7:  PortaPack GPIO3_15(IO)
+            | (1 << 14) // P7_6:  PortaPack GPIO3_14(IO)
+            | (1 << 13) // P7_5:  PortaPack GPIO3_13(IO)
+            | (1 << 12) // P7_4:  PortaPack GPIO3_12(IO)
+            | (1 << 11) // P7_3:  PortaPack GPIO3_11(IO)
+            | (1 << 10) // P7_2:  PortaPack GPIO3_10(IO)
+            | (1 <<  9) // P7_1:  PortaPack GPIO3_9(IO)
+            | (1 <<  8) // P7_0:  PortaPack GPIO3_8(IO)
+            | (1 <<  7) // P6_11: VREGMODE
+            | (1 <<  6) // P6_10: EN1V8, 10K PD
+            | (1 <<  5) // P6_9:  !TX_AMP_PWR, 10K PU
+            | (1 <<  4) // P6_5:  HackRF CPLD.TMS(I) (output only when needed, pull-up internal to CPLD when 1V8 present)
+            | (1 <<  3) // P6_4:  MIXER_SDATA
+            | (1 <<  2) // P6_3:  SGPIO4
+            | (1 <<  1) // P6_2:  HackRF CPLD.TDI(I), PortaPack I2S0_RX_SDA(O), PortaPack CPLD.TDI(I) (output only when needed, pull-up internal to CPLD when 1V8 present)
+            | (1 <<  0) // P6_1:  HackRF CPLD.TCK(I), PortaPack CPLD.TCK(I) (output only when needed, pull-up internal to CPLD when 1V8 present)
             ,
         .dir
-            = (0 << 15) // PortaPack GPIO3_15(IO)
-            | (0 << 14) // PortaPack GPIO3_14(IO)
-            | (0 << 13) // PortaPack GPIO3_13(IO)
-            | (0 << 12) // PortaPack GPIO3_12(IO)
-            | (0 << 11) // PortaPack GPIO3_11(IO)
-            | (0 << 10) // PortaPack GPIO3_10(IO)
-            | (0 <<  9) // PortaPack GPIO3_9(IO)
-            | (0 <<  8) // PortaPack GPIO3_8(IO)
-            | (1 <<  7) // VREGMODE
-            | (1 <<  6) // EN1V8, 10K PD
-            | (1 <<  5) // !TX_AMP_PWR, 10K PU
-            | (0 <<  4) // HackRF CPLD.TMS(I) (output only when needed, pull-up internal to CPLD when 1V8 present)
-            | (0 <<  1) // HackRF CPLD.TDI(I), PortaPack I2S0_RX_SDA(O), PortaPack CPLD.TDI(I) (output only when needed, pull-up internal to CPLD when 1V8 present)
-            | (0 <<  0) // HackRF CPLD.TCK(I), PortaPack CPLD.TCK(I) (output only when needed, pull-up internal to CPLD when 1V8 present)
+            = (0 << 15) // P7_7:  PortaPack GPIO3_15(IO)
+            | (0 << 14) // P7_6:  PortaPack GPIO3_14(IO)
+            | (0 << 13) // P7_5:  PortaPack GPIO3_13(IO)
+            | (0 << 12) // P7_4:  PortaPack GPIO3_12(IO)
+            | (0 << 11) // P7_3:  PortaPack GPIO3_11(IO)
+            | (0 << 10) // P7_2:  PortaPack GPIO3_10(IO)
+            | (0 <<  9) // P7_1:  PortaPack GPIO3_9(IO)
+            | (0 <<  8) // P7_0:  PortaPack GPIO3_8(IO)
+            | (1 <<  7) // P6_11: VREGMODE
+            | (1 <<  6) // P6_10: EN1V8, 10K PD
+            | (1 <<  5) // P6_9:  !TX_AMP_PWR, 10K PU
+            | (0 <<  4) // P6_5:  HackRF CPLD.TMS(I) (output only when needed, pull-up internal to CPLD when 1V8 present)
+            | (0 <<  3) // P6_4:  MIXER_SDATA
+            | (0 <<  2) // P6_3:  SGPIO4
+            | (0 <<  1) // P6_2:  HackRF CPLD.TDI(I), PortaPack I2S0_RX_SDA(O), PortaPack CPLD.TDI(I) (output only when needed, pull-up internal to CPLD when 1V8 present)
+            | (0 <<  0) // P6_1:  HackRF CPLD.TCK(I), PortaPack CPLD.TCK(I) (output only when needed, pull-up internal to CPLD when 1V8 present)
     },
     {   // GPIO4
-            .data = 0,
-            .dir = 0
+        .data
+            = (1 << 11) // P9_6:  SGPIO8
+            ,
+        .dir
+            = (0 << 11) // P9_6:  SGPIO8
     },
     {   // GPIO5
         .data
-            = (1 << 18) // HackRF CPLD.TDO(O) (input with pull up)
-            | (0 << 15) // TX
-            | (1 << 16) // MIX_BYPASS
-            | (1 <<  5) // RX
-            | (1 <<  4) // PortaPack P2_4/LCD_RDX
-            | (0 <<  3) // PortaPack P2_3/LCD_TE
-            | (0 <<  1) // PortaPack P2_1/ADDR
-            | (1 <<  0) // PortaPack P2_0/IO_STBX
+            = (1 << 18) // P9:5:  HackRF CPLD.TDO(O) (input with pull up)
+            | (1 << 16) // P6_8:  MIX_BYPASS
+            | (0 << 15) // P6_7:  TX
+            | (1 << 14) // P4_10: SGPIO15
+            | (1 << 13) // P4_9:  SGPIO14
+            | (0 << 12) // P4_8:  SGPIO13
+            | (1 << 11) // P3_8:  SPIFI_CS
+            | (1 << 10) // P3_7:  SPIFI_MOSI
+            | (1 <<  9) // P3_2:  I2S0_RX_SDA
+            | (1 <<  8) // P3_1:  I2S0_RX_WS
+            | (0 <<  7) // P2_8:  BOOT2
+            | (0 <<  6) // P2_6:  MIXER_SCLK
+            | (1 <<  5) // P2_5:  RX
+            | (1 <<  4) // P2_4:  PortaPack LCD_RDX
+            | (0 <<  3) // P2_3:  PortaPack LCD_TE
+            | (1 <<  2) // P2_2:  SGPIO6
+            | (0 <<  1) // P2_1:  PortaPack ADDR
+            | (1 <<  0) // P2_0:  PortaPack IO_STBX
             ,
         .dir
-            = (0 << 18) // HackRF CPLD.TDO(O) (input with pull up)
-            | (1 << 16) // MIX_BYPASS
-            | (1 << 15) // TX
-            | (1 <<  5) // RX
-            | (1 <<  4) // PortaPack P2_4/LCD_RDX
-            | (0 <<  3) // PortaPack P2_3/LCD_TE
-            | (1 <<  1) // PortaPack P2_1/ADDR
-            | (1 <<  0) // PortaPack P2_0/IO_STBX
+            = (0 << 18) // P9_5:  HackRF CPLD.TDO(O) (input with pull up)
+            | (1 << 16) // P6_8:  MIX_BYPASS
+            | (1 << 15) // P6_7:  TX
+            | (0 << 14) // P4_10: SGPIO15
+            | (0 << 13) // P4_9:  SGPIO14
+            | (0 << 12) // P4_8:  SGPIO13
+            | (0 << 11) // P3_8:  SPIFI_CS
+            | (0 << 10) // P3_7:  SPIFI_MOSI
+            | (0 <<  9) // P3_2:  I2S0_RX_SDA
+            | (0 <<  8) // P3_1:  I2S0_RX_WS
+            | (0 <<  7) // P2_8:  BOOT2
+            | (0 <<  6) // P2_6:  MIXER_SCLK
+            | (1 <<  5) // P2_5:  RX
+            | (1 <<  4) // P2_4:  PortaPack LCD_RDX
+            | (0 <<  3) // P2_3:  PortaPack LCD_TE
+            | (0 <<  2) // P2_2:  SGPIO6
+            | (1 <<  1) // P2_1:  PortaPack ADDR
+            | (1 <<  0) // P2_0:  PortaPack IO_STBX
     },
     {   // GPIO6
         .data = 0,
