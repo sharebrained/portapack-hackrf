@@ -60,12 +60,12 @@ const PALConfig pal_default_config = {
             | (1 <<  8) // P1_1:  10K PU, BOOT0
             | (1 <<  7) // P2_7:  10K PU, ISP
             | (0 <<  6) // P3_6:  SPIFI_MISO
-            | (1 <<  5) // P6_6:  SGPIO5
-            | (1 <<  4) // P1_0:  SGPIO7
-            | (1 <<  3) // P1_16: SGPIO3
-            | (1 <<  2) // P1_15: SGPIO2
-            | (1 <<  1) // P0_1:  SGPIO1
-            | (1 <<  0) // P0_0:  SGPIO0
+            | (1 <<  5) // P6_6:  SGPIO5, HOST_DATA5
+            | (1 <<  4) // P1_0:  SGPIO7, HOST_DATA7
+            | (1 <<  3) // P1_16: SGPIO3, HOST_DATA3
+            | (1 <<  2) // P1_15: SGPIO2, HOST_DATA2
+            | (1 <<  1) // P0_1:  SGPIO1, HOST_DATA1
+            | (1 <<  0) // P0_0:  SGPIO0, HOST_DATA0
             ,
         .dir
             = (1 << 15) // P1_20: CS_XCVR
@@ -78,12 +78,12 @@ const PALConfig pal_default_config = {
             | (0 <<  8) // P1_1:  10K PU, BOOT0
             | (0 <<  7) // P2_7:  10K PU, ISP
             | (0 <<  6) // P3_6:  SPIFI_MISO
-            | (0 <<  5) // P6_6:  SGPIO5
-            | (0 <<  4) // P1_0:  SGPIO7
-            | (0 <<  3) // P1_16: SGPIO3
-            | (0 <<  2) // P1_15: SGPIO2
-            | (0 <<  1) // P0_1:  SGPIO1
-            | (0 <<  0) // P0_0:  SGPIO0
+            | (0 <<  5) // P6_6:  SGPIO5, HOST_DATA5
+            | (0 <<  4) // P1_0:  SGPIO7, HOST_DATA7
+            | (0 <<  3) // P1_16: SGPIO3, HOST_DATA3
+            | (0 <<  2) // P1_15: SGPIO2, HOST_DATA2
+            | (0 <<  1) // P0_1:  SGPIO1, HOST_DATA1
+            | (0 <<  0) // P0_0:  SGPIO0, HOST_DATA0
     },
     {   // GPIO1
         .data
@@ -94,8 +94,8 @@ const PALConfig pal_default_config = {
             | (0 << 11) // P2_11: RX_AMP
             | (0 << 10) // P2_9:  10K PD, BOOT3, PortaPack LCD_WRX
             | (1 <<  9) // P1_6:  SD_CMD
-            | (1 <<  8) // P1_5:  SD_POW, PortaPack CPLD.TDO(O)
-            | (1 <<  7) // P1_14: SGPIO10
+            | (1 <<  8) // P1_5:  SD_POW, PortaPack CPLD.TDO(O) (input with pull up)
+            | (1 <<  7) // P1_14: SGPIO10, HOST_DISABLE
             | (1 <<  6) // P1_13: SD_CD
             | (1 <<  5) // P1_12: SD_DAT3
             | (1 <<  4) // P1_11: SD_DAT2
@@ -112,8 +112,8 @@ const PALConfig pal_default_config = {
             | (1 << 11) // P2_11: RX_AMP
             | (1 << 10) // P2_9:  10K PD, BOOT3, PortaPack LCD_WRX
             | (0 <<  9) // P1_6:  SD_CMD
-            | (0 <<  8) // P1_5:  PortaPack CPLD.TDO(O) (input with pull up)
-            | (0 <<  7) // P1_14: SGPIO10
+            | (0 <<  8) // P1_5:  SD_POW, PortaPack CPLD.TDO(O) (input with pull up)
+            | (0 <<  7) // P1_14: SGPIO10, HOST_DISABLE
             | (0 <<  6) // P1_13: SD_CD
             | (0 <<  5) // P1_12: SD_DAT3
             | (0 <<  4) // P1_11: SD_DAT2
@@ -136,7 +136,7 @@ const PALConfig pal_default_config = {
             | (0 <<  6) // P4_6:  XCVR_EN, 10K PD
             | (0 <<  5) // P4_5:  RXENABLE
             | (0 <<  4) // P4_4:  TXENABLE
-            | (1 <<  3) // P4_3:  SGPIO9
+            | (1 <<  3) // P4_3:  SGPIO9, HOST_CAPTURE
             | (0 <<  2) // P4_2:  LED2 (RX)
             | (0 <<  1) // P4_1:  LED1 (USB)
             | (1 <<  0) // P4_0:  HP
@@ -154,7 +154,7 @@ const PALConfig pal_default_config = {
             | (1 <<  6) // P4_6:  XCVR_EN, 10K PD
             | (1 <<  5) // P4_5:  RXENABLE
             | (1 <<  4) // P4_4:  TXENABLE
-            | (0 <<  3) // P4_3:  SGPIO9
+            | (0 <<  3) // P4_3:  SGPIO9, HOST_CAPTURE
             | (1 <<  2) // P4_2:  LED2 (RX)
             | (1 <<  1) // P4_1:  LED1 (USB)
             | (1 <<  0) // P4_0:  HP
@@ -174,7 +174,7 @@ const PALConfig pal_default_config = {
             | (1 <<  5) // P6_9:  !TX_AMP_PWR, 10K PU
             | (1 <<  4) // P6_5:  HackRF CPLD.TMS(I) (output only when needed, pull-up internal to CPLD when 1V8 present)
             | (1 <<  3) // P6_4:  MIXER_SDATA
-            | (1 <<  2) // P6_3:  SGPIO4
+            | (1 <<  2) // P6_3:  SGPIO4, HOST_DATA4
             | (1 <<  1) // P6_2:  HackRF CPLD.TDI(I), PortaPack I2S0_RX_SDA(O), PortaPack CPLD.TDI(I) (output only when needed, pull-up internal to CPLD when 1V8 present)
             | (1 <<  0) // P6_1:  HackRF CPLD.TCK(I), PortaPack CPLD.TCK(I) (output only when needed, pull-up internal to CPLD when 1V8 present)
             ,
@@ -192,25 +192,25 @@ const PALConfig pal_default_config = {
             | (1 <<  5) // P6_9:  !TX_AMP_PWR, 10K PU
             | (0 <<  4) // P6_5:  HackRF CPLD.TMS(I) (output only when needed, pull-up internal to CPLD when 1V8 present)
             | (0 <<  3) // P6_4:  MIXER_SDATA
-            | (0 <<  2) // P6_3:  SGPIO4
+            | (0 <<  2) // P6_3:  SGPIO4, HOST_DATA4
             | (0 <<  1) // P6_2:  HackRF CPLD.TDI(I), PortaPack I2S0_RX_SDA(O), PortaPack CPLD.TDI(I) (output only when needed, pull-up internal to CPLD when 1V8 present)
             | (0 <<  0) // P6_1:  HackRF CPLD.TCK(I), PortaPack CPLD.TCK(I) (output only when needed, pull-up internal to CPLD when 1V8 present)
     },
     {   // GPIO4
         .data
-            = (1 << 11) // P9_6:  SGPIO8
+            = (1 << 11) // P9_6:  SGPIO8, SGPIO_CLK
             ,
         .dir
-            = (0 << 11) // P9_6:  SGPIO8
+            = (0 << 11) // P9_6:  SGPIO8, SGPIO_CLK
     },
     {   // GPIO5
         .data
             = (1 << 18) // P9:5:  HackRF CPLD.TDO(O) (input with pull up)
             | (1 << 16) // P6_8:  MIX_BYPASS
             | (0 << 15) // P6_7:  TX
-            | (1 << 14) // P4_10: SGPIO15
-            | (1 << 13) // P4_9:  SGPIO14
-            | (0 << 12) // P4_8:  SGPIO13
+            | (1 << 14) // P4_10: SGPIO15, CPLD (unused)
+            | (1 << 13) // P4_9:  SGPIO14, CPLD (unused)
+            | (0 << 12) // P4_8:  SGPIO13, HOST_SYNC_EN
             | (1 << 11) // P3_8:  SPIFI_CS
             | (1 << 10) // P3_7:  SPIFI_MOSI
             | (1 <<  9) // P3_2:  I2S0_RX_SDA
@@ -220,7 +220,7 @@ const PALConfig pal_default_config = {
             | (1 <<  5) // P2_5:  RX
             | (1 <<  4) // P2_4:  PortaPack LCD_RDX
             | (0 <<  3) // P2_3:  PortaPack LCD_TE
-            | (1 <<  2) // P2_2:  SGPIO6
+            | (1 <<  2) // P2_2:  SGPIO6, HOST_DATA6
             | (0 <<  1) // P2_1:  PortaPack ADDR
             | (1 <<  0) // P2_0:  PortaPack IO_STBX
             ,
@@ -228,9 +228,9 @@ const PALConfig pal_default_config = {
             = (0 << 18) // P9_5:  HackRF CPLD.TDO(O) (input with pull up)
             | (1 << 16) // P6_8:  MIX_BYPASS
             | (1 << 15) // P6_7:  TX
-            | (0 << 14) // P4_10: SGPIO15
-            | (0 << 13) // P4_9:  SGPIO14
-            | (0 << 12) // P4_8:  SGPIO13
+            | (0 << 14) // P4_10: SGPIO15, CPLD (unused)
+            | (0 << 13) // P4_9:  SGPIO14, CPLD (unused)
+            | (0 << 12) // P4_8:  SGPIO13, HOST_SYNC_EN
             | (0 << 11) // P3_8:  SPIFI_CS
             | (0 << 10) // P3_7:  SPIFI_MOSI
             | (0 <<  9) // P3_2:  I2S0_RX_SDA
@@ -240,7 +240,7 @@ const PALConfig pal_default_config = {
             | (1 <<  5) // P2_5:  RX
             | (1 <<  4) // P2_4:  PortaPack LCD_RDX
             | (0 <<  3) // P2_3:  PortaPack LCD_TE
-            | (0 <<  2) // P2_2:  SGPIO6
+            | (0 <<  2) // P2_2:  SGPIO6, HOST_DATA6
             | (1 <<  1) // P2_1:  PortaPack ADDR
             | (1 <<  0) // P2_0:  PortaPack IO_STBX
     },
