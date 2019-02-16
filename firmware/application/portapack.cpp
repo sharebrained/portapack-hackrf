@@ -298,6 +298,8 @@ bool init() {
 		return false;
 	}
 
+	configure_pins_portapack();
+	
 	portapack::io.init();
 
 	clock_manager.init_clock_generator();
