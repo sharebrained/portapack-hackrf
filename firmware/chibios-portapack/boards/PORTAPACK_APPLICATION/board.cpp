@@ -364,14 +364,14 @@ static const std::array<scu_setup_t, 26> pins_setup_portapack { {
     {  2,  8, scu_config_normal_drive_t { .mode=4, .epd=0, .epun=1, .ehs=0, .ezi=0, .zif=0 } }, /* P2_8: 10K PD, BOOT2, DFU switch, PortaPack P2_8/<unused> */
     {  2,  9, scu_config_normal_drive_t { .mode=0, .epd=0, .epun=1, .ehs=0, .ezi=1, .zif=0 } }, /* P2_9: 10K PD, BOOT3, PortaPack P2_9/LCD_WRX */
     {  2, 13, scu_config_normal_drive_t { .mode=0, .epd=0, .epun=1, .ehs=0, .ezi=1, .zif=0 } }, /* P2_13: PortaPack P2_13/DIR */
-    {  7,  0, scu_config_normal_drive_t { .mode=0, .epd=1, .epun=1, .ehs=0, .ezi=1, .zif=0 } }, /* GPIO3_8: PortaPack GPIO3_8(IO) */
-    {  7,  1, scu_config_normal_drive_t { .mode=0, .epd=1, .epun=1, .ehs=0, .ezi=1, .zif=0 } }, /* GPIO3_9: PortaPack GPIO3_9(IO) */
-    {  7,  2, scu_config_normal_drive_t { .mode=0, .epd=1, .epun=1, .ehs=0, .ezi=1, .zif=0 } }, /* GPIO3_10: PortaPack GPIO3_10(IO) */
-    {  7,  3, scu_config_normal_drive_t { .mode=0, .epd=1, .epun=1, .ehs=0, .ezi=1, .zif=0 } }, /* GPIO3_11: PortaPack GPIO3_11(IO) */
-    {  7,  4, scu_config_normal_drive_t { .mode=0, .epd=1, .epun=1, .ehs=0, .ezi=1, .zif=0 } }, /* GPIO3_12: PortaPack GPIO3_12(IO) */
-    {  7,  5, scu_config_normal_drive_t { .mode=0, .epd=1, .epun=1, .ehs=0, .ezi=1, .zif=0 } }, /* GPIO3_13: PortaPack GPIO3_13(IO) */
-    {  7,  6, scu_config_normal_drive_t { .mode=0, .epd=1, .epun=1, .ehs=0, .ezi=1, .zif=0 } }, /* GPIO3_14: PortaPack GPIO3_14(IO) */
-    {  7,  7, scu_config_normal_drive_t { .mode=0, .epd=1, .epun=1, .ehs=0, .ezi=1, .zif=0 } }, /* GPIO3_15: PortaPack GPIO3_15(IO) */
+    {  7,  0, scu_config_normal_drive_t { .mode=0, .epd=0, .epun=1, .ehs=0, .ezi=1, .zif=0 } }, /* GPIO3_8: PortaPack GPIO3_8(IO) */
+    {  7,  1, scu_config_normal_drive_t { .mode=0, .epd=0, .epun=1, .ehs=0, .ezi=1, .zif=0 } }, /* GPIO3_9: PortaPack GPIO3_9(IO) */
+    {  7,  2, scu_config_normal_drive_t { .mode=0, .epd=0, .epun=1, .ehs=0, .ezi=1, .zif=0 } }, /* GPIO3_10: PortaPack GPIO3_10(IO) */
+    {  7,  3, scu_config_normal_drive_t { .mode=0, .epd=0, .epun=1, .ehs=0, .ezi=1, .zif=0 } }, /* GPIO3_11: PortaPack GPIO3_11(IO) */
+    {  7,  4, scu_config_normal_drive_t { .mode=0, .epd=0, .epun=1, .ehs=0, .ezi=1, .zif=0 } }, /* GPIO3_12: PortaPack GPIO3_12(IO) */
+    {  7,  5, scu_config_normal_drive_t { .mode=0, .epd=0, .epun=1, .ehs=0, .ezi=1, .zif=0 } }, /* GPIO3_13: PortaPack GPIO3_13(IO) */
+    {  7,  6, scu_config_normal_drive_t { .mode=0, .epd=0, .epun=1, .ehs=0, .ezi=1, .zif=0 } }, /* GPIO3_14: PortaPack GPIO3_14(IO) */
+    {  7,  7, scu_config_normal_drive_t { .mode=0, .epd=0, .epun=1, .ehs=0, .ezi=1, .zif=0 } }, /* GPIO3_15: PortaPack GPIO3_15(IO) */
 
     /* PortaPack: Audio */
     {  3,  0, scu_config_normal_drive_t { .mode=2, .epd=0, .epun=0, .ehs=0, .ezi=1, .zif=0 } }, /* I2S0_TX_SCK: PortaPack I2S0_TX_SCK(I) */
