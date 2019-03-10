@@ -333,7 +333,7 @@ DeclareTargets(PSPE wideband_spectrum)
 add_custom_command(
 	OUTPUT hackrf.bin hackrf.img
 	COMMAND ${STRIP_DFU} ${HACKRF_FIRMWARE_DFU_IMAGE} hackrf.bin
-	COMMAND ${MAKE_IMAGE_CHUNK} hackrf.bin HRF1 hackrf.img
+	COMMAND ${MAKE_IMAGE_CHUNK} hackrf.bin HRF1 hackrf.img 98304
 	DEPENDS hackrf ${STRIP_DFU} ${MAKE_IMAGE_CHUNK}
 	VERBATIM
 )
