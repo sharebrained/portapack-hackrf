@@ -40,7 +40,7 @@ ExternalProject_Add(hackrf
 	GIT_REPOSITORY https://github.com/jboone/hackrf.git
 	# SOURCE_SUBDIR firmware
 	# SOURCE_SUBDIR isn't available in CMake 3.5 (Ubuntu 16.04 LTS), so the following is a work-around:
-	CONFIGURE_COMMAND ${CMAKE_COMMAND} -DUSER_INTERFACE=PORTAPACK "-GUnix Makefiles" ../hackrf/firmware
+	CONFIGURE_COMMAND ${CMAKE_COMMAND} "-GUnix Makefiles" ../hackrf/firmware
 	BUILD_COMMAND ${MAKE_EXE} hackrf_usb.dfu
 	INSTALL_COMMAND ""
 )
