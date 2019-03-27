@@ -7,6 +7,15 @@ matrix:
       cache: apt
       dist: xenial
 
+env:
+  global:
+    - PROJECT_NAME=PortaPack-HackRF
+    - SHORT_COMMIT_HASH=`git rev-parse --short HEAD`
+    - VERSION_STRING=nightly-$SHORT_COMMIT_HASH
+    - BUILD_NAME="$PROJECT_NAME-`date +%Y-%m-%d`-$SHORT_COMMIT_HASH"
+    - ARTEFACT_BASE=$TRAVIS_BUILD_DIR/artefacts/
+    - ARTEFACT_PATH=$ARTEFACT_BASE/$BUILD_NAME
+
 notifications:
   irc:
     channels:
@@ -25,17 +34,39 @@ before_install:
 
 script:
   # TODO: Introduce top-level Makefile, this is lame.
+  - sed -e "s/\#set(VERSION.*/set(VERSION \"$VERSION_STRING\")/" -i".bak" CMakeLists.txt
   - mkdir build/
   - pushd build/
   - cmake ..
-  - make release
+  - make firmware
   - popd
+
+after_success:
+  - mkdir -p $ARTEFACT_PATH
+  # Copy firmware to firmware-bin directory
+  - cd $TRAVIS_BUILD_DIR/firmware
+  - cp build/firmware/portapack-h1-firmware.bin $ARTEFACT_PATH/
+  - cp build/firmware/hackrf-prefix/src/hackrf-build/hackrf_usb/hackrf_usb.dfu $ARTEFACT_PATH/
+  - cp LICENSE $ARTEFACT_PATH/
+  # Build the archive
+  - cd $ARTEFACT_BASE
+  - tar -cJvf $ARTEFACT_BASE/$BUILD_NAME.tar.xz $BUILD_NAME
+  - md5sum --binary $ARTEFACT_BASE/$BUILD_NAME.tar.xz >MD5SUMS
+  - sha256sum --binary $ARTEFACT_BASE/$BUILD_NAME.tar.xz >SHA256SUMS
 
 addons:
   apt:
     packages:
+      - coreutils
+      - tar
+      - sed
+      - cmake
+      - gcc-arm-none-eabi
       - dfu-util
-  artifacts:
-    paths:
-      - $(ls build/firmware/portapack-h1-firmware-*.tar.bz2 | tr "\n" ":")
-      - $(ls build/firmware/portapack-h1-firmware-*.zip | tr "\n" ":")
+
+deploy:
+  provider: script
+  skip-cleanup: true
+  script: bash $TRAVIS_BUILD_DIR/tools/deploy-nightly.sh
+  on:
+    branch: master
