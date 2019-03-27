@@ -1,5 +1,4 @@
 #!/bin/bash
-PROJECT_NAME="PortaPack Nightly"
 PUBLICATION_BRANCH=master
 # set -x
 cd $HOME
