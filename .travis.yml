@@ -61,7 +61,6 @@ addons:
       - tar
       - sed
       - cmake
-      - gcc-arm-none-eabi
       - dfu-util
 
 deploy:
