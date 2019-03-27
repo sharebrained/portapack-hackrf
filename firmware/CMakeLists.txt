@@ -70,7 +70,7 @@ add_custom_command(
 )
 
 add_custom_target(
-	firmware
+	firmware ALL
 	DEPENDS ${FIRMWARE_FILENAME}
 )
 
