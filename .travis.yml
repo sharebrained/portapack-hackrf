@@ -52,8 +52,8 @@ after_success:
   # Build the archive
   - cd $ARTEFACT_BASE
   - tar -cJvf $ARTEFACT_BASE/$BUILD_NAME.tar.xz $BUILD_NAME
-  - md5sum --binary $ARTEFACT_BASE/$BUILD_NAME.tar.xz >MD5SUMS
-  - sha256sum --binary $ARTEFACT_BASE/$BUILD_NAME.tar.xz >SHA256SUMS
+  - md5sum --binary $BUILD_NAME.tar.xz >MD5SUMS
+  - sha256sum --binary $BUILD_NAME.tar.xz >SHA256SUMS
 
 addons:
   apt:
