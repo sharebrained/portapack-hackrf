@@ -30,7 +30,7 @@ notifications:
 before_install:
   - sudo add-apt-repository ppa:team-gcc-arm-embedded/ppa -y
   - sudo apt-get update -q
-  - sudo apt-get install gcc-arm-none-eabi -y
+  - sudo apt-get install gcc-arm-embedded -y
 
 script:
   # TODO: Introduce top-level Makefile, this is lame.
