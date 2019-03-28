@@ -30,7 +30,7 @@ for commit in $COMMITS; do
 	FILEPATH=`find . -maxdepth 2 -name "*-$commit.tar.xz"`
 	if [ "$FILEPATH" != "" ]; then
 		FILEDIR=`dirname "${FILEPATH}"`
-		FILENAME=`basename "${FILENAME}"`
+		FILENAME=`basename "${FILEPATH}"`
 		FILEPATH=${FILEPATH:2}
 		# pushd "${FILEDIR}" 
 		# HASH_MD5=`md5sum --binary ${FILENAME}`
