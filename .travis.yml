@@ -45,8 +45,9 @@ after_success:
   - mkdir -p $ARTEFACT_PATH
   # Copy firmware to firmware-bin directory
   - cd $TRAVIS_BUILD_DIR/firmware
-  - cp build/firmware/portapack-h1-firmware.bin $ARTEFACT_PATH/
-  - cp build/firmware/hackrf-prefix/src/hackrf-build/hackrf_usb/hackrf_usb.dfu $ARTEFACT_PATH/
+  - cp portapack-h1-firmware.bin $ARTEFACT_PATH/
+  - cp hackrf-prefix/src/hackrf-build/hackrf_usb/hackrf_usb.dfu $ARTEFACT_PATH/
+  - cd $TRAVIS_BUILD_DIR
   - cp LICENSE $ARTEFACT_PATH/
   # Build the archive
   - cd $ARTEFACT_BASE
