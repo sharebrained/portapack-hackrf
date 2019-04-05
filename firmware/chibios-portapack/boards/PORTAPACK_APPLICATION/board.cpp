@@ -170,7 +170,7 @@ const PALConfig pal_default_config = {
             | (1 <<  9) // P7_1:  PortaPack GPIO3_9(IO)
             | (1 <<  8) // P7_0:  PortaPack GPIO3_8(IO)
             | (1 <<  7) // P6_11: VREGMODE
-            | (1 <<  6) // P6_10: EN1V8, 10K PD
+            | (0 <<  6) // P6_10: EN1V8, 10K PD
             | (1 <<  5) // P6_9:  !TX_AMP_PWR, 10K PU
             | (1 <<  4) // P6_5:  HackRF CPLD.TMS(I) (output only when needed, pull-up internal to CPLD when 1V8 present)
             | (1 <<  3) // P6_4:  MIXER_SDATA
@@ -635,9 +635,11 @@ extern "C" void __late_init(void) {
  */
 extern "C" void boardInit(void) {
   vaa_power_on();
+  LPC_GPIO->W3[6] = 1;
 }
 
 extern "C" void _default_exit(void) {
+    LPC_GPIO->W3[6] = 0;
     vaa_power_off();
 
     chSysDisable();
