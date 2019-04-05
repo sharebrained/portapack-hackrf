@@ -38,7 +38,7 @@ if (NOT DEFINED VERSION)
 	if (GIT_VERSION_FOUND)
 		set(VERSION "unknown")
 	else (GIT_VERSION_FOUND)
-		set(VERSION "${GIT_VERSION}")
+		set(VERSION "local-${GIT_VERSION}")
 	endif (GIT_VERSION_FOUND)
 endif()
 
