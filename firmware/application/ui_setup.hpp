@@ -248,9 +248,14 @@ private:
 		"About",
 	};
 
-	Text text_firmware {
+	Text label_version {
 		{ 0, 128, 240, 16 },
-		"Git Commit Hash        " VERSION_STRING,
+		"Firmware Version",
+	};
+
+	Text text_version {
+		{ 0, 144, 240, 16 },
+		"",
 	};
 /*
 	Text text_cpld_hackrf {

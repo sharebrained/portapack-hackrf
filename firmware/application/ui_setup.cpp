@@ -199,11 +199,14 @@ void AntennaBiasSetupView::focus() {
 AboutView::AboutView(NavigationView& nav) {
 	add_children({
 		&text_title,
-		&text_firmware,
+		&label_version,
+		&text_version,
 		// &text_cpld_hackrf,
 		// &text_cpld_hackrf_status,
 		&button_ok,
 	});
+
+	text_version.set(VERSION_STRING);
 
 	button_ok.on_select = [&nav](Button&){ nav.pop(); };
 /*
