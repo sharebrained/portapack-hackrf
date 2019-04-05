@@ -478,8 +478,8 @@ void vaa_power_on(void) {
   /* Combination of pulse duration and duty cycle was arrived at empirically, to keep supply glitching
    * to +/- 0.15V.
    */
-  const uint32_t cycle_period = 128;
-  const uint32_t enable_period = 10;
+  const uint32_t cycle_period = 256;
+  uint32_t enable_period = 2;
   LPC_MCPWM->TC2 = 0;
   LPC_MCPWM->MAT2 = cycle_period - enable_period;
   LPC_MCPWM->LIM2 = cycle_period;
@@ -493,7 +493,11 @@ void vaa_power_on(void) {
   /* Wait until VAA rises to approximately 90% of final voltage. */
   /* Timing assumes we're running immediately after the bootloader: 96 MHz from IRC+PLL1
    */
-  { volatile uint32_t delay = 12000; while(delay--); }
+  while(enable_period < cycle_period) {
+    { volatile uint32_t delay = 2000; while(delay--); }
+    enable_period <<= 1;
+    LPC_MCPWM->MAT2 = cycle_period - enable_period;
+  }
 
   /* Hold !VAA_ENABLE active using a GPIO, so we can reclaim and shut down the MOTOCONPWM peripheral. */
   LPC_GPIO->CLR[2]  = (1 << 9); // !VAA_ENABLE
