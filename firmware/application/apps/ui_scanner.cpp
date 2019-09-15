@@ -64,7 +64,7 @@ void ScannerThread::run() {
 			// Retune
 			receiver_model.set_tuning_frequency(frequency_list_[frequency_index]);
 			
-			message.range = frequency_index;
+			message.range = frequency_list_[frequency_index];
 			EventDispatcher::send_message(message);
 			
 			
@@ -78,7 +78,7 @@ void ScannerThread::run() {
 }
 
 void ScannerView::handle_retune(uint32_t i) {
-	text_cycle.set(to_string_dec_uint(i) + "/" + to_string_dec_uint(frequency_list.size()));
+	text_cycle.set("Scanning: " + to_string_dec_uint(i)); // + "/" + to_string_dec_uint(frequency_list.size()));
 }
 
 void ScannerView::focus() {
@@ -107,14 +107,41 @@ ScannerView::ScannerView(
 		//&waterfall,
 	});
 	
-	// DEBUG
-	frequency_list.push_back(466025000);
-	frequency_list.push_back(466050000);
-	frequency_list.push_back(466075000);
-	frequency_list.push_back(466175000);
-	frequency_list.push_back(466206250);
-	frequency_list.push_back(466231250);
+       //read scanner frequency file
+
+	File scanner_file;
+	size_t file_position = 0;
+	char * line_start;
+	std::string description;
+	char file_data[13];
+	//freqman_entry_type type;
 	
+	//db.clear();
+	
+	auto result = scanner_file.open("/scanner-freq.TXT"); // This file has one frequency per line, with mandatory 10 digits (Hz) + CrLF = 12 characters
+	frequency_list.push_back(144000000); // In case the file does not contain anything, here is one frequency
+	
+	while (1) {
+		// Read a 10 bytes block from file
+		scanner_file.seek(file_position);
+		
+		memset(file_data, 0, 13);
+		auto read_size = scanner_file.read(file_data, 12);
+		
+		file_position += 12;
+		
+		// Reset line_start to beginning of buffer
+		line_start = file_data;
+		
+		if (strstr(file_data, "END")) // Last line of file needs to contain "ENDENDENDE"+CrLf
+			break;
+		
+		// Read frequency
+		frequency_list.push_back(atol(line_start));
+		
+	}
+
+
 	field_squelch.on_change = [this](int32_t v) {
 		squelch = v;
 	};
@@ -134,7 +161,7 @@ ScannerView::ScannerView(
 	receiver_model.set_baseband_bandwidth(1750000);
 	receiver_model.enable();
 	receiver_model.set_squelch_level(0);
-	receiver_model.set_nbfm_configuration(2);	// 16k
+	receiver_model.set_nbfm_configuration(0);	// 8k5 <-- changed from 2 to 0 (16k to 8k5)
 	audio::output::unmute();
 	
 	// TODO: Scanning thread here
@@ -144,11 +171,11 @@ ScannerView::ScannerView(
 void ScannerView::on_statistics_update(const ChannelStatistics& statistics) {
 	int32_t max_db = statistics.max_db;
 	
-	if (timer < 6)
+	if (timer < 26) // Increased timer from 5 to 25
 		timer++;
 	
 	if (max_db < -squelch) {
-		if (timer == 5) {
+		if (timer == 25) { // Increased timer from 5 to 25 to allow for some extra time after transmission finishes
 			//audio::output::stop();
 			scan_thread->set_scanning(true);
 		}
