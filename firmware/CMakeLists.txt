@@ -46,7 +46,7 @@ add_custom_command(
 
 add_custom_target(
 	firmware ALL
-	DEPENDS ${FIRMWARE_FILENAME}
+	DEPENDS ${FIRMWARE_FILENAME} ${HACKRF_FIRMWARE_DFU_FILENAME}
 )
 
 add_custom_target(
