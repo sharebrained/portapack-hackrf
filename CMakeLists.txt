@@ -51,8 +51,9 @@ set(HACKRF_FIRMWARE_DFU_FILENAME hackrf_usb.dfu)
 set(HACKRF_FIRMWARE_BIN_FILENAME hackrf_usb_ram.bin)
 set(HACKRF_CPLD_XSVF_FILENAME default.xsvf)
 
-set(HACKRF_CPLD_TOOL hackrf/firmware/tools/cpld_bitstream.py)
-set(HACKRF_CPLD_XSVF_PATH hackrf/firmware/cpld/sgpio_if/${HACKRF_CPLD_XSVF_FILENAME})
+set(HACKRF_PATH ${CMAKE_CURRENT_LIST_DIR}/hackrf)
+set(HACKRF_CPLD_TOOL ${HACKRF_PATH}/firmware/tools/cpld_bitstream.py)
+set(HACKRF_CPLD_XSVF_PATH ${HACKRF_PATH}/firmware/cpld/sgpio_if/${HACKRF_CPLD_XSVF_FILENAME})
 
 set(HACKRF_FIRMWARE_DFU_IMAGE ${hackrf_usb_BINARY_DIR}/${HACKRF_FIRMWARE_DFU_FILENAME})
 set(HACKRF_FIRMWARE_BIN_IMAGE ${hackrf_usb_BINARY_DIR}/${HACKRF_FIRMWARE_BIN_FILENAME})
