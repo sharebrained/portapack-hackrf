@@ -45,4 +45,17 @@ endif()
 set(LICENSE_PATH ${CMAKE_CURRENT_LIST_DIR}/LICENSE)
 set(HARDWARE_PATH ${CMAKE_CURRENT_LIST_DIR}/hardware)
 
+set(hackrf_SOURCE_DIR ${CMAKE_CURRENT_LIST_DIR}/hackrf)
+
+add_subdirectory(${hackrf_SOURCE_DIR}/firmware/hackrf_usb)
+
+set(HACKRF_FIRMWARE_DFU_FILENAME hackrf_usb.dfu)
+set(HACKRF_FIRMWARE_BIN_FILENAME hackrf_usb_ram.bin)
+
+set(HACKRF_FIRMWARE_DFU_IMAGE ${hackrf_usb_BINARY_DIR}/${HACKRF_FIRMWARE_DFU_FILENAME})
+set(HACKRF_FIRMWARE_BIN_IMAGE ${hackrf_usb_BINARY_DIR}/${HACKRF_FIRMWARE_BIN_FILENAME})
+set(HACKRF_CPLD_TOOL ${hackrf_SOURCE_DIR}/firmware/tools/cpld_bitstream.py)
+set(HACKRF_CPLD_XSVF_FILENAME default.xsvf)
+set(HACKRF_CPLD_XSVF_PATH ${hackrf_SOURCE_DIR}/firmware/cpld/sgpio_if/${HACKRF_CPLD_XSVF_FILENAME})
+
 add_subdirectory(firmware)
