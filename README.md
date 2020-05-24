@@ -1,23 +1,18 @@
 ![HAVOC banner](doc/banner.png)
 
-HAVOC is an **unofficial** fork of the PortaPack H1 firmware, a portability add-on for the [HackRF One software-defined radio](http://greatscottgadgets.com/hackrf/).
+HAVOC is a fork of the PortaPack H1 firmware, a portability add-on for the [HackRF One software-defined radio](http://greatscottgadgets.com/hackrf/).
 
 Hardware is available at [ShareBrained Technology](http://sharebrained.com/portapack).
 
-It is build on top of [ShareBrained's firmware](https://github.com/sharebrained/portapack-hackrf/), meaning most of the original functionality remains the same.
+It is build on top of [ShareBrained's firmware](https://github.com/sharebrained/portapack-hackrf/).
 
 # Documentation & finding help
 
-![Helpful note](doc/helpful.png)
-
-Please RTFM before asking for help:
 * [Havoc wiki](https://github.com/furrtek/portapack-havoc/wiki)
 * [PortaPack wiki](https://github.com/sharebrained/portapack-hackrf/wiki)
 * [Some questions and answers](https://github.com/furrtek/portapack-havoc/issues)
 * [Facebook group](https://www.facebook.com/groups/177623356165819/) if that's your thing
-* And probably a bunch of posts on a variety of forums...
-
-If you want to submit a bug report, use this page: https://github.com/furrtek/portapack-havoc/issues. Check if it hasn't been already posted, there's a search function. Also check the progress list below. Tickets which aren't related to the firmware itself, or the original HackRF and Portapack H1 will be closed.
+* And a ton of posts on a variety of forums...
 
 # Summary
 
@@ -57,7 +52,7 @@ As its name implies, HAVOC's functions can be fun, mean or even useful sometimes
 
 Feature | Progress | Notes
 ------- | -------- | -----
-POCSAG RX Â  | 95% | Needs support for numeric messages
+POCSAG RX   | 95% | Needs support for numeric messages
 Morse TX    | 95% | Needs fox hunt scheduler and live keying mode
 Mic. TX     | 95% | Carrier leak bug, need to find guard tones for various brands of wireless mics
 ADS-B RX    | 90% | Needs angle and speed decoding
@@ -88,7 +83,7 @@ Tetra info? | 0%  | Same
 * Sig and cLx for research on AFSK LCR, Xylos, and for lending remote-controlled outlets
 * Pyr3x, Rainer Matla and DC1RDB for the donations :)
 * Keld Norman and Giorgio Campiotti for ideas and suggestions
-* In general, people who help making it better instead of asking already answered questions
+* People who really helped instead of begging
 
 # License
 
@@ -112,24 +107,3 @@ You should have received a copy of the GNU General Public License
 along with this program; if not, write to the Free Software
 Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA
 02110-1301, USA.
-
-# Contact
-
-## Original firmware and hardware
-
-Jared Boone <jared@sharebrained.com>
-
-ShareBrained Technology, Inc.
-
-<http://www.sharebrained.com/>
-
-The latest version of this repository can be found at
-https://github.com/sharebrained/portapack-hackrf/
-
-## HAVOC specific things
-
-Warning: won't reply to questions about flashing and compiling. See links above.
-
-Furrtek <furrtek@gmail.com>
-
-<http://www.furrtek.org>
