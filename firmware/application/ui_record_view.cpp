@@ -173,6 +173,12 @@ void RecordView::start() {
 	update_status_display();
 }
 
+void RecordView::on_hide() {
+	stop(); // Stop current recording
+	View::on_hide();
+}
+
+
 void RecordView::stop() {
 	if( is_active() ) {
 		capture_thread.reset();
