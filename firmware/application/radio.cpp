@@ -93,6 +93,8 @@ static max5864::MAX5864 baseband_codec { ssp1_target_max5864 };
 static baseband::CPLD baseband_cpld;
 
 static rf::Direction direction { rf::Direction::Receive };
+static bool baseband_invert = false;
+static bool mixer_invert = false;
 
 void init() {
 	rf_path.init();
@@ -106,6 +108,18 @@ void set_direction(const rf::Direction new_direction) {
 	/* TODO: Refactor all the various "Direction" enumerations into one. */
 	/* TODO: Only make changes if direction changes, but beware of clock enabling. */
 	direction = new_direction;
+
+	/*
+	 * Analog baseband is inverted in RX but not TX. The RX inversion is
+	 * corrected by the CPLD, but future hardware or CPLD changes may
+	 * change this for either or both directions. For a given hardware+CPLD
+	 * platform, baseband inversion is set here for RX and/or TX. Spectrum
+	 * inversion resulting from the mixer is tracked separately according
+	 * to the tuning configuration. We ask the CPLD to apply a correction
+	 * for the total inversion.
+	 */
+	baseband_invert = false;
+	baseband_cpld.set_invert(mixer_invert ^ baseband_invert);
 
 	second_if.set_mode((direction == rf::Direction::Transmit) ? max2837::Mode::Transmit : max2837::Mode::Receive);
 	rf_path.set_direction(direction);
@@ -126,7 +140,8 @@ bool set_tuning_frequency(const rf::Frequency frequency) {
 		const auto result_second_if = second_if.set_frequency(tuning_config.second_lo_frequency);
 
 		rf_path.set_band(tuning_config.rf_path_band);
-		baseband_cpld.set_invert(tuning_config.baseband_invert);
+		mixer_invert = tuning_config.mixer_invert;
+		baseband_cpld.set_invert(mixer_invert ^ baseband_invert);
 
 		return result_second_if;
 	} else {
