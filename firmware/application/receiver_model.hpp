@@ -27,7 +27,7 @@
 
 #include "message.hpp"
 #include "rf_path.hpp"
-#include "max2837.hpp"
+#include "max283x.hpp"
 #include "volume.hpp"
 
 class ReceiverModel {
@@ -90,7 +90,7 @@ private:
 	bool rf_amp_ { false };
 	bool antenna_bias_ { false };
 	int32_t lna_gain_db_ { 32 };
-	uint32_t baseband_bandwidth_ { max2837::filter::bandwidth_minimum };
+	uint32_t baseband_bandwidth_ { max283x::filter::bandwidth_minimum };
 	int32_t vga_gain_db_ { 32 };
 	int32_t tx_gain_db_ { 47 };
 	Mode mode_ { Mode::NarrowbandFMAudio };

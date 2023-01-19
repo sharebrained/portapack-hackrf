@@ -121,7 +121,7 @@ void set_direction(const rf::Direction new_direction) {
 	baseband_invert = false;
 	baseband_cpld.set_invert(mixer_invert ^ baseband_invert);
 
-	second_if.set_mode((direction == rf::Direction::Transmit) ? max2837::Mode::Transmit : max2837::Mode::Receive);
+	second_if.set_mode((direction == rf::Direction::Transmit) ? max283x::Mode::Transmit : max283x::Mode::Receive);
 	rf_path.set_direction(direction);
 
 	baseband_codec.set_mode((direction == rf::Direction::Transmit) ? max5864::Mode::Transmit : max5864::Mode::Receive);
@@ -181,7 +181,7 @@ void set_antenna_bias(const bool on) {
 void disable() {
 	set_antenna_bias(false);
 	baseband_codec.set_mode(max5864::Mode::Shutdown);
-	second_if.set_mode(max2837::Mode::Standby);
+	second_if.set_mode(max283x::Mode::Standby);
 	first_if.disable();
 	set_rf_amp(false);
 }
