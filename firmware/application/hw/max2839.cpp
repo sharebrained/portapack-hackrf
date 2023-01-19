@@ -35,6 +35,8 @@ namespace max2839 {
 
 namespace lna {
 
+using namespace max283x::lna;
+
 constexpr std::array<uint8_t, 8> lookup_8db_steps {
 	0b11, 0b11, 0b10, 0b10,
 	0b01, 0b00, 0b00, 0b00
@@ -49,6 +51,8 @@ static uint_fast8_t gain_ordinal(const int8_t db) {
 
 namespace vga {
 
+using namespace max283x::vga;
+
 constexpr range_t<int8_t> gain_db_range_internal { 0, 63 };
 
 static uint_fast8_t gain_ordinal(const int8_t db) {
@@ -60,6 +64,8 @@ static uint_fast8_t gain_ordinal(const int8_t db) {
 
 namespace tx {
 
+using namespace max283x::tx;
+
 static uint_fast8_t gain_ordinal(const int8_t db) {
 	const auto db_sat = gain_db_range.clip(db);
 	return 47 - db_sat;
@@ -68,6 +74,8 @@ static uint_fast8_t gain_ordinal(const int8_t db) {
 } /* namespace tx */
 
 namespace filter {
+
+using namespace max283x::filter;
 
 static uint_fast8_t bandwidth_ordinal(const uint32_t bandwidth) {
 	/* Determine filter setting that will provide bandwidth greater than or
@@ -135,9 +143,28 @@ void MAX2839::init() {
 	set_mode(Mode::Standby);
 }
 
+enum class Mask {
+	Enable   = 0b01,
+	RxTx     = 0b10,
+	Shutdown = 0b00,
+	Standby  = RxTx,
+	Receive  = Enable | RxTx,
+	Transmit = Enable,
+};
+
+Mask mode_mask(const Mode mode) {
+	switch (mode) {
+		case Mode::Standby:  return Mask::Standby;
+		case Mode::Receive:  return Mask::Receive;
+		case Mode::Transmit: return Mask::Transmit;
+		default: return Mask::Shutdown;
+	}
+}
+
 void MAX2839::set_mode(const Mode mode) {
-	gpio_max2839_enable.write(toUType(mode) & toUType(Mode::Mask_Enable));
-	gpio_max2839_rxtx.write(toUType(mode) & toUType(Mode::Mask_RxTx));
+	Mask mask = mode_mask(mode);
+	gpio_max2839_enable.write(toUType(mask) & toUType(Mask::Enable));
+	gpio_max2839_rxtx.write(toUType(mask) & toUType(Mask::RxTx));
 }
 
 void MAX2839::flush() {
