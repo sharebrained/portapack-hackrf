@@ -296,7 +296,7 @@ ClockManager::Reference ClockManager::choose_reference() {
 	}
 
 	portapack_tcxo_disable();
-	return { ReferenceSource::Xtal, 10000000 };
+	return { ReferenceSource::Xtal, 25000000 };
 }
 
 void ClockManager::shutdown() {
