@@ -138,14 +138,8 @@ static_assert(si5351_ms_10m.p2()    ==        0, "MS 10MHz p2 wrong");
 static_assert(si5351_ms_10m.p3()    ==        1, "MS 10MHz p3 wrong");
 
 static_assert(si5351_ms_rffc5072.f_out() == rffc5072_reference_f, "RFFC5072 reference f_out wrong");
-// static_assert(si5351_ms_50m.p1()    ==     2048, "MS 50MHz P1 wrong");
-// static_assert(si5351_ms_50m.p2()    ==        0, "MS 50MHz P2 wrong");
-// static_assert(si5351_ms_50m.p3()    ==        1, "MS 50MHz P3 wrong");
 
 static_assert(si5351_ms_max2837.f_out() == max2837_reference_f, "MAX2837 reference f_out wrong");
-// static_assert(si5351_ms_50m.p1()    ==     2048, "MS 40MHz P1 wrong");
-// static_assert(si5351_ms_50m.p2()    ==        0, "MS 40MHz P2 wrong");
-// static_assert(si5351_ms_50m.p3()    ==        1, "MS 40MHz P3 wrong");
 
 constexpr si5351::MultisynthInteger si5351_ms_int_off {
 	.f_src = si5351_vco_f,
@@ -165,7 +159,6 @@ static_assert(si5351_ms_int_off.f_out() == 3137254, "MS int off f_out wrong");
 static_assert(si5351_ms_int_off.p1()    ==     255, "MS int off P1 wrong");
 
 static_assert(si5351_ms_int_mcu_clkin.f_out() == mcu_clkin_f, "MS int MCU CLKIN f_out wrong");
-// static_assert(si5351_ms_int_mcu_clkin.p1()    ==       20, "MS int MCU CLKIN P1 wrong");
 
 using namespace si5351;
 
