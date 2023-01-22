@@ -92,7 +92,7 @@ static uint_fast8_t bandwidth_ordinal(const uint32_t bandwidth) {
 constexpr float seconds_for_temperature_sense_adc_conversion = 30.0e-6;
 constexpr halrtcnt_t ticks_for_temperature_sense_adc_conversion = (base_m4_clk_f * seconds_for_temperature_sense_adc_conversion + 1);
 
-constexpr uint32_t reference_frequency = max2839_reference_f;
+constexpr uint32_t reference_frequency = max283x_reference_f;
 constexpr uint32_t pll_factor = 1.0 / (4.0 / 3.0 / reference_frequency) + 0.5;
 
 static int_fast8_t requested_rx_lna_gain = 0;
@@ -101,7 +101,7 @@ static int_fast8_t requested_rx_vga_gain = 0;
 void MAX2839::init() {
 	set_mode(Mode::Shutdown);
 
-	gpio_max2839_enable.output();
+	gpio_max283x_enable.output();
 	gpio_max2839_rxtx.output();
 
 	_map.r.rxrf_1.MIMOmode = 1;			/* enable RXINB */
@@ -163,7 +163,7 @@ Mask mode_mask(const Mode mode) {
 
 void MAX2839::set_mode(const Mode mode) {
 	Mask mask = mode_mask(mode);
-	gpio_max2839_enable.write(toUType(mask) & toUType(Mask::Enable));
+	gpio_max283x_enable.write(toUType(mask) & toUType(Mask::Enable));
 	gpio_max2839_rxtx.write(toUType(mask) & toUType(Mask::RxTx));
 }
 

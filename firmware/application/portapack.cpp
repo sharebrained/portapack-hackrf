@@ -271,8 +271,9 @@ static void shutdown_base() {
  *
  * PLL0USB = powered down
  * PLL0AUDIO = GP_CLKIN, Fcco=491.52 MHz, Fout=12.288 MHz
- * PLL1 = GP_CLKIN * 10 = 200 MHz
- *
+ * PLL1 =
+ * 	OG: GP_CLKIN * 10 = 200 MHz
+ *	r9: GP_CLKIN * 20 = 200 MHz
  * IDIVA = IRC / 1 = 12 MHz
  * IDIVB = PLL1 / 2 = 100 MHz
  * IDIVC = PLL1 / 1 = 200 MHz
@@ -319,9 +320,14 @@ bool init() {
 	 */
 
 	/* Step into the 90-110MHz M4 clock range */
-	/* Fclkin = 40M
-	 * 	/N=2 = 20M = PFDin
-	 * Fcco = PFDin * (M=10) = 200M
+	/* OG:
+	 * 	Fclkin = 40M
+	 * 		/N=2 = 20M = PFDin
+	 * 	Fcco = PFDin * (M=10) = 200M
+	 * r9:
+	 * 	Fclkin = 10M
+	 * 		/N=1 = 10M = PFDin
+	 * 	Fcco = PFDin * (M=20) = 200M
 	 * Fclk = Fcco / (2*(P=1)) = 100M
 	 */
 	cgu::pll1::ctrl({
@@ -331,8 +337,8 @@ bool init() {
 		.direct = 0,
 		.psel = 0,
 		.autoblock = 1,
-		.nsel = 1,
-		.msel = 9,
+		.nsel = hackrf_r9 ? 0UL : 1UL,
+		.msel = hackrf_r9 ? 19UL : 9UL,
 		.clk_sel = cgu::CLK_SEL::GP_CLKIN,
 	});
 
@@ -356,8 +362,7 @@ bool init() {
 
 	audio::init(portapack_audio_codec());
 	
-	clock_manager.enable_first_if_clock();
-	clock_manager.enable_second_if_clock();
+	clock_manager.enable_if_clocks();
 	clock_manager.enable_codec_clocks();
 	radio::init();
 

@@ -94,13 +94,13 @@ static uint_fast8_t bandwidth_ordinal(const uint32_t bandwidth) {
 constexpr float seconds_for_temperature_sense_adc_conversion = 30.0e-6;
 constexpr halrtcnt_t ticks_for_temperature_sense_adc_conversion = (base_m4_clk_f * seconds_for_temperature_sense_adc_conversion + 1);
 
-constexpr uint32_t reference_frequency = max2837_reference_f;
+constexpr uint32_t reference_frequency = max283x_reference_f;
 constexpr uint32_t pll_factor = 1.0 / (4.0 / 3.0 / reference_frequency) + 0.5;
 
 void MAX2837::init() {
 	set_mode(Mode::Shutdown);
 
-	gpio_max2837_enable.output();
+	gpio_max283x_enable.output();
 	gpio_max2837_rxenable.output();
 	gpio_max2837_txenable.output();
 
@@ -171,7 +171,7 @@ Mask mode_mask(const Mode mode) {
 
 void MAX2837::set_mode(const Mode mode) {
 	Mask mask = mode_mask(mode);
-	gpio_max2837_enable.write(toUType(mask) & toUType(Mask::Enable));
+	gpio_max283x_enable.write(toUType(mask) & toUType(Mask::Enable));
 	gpio_max2837_rxenable.write(toUType(mask) & toUType(Mask::RxEnable));
 	gpio_max2837_txenable.write(toUType(mask) & toUType(Mask::TxEnable));
 }

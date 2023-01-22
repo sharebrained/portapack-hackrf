@@ -134,6 +134,7 @@ set(CPPSRC
 	hw/rffc507x.cpp
 	hw/rffc507x_spi.cpp
 	hw/max2837.cpp
+	hw/max2839.cpp
 	hw/max5864.cpp
 	${COMMON}/buffer.cpp
 	hw/debounce.cpp
