@@ -22,10 +22,6 @@
 
 bool hackrf_r9;
 
-extern "C" bool detect_hackrf_r9() {
-    return false;
-}
-
 #if HAL_USE_PAL || defined(__DOXYGEN__)
 /**
  * @brief   PAL setup.
@@ -566,6 +562,19 @@ void setup_pins(const std::array<scu_setup_t, N>& pins_setup) {
     for(const auto& pin_setup : pins_setup) {
         setup_pin(pin_setup);
     }
+}
+
+/*
+ * HackRF One r9 has a pull-up on GPIO3_6 (P6_10) and a pull-down on GPIO2_9 (P5_0).
+ * HackRF One OG has a pull-down on GPIO3_6 (P6_10) and a pull-up on GPIO2_9 (P5_0).
+ */
+static const scu_setup_t pin_setup_detect { 5,  0, scu_config_normal_drive_t { .mode=0, .epd=0, .epun=1, .ehs=0, .ezi=1, .zif=0 } };
+
+/* Check resistor on GPIO2_9 (P5_0) to detect HackRF hardware revision. */
+extern "C" bool detect_hackrf_r9() {
+    setup_pin(pin_setup_detect);
+    LPC_GPIO->DIR[2] &= ~(1 << 9);
+    return LPC_GPIO->W2[9] == 0;
 }
 
 static void configure_spifi(void) {
