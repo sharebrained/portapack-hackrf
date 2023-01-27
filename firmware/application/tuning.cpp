@@ -41,7 +41,7 @@ constexpr rf::Frequency high_band_second_lo_regions_2_and_3(const rf::Frequency 
 
 constexpr rf::Frequency high_band_second_lo_frequency(const rf::Frequency target_frequency) {
 	return (target_frequency < 3600000000)
-		? (2150000000 + (((target_frequency - 2750000000) * 60) / 85))
+		? (2170000000 + (((target_frequency - 2740000000) * 57) / 86))
 		: high_band_second_lo_regions_2_and_3(target_frequency)
 		;
 }
