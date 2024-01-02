@@ -1,6 +1,6 @@
 # portapack-hackrf
 
-_NOTE:_ This original firmware for the PortaPack H1 was forked into the [Mayhem project](https://github.com/ereid/portapack-mayhem), which is now far more interesting and active. I recommend you use that firmware for all your PortaPacking needs. This repository is hereby archived.
+_NOTE:_ This original firmware for the PortaPack H1 was forked into the [Mayhem project](https://github.com/eried/portapack-mayhem), which is now far more interesting and active. I recommend you use that firmware for all your PortaPacking needs. This repository is hereby archived.
 
 The PortaPack H1 makes the [HackRF One software-defined radio](http://greatscottgadgets.com/hackrf/) portable. It adds an LCD touchscreen, user interface navigation controls, audio output and input, micro SD card slot, 2.5 PPM crystal oscillator, and real-time clock battery backup. The PortaPack firmware provides a user interface and necessary signal processing to do many useful things without a computer.
 
